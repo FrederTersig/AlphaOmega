@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" >
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <meta name="description" content=""/>
+        <meta name="author" content="Tersigni  Federico"/>
+		<title>Homepage</title>
+		<link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+		<link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+		<link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+	</head>
+	<header class="navbar p-2 bg-dark">
+		  <section class="navbar-section">
+		   		<a href="..." class="navbar-brand mr-2 text-light">Biblioteca Alfa Omega</a>
+
+		  </section>
+
+		  <section class="navbar-section">
+		  		<!-- SE loggato --><!--
+		    	<div class="input-group input-inline">
+		    		<!-- SE ATTIVO O ADMIN --><!--
+					<a href="..." class="btn btn-link text-light">Pannello di Gestione</a>
+		    		-->
+		      		<a href="..." class="btn btn-link text-light">Connesso come email@email.com</a>
+		    		<a href="..." class="btn btn-link text-primary">(logout)</a>
+		    	</div> -->
+		    	<!-- SE NON LOGGATO -->
+		    	<!--
+		    	<div class="input-group input-inline">
+		    		<a href="..." class="btn btn-link text-light">Login</a>
+		    		<a href="..." class="btn btn-link text-light">Registrati</a>
+		    	</div>
+		    	-->
+		  </section>
+	</header>
+	<body class="bg-secondary">
+		<!-- divider element -->	
+			<!-- vertical divider element with text -->
+			<div class="columns pt-2">
+				  <div class="column col-2">
+				   		<!-- Colonna di sinistra: qui saranno presenti le varie funzioni -->
+				    	<ul class="mx-2">
+				    		<li>Visualizza Catalogo</li>
+							<li>Ultime 10 pubblicazioni inserite</li>
+							<li>Pubblicazioni aggiornate di recente (ultimi 30 giorni)</li>
+							<li>Elenco utenti più collaborativi</li> 
+						</ul>
+				  </div>
+				  <div class="divider-vert col-1" data-content=""></div>
+				  <div class="column col-9">
+				    	<!-- colonna di destra: qui sarà presente il motore di ricerca del catalogo -->
+				    	<h3><p>Benvenuti nella biblioteca digitale Alfa Omega!</p></h3>
+				    	<p>Si può usare il nostro motore di ricerca per cercare le pubblicazioni desiderate!</p>
+				  		<div class="form-group">
+				  			<label class="form-label" for="motore_ricerca">Motore di ricerca</label>
+				  			<input class="form-input" style="width:75%" type="text" id="motore_ricerca" placeholder="Scrivi qui">
+
+				  			<label class="form-label d-inline pr-1">Ricerca per: </label>
+				  			<label class="form-radio d-inline">
+				  				<input type="radio" name="attributo" value="titolo" checked>
+				  				<i class="form-icon"></i> Titolo
+				  			</label>
+				  			<label class="form-radio d-inline">
+				  				<input type="radio" name="attributo" value="isbn">
+				  				<i class="form-icon"></i> ISBN
+				  			</label>
+				  			<label class="form-radio d-inline">
+				  				<input type="radio" name="attributo" value="autore">
+				  				<i class="form-icon"></i> Autore
+				  			</label>
+				  			<label class="form-radio d-inline">
+				  				<input type="radio" name="attributo" value="editore">
+				  				<i class="form-icon"></i> Editore
+				  			</label>
+				  			<label class="form-radio d-inline">
+				  				<input type="radio" name="attributo" value="tag">
+				  				<i class="form-icon"></i> Tag 
+				  			</label>
+
+				  			<label class="form-switch">
+							    <input type="checkbox">
+							    <i class="form-icon"></i> Download Disponibili
+							</label>
+							<label class="form-switch">
+							    <input type="checkbox">
+							    <i class="form-icon"></i> Data Rilascio
+							</label>
+							<input class="form-input d-inline" id="input-example-14" type="date" value="2016-12-31">
+							<label class="form-switch">
+							    <input type="checkbox">
+							    <i class="form-icon"></i> Data Ultima Ristampa
+							</label>
+							<input class="form-input d-inline" id="input-example-14" type="date" value="2016-12-31">
+				  		</div>
+				  </div>
+			</div>
+
+
+	</body>
+	<!-- 
+	
+	-->
+	<footer class="navbar p-2 bg-dark" style="position:absolute;bottom:0;width:100vw">
+		<section class="navbar-section">
+		    	<a href="..." class="btn btn-link text-light">Aiuto!</a>
+		</section>
+
+		<section class="navbar-section">
+		    	<div class="input-group input-inline">
+		      		<a href="..." class="btn btn-link text-light pr-2">Copyright @ Federico Tersigni 2019</a>
+		    	</div>
+		</section>
+	</footer>
+
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" >
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <meta name="description" content=""/>
+        <meta name="author" content="Tersigni  Federico"/>
+		<title>dettagliPubblicazione</title>
+		<link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+		<link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+		<link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+	</head>
+	<header class="navbar p-2 bg-dark">
+		  <section class="navbar-section">
+		   		<a href="..." class="navbar-brand mr-2 text-light">Biblioteca Alfa Omega</a>
+		    	<a href="..." class="btn btn-link text-light">Catalogo</a>
+		    	<a href="..." class="btn btn-link text-light">Aiuto</a>
+		  </section>
+
+		  <section class="navbar-section">
+		  		<!-- SE loggato --><!--
+		    	<div class="input-group input-inline">
+		    		<!-- SE ATTIVO O ADMIN --><!--
+					<a href="..." class="btn btn-link text-light">Pannello di Gestione</a>
+		    		-->
+		      		<a href="..." class="btn btn-link text-light">Connesso come email@email.com</a>
+		    		<a href="..." class="btn btn-link text-primary">(logout)</a>
+		    	</div> -->
+		    	<!-- SE NON LOGGATO -->
+		    	<!--
+		    	<div class="input-group input-inline">
+		    		<a href="..." class="btn btn-link text-light">Login</a>
+		    		<a href="..." class="btn btn-link text-light">Registrati</a>
+		    	</div>
+		    	-->
+		  </section>
+	</header>
+	<!--	dettagliPubblicazione.html == Avrà la lista di tutte le informazioni relative all'opera salvata in DB e si avrà la possibilità
+			di modificarle. Oltre ciò ci saranno dei bottoni di modifica per gli utenti attivi e l'admin -->
+	<body class="bg-primary">
+		<h1> Titolo Pubblicazione </h1>
+
+		<div class="container">
+			<div class="columns col-gapless">
+				<div class="column col-6">
+					<div class="text-left">
+						<p><div class="text-bold">Autore:  </div>Nome dell'autore</p>
+						<p><div class="text-bold">Editore: </div>Nome dell'editore</p>
+
+					</div>
+				</div>
+				<div class="column col-6">
+					<div class="text-left">
+						<p><div class="text-bold">Tags: </div> Dramma, Giallo, Commedia, Informatica</p>
+
+					</div>
+				</div>	
+
+			</div>
+			<div class="columns col-gapless">
+				<div class="col-12">
+					<p><div class="text-bold">Descrizione: </div> Questa è la descrizione della specifica pubblicazione che si sta visualizzando. questa pubblicazione per ora non contiene niente perché ovviamente non c'ho niente da scrivere però volendo bleaaaaaaaaaaaaaaaaaaaaaaaaaaa asdji gn oa sdja sdopkasndjasdpo kasmnd asp djoiasjdl alskd lkasdk samd lsladj klasdl kansdoj laksdnsajd jaskd lòmaskldn lkasdkòl amslkd nklasjd òasndj asijdas mdlkansdkl asòldkalknd dlasd. interessante.</p>
+
+				</div>
+			</div>
+			<div class="columns col-gapless">
+				<div class="col-1">
+					<div class="text-bold">Source: </div>
+				</div>
+				<div class="col-11">
+					<div class="text-left">
+						<!-- Questo viene aggiunto SE è presente  altra source -->
+						Descrizione della source -> url della source<br>
+						Descrizione della source -> url della source<br>
+					</div>
+				</div>
+			</div>
+			<!-- Lista delle pubblicazioni degli stessi autori!! -->
+			<br>
+			<br>
+			<div class="columns col-gapless">
+				<div class="col-12 text-bold">
+					<p>Lista delle pubblicazioni che hanno gli stessi autori:</p>
+				</div>
+			</div>
+			<br>
+			<div class="columns col-gapless text-center">
+				<div class="col-3">
+					<p>Pubblicazione 1</p>
+					<button class="btn">default button</button>
+				</div>
+				<div class="col-3">
+					<p>Pubblicazione 2</p>
+					<button class="btn">default button</button>
+				</div>
+				<div class="col-3">
+					<p>Pubblicazione 3</p>
+					<button class="btn">default button</button>
+				</div>
+				<div class="col-3">
+					<p>Pubblicazione 4</p>
+					<button class="btn">default button</button>
+				</div>
+			</div>
+		</div>
+	</body>
+	<footer class="navbar p-2 bg-dark" style="position:absolute;bottom:0;width:100vw">
+		<section class="navbar-section">
+		    	<a href="..." class="btn btn-link text-light">Aiuto!</a>
+		</section>
+
+		<section class="navbar-section">
+		    	<div class="input-group input-inline">
+		      		<a href="..." class="btn btn-link text-light pr-2">Copyright @ Federico Tersigni 2019</a>
+		    	</div>
+		</section>
+	</footer>
+
+</html>
