@@ -18,9 +18,20 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 	public static List<Pubblicazione> lastTenPub(){ //Ultimi 10 giorni
 		ArrayList<Pubblicazione> lista=null;
 		try {
+			lista = new ArrayList<Pubblicazione>();
 			Database.connect();
-			ResultSet rs = Database.selectRecord("*", "pubblicazione", "", "pubblicazione.data DESC LIMIT 10");
+			ResultSet rs = Database.selectRecord("*", "pubblicazione", "", "pubblicazione.dataInvio DESC LIMIT 10");
 			//ResultSet rs = Database.selectRecord("pubblicazione","pubblicazione.data DESC LIMIT 10");
+			while(rs.next()) {
+				int id = rs.getInt("id");
+				int idInseritore = rs.getInt("idUtente");
+				int idEditore = rs.getInt("idEditore");
+				Date dataInvio = rs.getDate("dataInvio");
+				String titolo = rs.getString("titolo");
+				String descrizione = rs.getString("descrizione");
+				Pubblicazione pub = new Pubblicazione(id,idInseritore, idEditore, titolo, descrizione, dataInvio);
+				lista.add(pub);
+			}
 			Database.close();
 		}catch(NamingException e) {
 			System.out.println("NamingException"+e);
@@ -31,15 +42,29 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 	    }
 		return lista;
 	}
-	public static List<Pubblicazione> recentUpdates(){//Ultimi 30 giorni --> Meglio la Procedura??
+	public static List<Pubblicazione> recentUpdated(){//Ultimi 30 giorni --> Meglio la Procedura??
 		ArrayList<Pubblicazione> lista=null;
 		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("entry", "pubblicazione.id = entry.idPubblicazione");
+		
 		try {
+			lista = new ArrayList<Pubblicazione>();
 			Database.connect();
-			map.put("pubblicazione.id", "entry.idPubblicazione");
+			// **** DA CONTROLLARE IL RISULTATO -> al posto di * mettere "entry.data, pubblicazione.titolo ecc"
 			ResultSet rs = Database.join("*", "pubblicazione", map, "", "entry.data BETWEEN NOW() - INTERVAL 30 DAY AND NOW");
 			//ResultSet rs = Database.selectJoin("*", "pubblicazione", "entry", "pubblicazione.id = entry.idPubblicazione", 
 			//		"entry.data BETWEEN NOW() - INTERVAL 30 DAY AND NOW");
+			
+			while(rs.next()) {
+				int id = rs.getInt("id");
+				int idInseritore = rs.getInt("idUtente");
+				int idEditore = rs.getInt("idEditore");
+				Date dataInvio = rs.getDate("dataInvio");
+				String titolo = rs.getString("titolo");
+				String descrizione = rs.getString("descrizione");
+				Pubblicazione pub = new Pubblicazione(id,idInseritore, idEditore, titolo, descrizione, dataInvio);
+				lista.add(pub);
+			}
 			Database.close();
 		}catch(NamingException e) {
 			System.out.println("NamingException"+e);
@@ -53,9 +78,21 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 	public static List<Pubblicazione> userPub(int idUtente){//pubblicazioni di un utente
 		ArrayList<Pubblicazione> lista=null;
 		try {
+			lista = new ArrayList<Pubblicazione>();
 			Database.connect();
 			ResultSet rs = Database.selectRecord("pubblicazione", "", "pubblicazione.idUtente="+idUtente, "pubblicazione.dataInvio");
 			//ResultSet rs = Database.selectRecord("pubblicazione", "pubblicazione.idUtente="+idUtente, "pubblicazione.dataInvio");
+			while(rs.next()) {
+				int id = rs.getInt("id");
+				int idInseritore = rs.getInt("idUtente");
+				int idEditore = rs.getInt("idEditore");
+				Date dataInvio = rs.getDate("dataInvio");
+				String titolo = rs.getString("titolo");
+				String descrizione = rs.getString("descrizione");
+				Pubblicazione pub = new Pubblicazione(id,idInseritore, idEditore, titolo, descrizione, dataInvio);
+				lista.add(pub);
+			}
+			
 			Database.close();
 		}catch(NamingException e) {
 			System.out.println("NamingException"+e);
@@ -68,7 +105,68 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 		
 	}
 	public static Pubblicazione detailPub(int idPubblicazione) {//Dettagli di una specifica pubblicazione
-		return null;
+		//DA CONTROLLARE E CORREGGERE
+		
+		String columns="pubblicazione.idUtente, pubblicazione.idEditore, pubblicazione.titolo, pubblicazione.descrizione,"
+				+ " pubblicazione.dataInvio, metadati.id, metadati.ISBN, metadati.numPagine, metadati.lingua, metadati.data ";
+		
+		String onMet="pubblicazione.id=metadati.idPubblicazione";
+		//String onRis="";
+		String condition="pubblicazione.id="+ idPubblicazione;
+		
+		Map<String, Object> map = new HashMap<String,Object>();
+		map.put("metadati", onMet);
+		
+		Pubblicazione pub = null;
+		try {
+			Database.connect();
+			ResultSet rs = Database.join(columns, "pubblicazione", map, condition, "");	
+			while(rs.next()) {
+				int idInseritore = rs.getInt("pubblicazione.idUtente");
+				int idEditore = rs.getInt("pubblicazione.idEditore");
+				Date dataInvio = rs.getDate("pubblicazione.dataInvio");
+				String titolo = rs.getString("pubblicazione.titolo");
+				String descrizione = rs.getString("pubblicazione.descrizione");
+				//parte metadati
+				int idMetadati = rs.getInt("metadati.id");
+				String ISBN = rs.getString("metadati.ISBN");
+				int numPagine = rs.getInt("metadati.numPagine");
+				String lingua = rs.getString("metadati.lingua");
+				Date dataCreazione = rs.getDate("metadati.data");
+	
+				pub = new Pubblicazione(idPubblicazione,idInseritore, idEditore, titolo, descrizione, dataInvio,
+						idMetadati, ISBN, numPagine, lingua, dataCreazione);
+			}
+			Database.close();
+		}catch(NamingException e) {
+			System.out.println("NamingException"+e);
+	    }catch (SQLException e) {
+	    	System.out.println("SQLException"+e);
+	    }catch (Exception e) {
+	    	System.out.println("Exception"+e);    
+	    }
+		
+		//Prova a vedere se il riutilizzo di "map" può aiutare
+		Map<String, Object> data = new HashMap<String,Object>();
+		try {
+			Database.connect();
+			ResultSet rs = Database.selectRecord("*", "ristampa", "ristampa.idMetadati=" + pub.getIdMetadati(), "");
+			while(rs.next()){
+				data.put("numero", rs.getInt("numero"));
+				data.put("data", rs.getDate("data"));
+			}
+			Database.close();
+		}catch(NamingException e) {
+			System.out.println("NamingException"+e);
+	    }catch (SQLException e) {
+	    	System.out.println("SQLException"+e);
+	    }catch (Exception e) {
+	    	System.out.println("Exception"+e);    
+	    }
+		
+		pub.setElencoRistampe(data);
+		
+		return pub;
 	}
 	public static List<Pubblicazione> showCat(){//Mostra l'intero catalogo
 		ArrayList<Pubblicazione> lista=null;
@@ -76,6 +174,16 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 			Database.connect();
 			ResultSet rs = Database.selectRecord("*", "pubblicazione", "", "pubblicazione.titolo");
 			//ResultSet rs = Database.selectRecord("pubblicazione", "pubblicazione.titolo");
+			while(rs.next()) {
+				int id = rs.getInt("id");
+				int idInseritore = rs.getInt("idUtente");
+				int idEditore = rs.getInt("idEditore");
+				Date dataInvio = rs.getDate("dataInvio");
+				String titolo = rs.getString("titolo");
+				String descrizione = rs.getString("descrizione");
+				Pubblicazione pub = new Pubblicazione(id,idInseritore, idEditore, titolo, descrizione, dataInvio);
+				lista.add(pub);
+			}
 			Database.close();
 		}catch(NamingException e) {
 			System.out.println("NamingException"+e);

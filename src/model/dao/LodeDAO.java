@@ -62,6 +62,22 @@ public class LodeDAO implements LodeDAO_interface {
         }
 	}
 	public static int countLike(int idPubblicazione) {//conta il totale dei like dati ad una pubblicazione
-		return 0;
+		int number=0;
+		String table="lode";
+		String condition="lode.idPubblicazione=" + idPubblicazione;
+		
+		try {
+			Database.connect();
+			number = Database.countRecord(table, condition);
+			Database.close();
+		}catch(NamingException e) {
+			System.out.println("namingException " +e);
+		}catch (SQLException e) {
+        	System.out.println("sqlException " +e);
+        }catch (Exception e) {
+        	System.out.println("Exception " + e);
+        }
+
+		return number;
 	}
 }

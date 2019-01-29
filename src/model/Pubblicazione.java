@@ -1,6 +1,7 @@
 package model;
 
 import java.sql.Date;
+import java.util.Map;
 
 public class Pubblicazione{
 	private int id;
@@ -16,6 +17,9 @@ public class Pubblicazione{
 	private String lingua;
 	private Date dataCreazione; 
 	
+	// lista o array per il numero di ristampe del libro, con tanto di data
+	private Map<String,Object> elencoRistampe;
+	
 	public Pubblicazione(int id, int idInseritore, int idEditore, String titolo, String descrizione, Date dataInserimento) {
 		this.id = id;
 		this.idInseritore = idInseritore;
@@ -25,7 +29,25 @@ public class Pubblicazione{
 		this.idEditore = idEditore;
 	}
 	
+	public Pubblicazione(int id, int idInseritore, int idEditore, String titolo, String descrizione, Date dataInserimento, 
+			int idMetadati, String ISBN, int numPagine, String lingua, Date dataCreazione) {
+		
+		this.id = id;
+		this.idInseritore = idInseritore;
+		this.titolo = titolo;
+		this.descrizione = descrizione;
+		this.dataInserimento = dataInserimento;
+		this.idEditore = idEditore;
+		//parte metadati
+		this.idMetadati = idMetadati;
+		this.codiceISBN = ISBN;
+		this.numPagine = numPagine;
+		this.lingua = lingua;
+		this.dataCreazione = dataCreazione;
+	}
+	
 
+	
 	public int getId(){
 		return this.id;
 	}
@@ -92,5 +114,11 @@ public class Pubblicazione{
 	}
 	public void setDataCreazione(Date dataCreazione) {
 		this.dataCreazione = dataCreazione;
+	}
+	public Map<String,Object> getElencoRistampe(){
+		return this.elencoRistampe;
+	}
+	public void setElencoRistampe(Map<String,Object> elencoRistampe) {
+		this.elencoRistampe=elencoRistampe;
 	}
 }
