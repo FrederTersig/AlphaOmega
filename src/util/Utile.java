@@ -33,7 +33,7 @@ public class Utile {
      */ 
 	public static int checkGioco(String titolo, String autore, String url ) throws Exception {
 		int w=0;
-		try {
+	/*	try {
 			String condition ="gioco.titolo = '" + titolo + "' AND gioco.creatore = '" + autore + "' AND gioco.url='"+url+"'";
 			Database.connect();
 			ResultSet r=Database.select("gioco", condition);
@@ -45,7 +45,7 @@ public class Utile {
         	System.out.println("checkGioco NamingException: " + e.getMessage());
         } catch (SQLException e) {
         	System.out.println("checkGioco SQLException: " + e.getMessage());
-        }
+        }*/
 		return w;
 	}
 	
@@ -59,7 +59,7 @@ public class Utile {
 	
     public static int checkUser(String email, String pass) throws Exception {
         int w = 0;
-        try {
+        /*try {
             Database.connect();
             if (!isNull(pass)) {
             	System.out.println("CRIPTO");
@@ -78,7 +78,7 @@ public class Utile {
         } catch (SQLException e) {
         	System.out.println("CheckUser SQLException: " + e.getMessage());
         }
-        System.out.println("FINE CHECKUSER, risultato >  " + w );
+        System.out.println("FINE CHECKUSER, risultato >  " + w );*/
         return w;
     }
     /**
@@ -91,7 +91,7 @@ public class Utile {
      */ 
     public static Boolean checkPsw(String password, int id) throws Exception {
     	boolean isEqual=false;
-    	try {
+    	/*try {
     		Database.connect();
     		if(!isNull(password)) {
     			password = crypt(password);
@@ -105,7 +105,7 @@ public class Utile {
         	System.out.println("CheckUser NamingException: " + e.getMessage());
         } catch (SQLException e) {
         	System.out.println("CheckUser SQLException: " + e.getMessage());
-        }
+        }*/
     	
     	return isEqual;
     }
@@ -120,7 +120,7 @@ public class Utile {
     public static int checkRuolo(int id) throws Exception{
     		System.out.println("Inizio CheckRuolo");
     		int z=1;
-    		try {
+    		/*try {
     			Database.connect();
     			String condition ="id = '" + id + "'";
     			ResultSet r = Database.select("utente", condition);
@@ -131,7 +131,7 @@ public class Utile {
     			System.out.println("CheckRuolo NamingException: " + e.getMessage());
             }catch(SQLException e) {
             	System.out.println("CheckRuolo SQLException: " + e.getMessage());
-            }
+            }*/
             return z;
     }
     /**
@@ -144,7 +144,7 @@ public class Utile {
     public static boolean checkTrofeoUtente(int idUtente, int idTrofeo) throws Exception{
     	System.out.println("Inizio checkTrofeoUtente");
     	boolean check = false;
-    	try {
+    	/*try {
     		Database.connect();
     		String condition ="trofeoutente.idUtente="+idUtente+" AND trofeoutente.idTrofeo="+idTrofeo;
     		ResultSet rs = Database.select("trofeoutente", condition);
@@ -154,7 +154,7 @@ public class Utile {
 			System.out.println("CheckRuolo NamingException: " + e.getMessage());
         }catch(SQLException e) {
         	System.out.println("CheckRuolo SQLException: " + e.getMessage());
-        }
+        }*/
     	
     	return check;
     }
@@ -219,9 +219,9 @@ public class Utile {
      */
     
     public static String checkUrl() {
-    	boolean unico=false;
+    	//boolean unico=false;
     	String risultato="";
-    	while(!unico) {
+    	/*while(!unico) {
 	    	risultato = creaCodice();
 	    	unico =true;
 	    	try {
@@ -240,7 +240,7 @@ public class Utile {
 	        }catch (Exception e) {
 	        	System.out.println("Exception: " + e.getMessage());
 	        }
-    	}
+    	}*/
     	String fine ="gamez/"+risultato+"/";
     	return fine;
     }

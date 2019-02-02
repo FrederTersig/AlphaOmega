@@ -1,26 +1,41 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import util.Database;
+import util.FreeMarker;
+import util.SecurityLayer;
+import util.Utile;
+
 /**
  * Servlet implementation class RicercaPubblicazione
  */
 @WebServlet("/RicercaPubblicazione")
 public class RicercaPubblicazione extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public RicercaPubblicazione() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+    Map<String, Object> data = new HashMap<String,Object>(); // la tree map è da togliere
+       
+    
+	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		System.out.println("process request della RicercaPubblicazione");
+		//Mostra risultati cercati, permette di ricercare di nuovo una stringa, altro.
+		
+		
+		FreeMarker.process("ricercaPubblicazione.html", data, response, getServletContext()); // data ??
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)

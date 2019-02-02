@@ -19,5 +19,6 @@
 	<classpathentry kind="lib" path="Z:/eclipse_workspace/Libreria/commons-logging-1.2.jar"/>
 	<classpathentry kind="lib" path="Z:/eclipse_workspace/Libreria/freemarker.jar"/>
 	<classpathentry kind="lib" path="Z:/eclipse_workspace/Libreria/mysql-connector-java-5.1.39-bin.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/freemarker"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

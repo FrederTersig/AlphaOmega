@@ -1,6 +1,9 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import model.Pubblicazione;
 import model.Utente;
+import util.FreeMarker;
 import util.SecurityLayer;
 
 /**
@@ -17,7 +21,7 @@ import util.SecurityLayer;
  */
 @WebServlet("/DettagliPubblicazione")
 public class DettagliPubblicazione extends HttpServlet {
-	
+	Map<String, Object> data = new HashMap<String,Object>();
 	public int id=0; //id dell'utente -> default
     public int ruolo=1; //ruolo dell'utente {1=normale,2=moderatore,3=admin} -> di default
     public Utente utente; //dati dell'utente -> servono quando è connesso
@@ -50,6 +54,7 @@ public class DettagliPubblicazione extends HttpServlet {
 		// -> Dettagli dell'editore
 		// -> Dettagli del sorgente
 		// -> Dettagli delle modifiche ---- SOLO PER UTENTI CON POTERI
+		FreeMarker.process("dettagliPubblicazione.html", data, response, getServletContext()); // data ??
 	}
 
 	/**

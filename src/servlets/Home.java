@@ -70,12 +70,16 @@ public class Home extends HttpServlet {
         }else{//Non esiste per niente la sessione, l'utente non è connesso
             id = 0;
             //utente non c'è quindi non mostri niente?
+            utente=null;
         }  
     	
     	data.put("id", id);    
     	data.put("utente", utente); // Potrebbe essere NULL se non è presente, creare oggetto vuoto?
-    	
+    	//System.out.println(response);
+    	//System.out.println(data); 
+    	//System.out.println(getServletContext());
     	System.out.println("-----------Prima del FreeMarker HOME------------");
+    	//response.sendRedirect("home");
         FreeMarker.process("home.html", data, response, getServletContext());      
     }
     
@@ -89,7 +93,7 @@ public class Home extends HttpServlet {
      */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("Get di Home!");
+		System.out.println(" **Get di Home! **");
         try {        	
             processRequest(request, response);
         } catch (Exception e) {
@@ -113,12 +117,7 @@ public class Home extends HttpServlet {
         System.out.println(" >> " +action+ " << ");
         /*AZIONI:
          * LOGIN, LOGOUT // basta
-         * 
          * */
-        
-        
-        
-        
         if(id==0) {//Se non si ha un id, quindi se non si è connessi
         	//System.out.println("id=0 -> provo doPost");
         	//System.out.println("Valore di action -->" + action);

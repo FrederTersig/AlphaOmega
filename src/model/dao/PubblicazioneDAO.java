@@ -194,9 +194,17 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 	    }
 		return lista;
 	}
+	/*ELEMENTI IMPORTANTI PER LA CHIAMATA
+	 * Titolo, ISBN, Autore, Editore, Tag
+	 * Download disponibile
+	 * Data Rilascio (metadati.data)
+	 * Data Ultima Ristampa (!!!!)
+	 * Chiamata Critica
+	 * */
 	public static List<Pubblicazione> researchPub(){ // Ricerca per varie cose-> popolare argomenti
-		//Sfrutta la stored procedure
-		return null;
+		ArrayList<Pubblicazione> lista=null;
+		//Query fatta nella stored procedure. 
+		return lista;
 	}
 	public static List<Pubblicazione> showCatRist(){ //Mostra il catalogo ma con data ultima ristampa
 		return null;

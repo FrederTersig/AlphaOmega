@@ -6,7 +6,7 @@
     <res-auth>Container</res-auth>
     <res-sharing-scope>Shareable</res-sharing-scope>
   </resource-ref>
-  <display-name>Biblion</display-name>
+  <display-name>AlphaOmega</display-name>
   <description>Piattaforma che contiene un catalogo bibliografico</description>
   <welcome-file-list>
     <welcome-file>home</welcome-file>
@@ -20,12 +20,20 @@
     <url-pattern>/home</url-pattern>
   </servlet-mapping>
   <servlet>
-    <servlet-name>Profilo</servlet-name>
-    <servlet-class>servlets.Profilo</servlet-class>
+    <servlet-name>DettagliProfilo</servlet-name>
+    <servlet-class>servlets.DettagliProfilo</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>Profilo</servlet-name>
-    <url-pattern>/profilo</url-pattern>
+    <servlet-name>DettagliProfilo</servlet-name>
+    <url-pattern>/dettagliProfilo</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>InserimentoPubblicazione</servlet-name>
+    <servlet-class>servlets.InserimentoPubblicazione</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>InserimentoPubblicazione</servlet-name>
+    <url-pattern>/inserimentoPubblicazione</url-pattern>
   </servlet-mapping>
   <servlet>
     <servlet-name>Registrazione</servlet-name>
@@ -36,70 +44,90 @@
     <url-pattern>/registrazione</url-pattern>
   </servlet-mapping>
   <servlet>
-    <servlet-name>DetGioco</servlet-name>
-    <servlet-class>servlets.DetGioco</servlet-class>
+    <servlet-name>DettagliPubblicazione</servlet-name>
+    <servlet-class>servlets.DettagliPubblicazione</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>DetGioco</servlet-name>
-    <url-pattern>/detGioco</url-pattern>
+    <servlet-name>DettagliPubblicazione</servlet-name>
+    <url-pattern>/dettagliPubblicazione</url-pattern>
   </servlet-mapping>
   <servlet>
-    <servlet-name>BackendPannello</servlet-name>
-    <servlet-class>servlets.BackendPannello</servlet-class>
+    <servlet-name>PannelloGestione</servlet-name>
+    <servlet-class>servlets.PannelloGestione</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>BackendPannello</servlet-name>
-    <url-pattern>/backendPannello</url-pattern>
+    <servlet-name>PannelloGestione</servlet-name>
+    <url-pattern>/pannelloGestione</url-pattern>
   </servlet-mapping>
   <servlet>
-    <servlet-name>BackendGestioneUtenza</servlet-name>
-    <servlet-class>servlets.BackendGestioneUtenza</servlet-class>
+    <servlet-name>BackendUtenza</servlet-name>
+    <servlet-class>servlets.BackendUtenza</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>BackendGestioneUtenza</servlet-name>
-    <url-pattern>/backendGestioneUtenza</url-pattern>
+    <servlet-name>BackendUtenza</servlet-name>
+    <url-pattern>/backendUtenza</url-pattern>
   </servlet-mapping>
   <servlet>
-    <servlet-name>BackendGestioneRecensioni</servlet-name>
-    <servlet-class>servlets.BackendGestioneRecensioni</servlet-class>
+    <servlet-name>BackendRecensione</servlet-name>
+    <servlet-class>servlets.BackendRecensione</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>BackendGestioneRecensioni</servlet-name>
-    <url-pattern>/backendGestioneRecensioni</url-pattern>
+    <servlet-name>BackendRecensione</servlet-name>
+    <url-pattern>/backendRecensione</url-pattern>
   </servlet-mapping>
   <servlet>
-    <servlet-name>BackendGestioneGioco</servlet-name>
-    <servlet-class>servlets.BackendGestioneGioco</servlet-class>
+    <servlet-name>BackendTag</servlet-name>
+    <servlet-class>servlets.BackendTag</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>BackendGestioneGioco</servlet-name>
-    <url-pattern>/backendGestioneGioco</url-pattern>
+    <servlet-name>BackendTag</servlet-name>
+    <url-pattern>/backendTag</url-pattern>
   </servlet-mapping>
   <servlet>
-    <servlet-name>BackendGestioneTrofeo</servlet-name>
-    <servlet-class>servlets.BackendGestioneTrofeo</servlet-class>
+    <servlet-name>BackendPubblicazione</servlet-name>
+    <servlet-class>servlets.BackendPubblicazione</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>BackendGestioneTrofeo</servlet-name>
-    <url-pattern>/backendGestioneTrofeo</url-pattern>
+    <servlet-name>BackendPubblicazione</servlet-name>
+    <url-pattern>/backendPubblicazione</url-pattern>
   </servlet-mapping>
   <servlet>
-    <servlet-name>BackendAggiungiGioco</servlet-name>
-    <servlet-class>servlets.BackendAggiungiGioco</servlet-class>
+    <servlet-name>BackendEditore</servlet-name>
+    <servlet-class>servlets.BackendEditore</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>BackendAggiungiGioco</servlet-name>
-    <url-pattern>/backendAggiungiGioco</url-pattern>
+    <servlet-name>BackendEditore</servlet-name>
+    <url-pattern>/backendEditore</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>RicercaPubblicazione</servlet-name>
+    <servlet-class>servlets.RicercaPubblicazione</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RicercaPubblicazione</servlet-name>
+    <url-pattern>/ricercaPubblicazione</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>BackendAutore</servlet-name>
+    <servlet-class>servlets.BackendAutore</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BackendAutore</servlet-name>
+    <url-pattern>/backendAutore</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>BackendAzioniUtente</servlet-name>
+    <servlet-class>servlets.BackendAzioniUtente</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BackendAzioniUtente</servlet-name>
+    <url-pattern>/backendAzioniUtente</url-pattern>
+  </servlet-mapping>
+
+
+
   <session-config>
     <session-timeout>30</session-timeout>
   </session-config>
-  <servlet>
-    <servlet-name>RicercaGiochi</servlet-name>
-    <servlet-class>servlets.RicercaGiochi</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>RicercaGiochi</servlet-name>
-    <url-pattern>/ricercaGiochi</url-pattern>
-  </servlet-mapping>
+  
 </web-app>
