@@ -32,7 +32,6 @@ public class FreeMarker {
      * @throws IOException
      */
     public static void process(String path_template, Map<String, Object> data, HttpServletResponse response, ServletContext servlet_context) throws IOException{
-        System.out.println("Sto dentro freemarker");
         response.setContentType("text/html;charset=UTF-8");        
         // Configurazione del freemarker
         Configuration cfg = new Configuration(); 
@@ -42,7 +41,6 @@ public class FreeMarker {
         cfg.setServletContextForTemplateLoading(servlet_context, "/Template");
         Template template = cfg.getTemplate(path_template);
         PrintWriter out = response.getWriter();     
-        System.out.println("Prima del try");
         
         try{
             template.process(data, out);           

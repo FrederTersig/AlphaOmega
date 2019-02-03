@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class Database {
 	protected static String DRIVER ="com.mysql.jdbc.Driver";
-	protected static String url="jdbc:mysql://localhost/oop_thetagames";
+	protected static String url="jdbc:mysql://localhost/biblioteca";
 	protected static String user ="root";
 	protected static String psw ="";	
 	private static Connection db; 
@@ -48,10 +48,10 @@ public class Database {
      * @throws java.sql.SQLException
      */
     public static ResultSet selectRecord(String column,String table, String condition, String order) throws SQLException{
-        String query = "SELECT "+ column +" FROM " + table + " WHERE " + condition + " ORDER BY " + order;
-        if(condition != null && condition.trim().isEmpty()) query += " WHERE " + condition;
-        if(order != null && order.trim().isEmpty()) query += " ORDER BY " + order;
-       
+        String query = "SELECT "+ column +" FROM " + table;
+        if(condition != null && !condition.trim().isEmpty()) query += " WHERE " + condition;
+        if(order != null && !order.trim().isEmpty()) query += " ORDER BY " + order;
+        System.out.println(query);
         return Database.executeQuery(query);   
     }
     /**
@@ -127,11 +127,11 @@ public class Database {
      * @return 			restituisce boolean per comunicare la riuscita della insert : True se riesce, False altrimenti
      * @throws java.sql.SQLException
      */
-    public static boolean insertRecord(String table, Map<String, Object> data) throws SQLException{
+    public static boolean insertRecord(String table, Map<String, Object> map) throws SQLException{
         String query = "INSERT INTO " + table + " SET ";
         Object value;
         String attr;    
-        for(Map.Entry<String,Object> e:data.entrySet()){
+        for(Map.Entry<String,Object> e:map.entrySet()){
             attr = e.getKey();
             value = e.getValue();
             if(value instanceof Integer){
@@ -142,6 +142,7 @@ public class Database {
             }
         }
         query = query.substring(0, query.length() - 2); // Serve per togliere la virgola
+        System.out.println("Query della insert-> " + query);
         return Database.updateQuery(query);
     }
     
@@ -155,8 +156,8 @@ public class Database {
     		value = e.getValue();
     		query += " JOIN " + attr +" ON "+ value ; // value -> prod.id = brad.id ; 
     	}
-    	if(condition != null && condition.trim().isEmpty()) query += " WHERE " + condition;
-        if(order != null && order.trim().isEmpty()) query += " ORDER BY " + order;
+    	if(condition != null && !condition.trim().isEmpty()) query += " WHERE " + condition;
+        if(order != null && !order.trim().isEmpty()) query += " ORDER BY " + order;
     	return Database.executeQuery(query);
     }
     /**

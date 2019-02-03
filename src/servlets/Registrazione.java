@@ -33,7 +33,7 @@ import model.dao.UtenteDAO;
  */
 @WebServlet("/Registrazione")
 public class Registrazione extends HttpServlet {
-	Map<String, Object> data = new HashMap<String,Object>(); // la tree map è da togliere
+	Map<String, Object> map = new HashMap<String,Object>(); // la tree map è da togliere
        
     
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception{
@@ -42,8 +42,7 @@ public class Registrazione extends HttpServlet {
 		//CANCELLO la sessione entrando in questa pagina
 		//ricordando che il bottone per questa pagina appare SOLO se si è GUEST.
 		
-		System.out.println("Vado direttamente alla pagina");
-		FreeMarker.process("registrazione.html", data, response, getServletContext()); // data ??
+		FreeMarker.process("registrazione.html", map, response, getServletContext()); // data ??
 	}
     
 	/**
@@ -68,6 +67,7 @@ public class Registrazione extends HttpServlet {
 		/*L'unica chiamata POST sarebbe la insert dei dati inseriti dall'utente al database.
 		 *(Tramite pressione del tasto.) -> Ricordati di usare il crypt
 		 * */
+		System.out.println("doPost di Registrazione");
 		String action = request.getParameter("value");
 		if("sign".equals(action)) {
 			//Parametri immessi dall'utente
@@ -79,9 +79,13 @@ public class Registrazione extends HttpServlet {
             int ruolo = 0; //Il ruolo iniziale dell'utente è 0, quello BASE
             String password = request.getParameter("password");
             //Data di iscrizione-
-			Calendar calendar = Calendar.getInstance();
-            Date data = new Date(calendar.getTime().getTime());
+			//Calendar calendar = Calendar.getInstance();
+            //Date dataIscr = new Date(calendar.getTime().getTime());
+           // System.out.println("CHECK");
+            //System.out.println(nome + " " + cognome + " " + dataNascita + " " + citta + " " + dataIscr);
+            
             //fine data iscrizione-
+           
             try {
             	int check = Utile.checkUser(email, password);
             	if(check==0) {
@@ -91,7 +95,7 @@ public class Registrazione extends HttpServlet {
             		java.sql.Date nascita = new java.sql.Date(date.getTime());
             		//fine conversione
             		
-            		UtenteDAO.insertUser(email, data, nome, cognome, password, ruolo, citta, nascita);
+            		UtenteDAO.insertUser(email, nome, cognome, password, ruolo, citta, nascita);
             	}else{
             		System.out.println("Esiste già un utente con queste credenziali nel DB");
             		//Resetta e ritorna in registrazione.html
@@ -99,12 +103,13 @@ public class Registrazione extends HttpServlet {
             	}
             	response.sendRedirect("home");
             }catch (NamingException e) {
-                Logger.getLogger(Utente.class.getName()).log(Level.SEVERE, null, e);
+            	System.out.println(e);
             } catch (SQLException e) {
-            	e.printStackTrace();
+            	System.out.println("SQL exception nella Registrazione -> " + e);
             } catch (Exception e) {
-                e.printStackTrace();
+            	System.out.println(e);
             }
+            
 		}
 		
 	}

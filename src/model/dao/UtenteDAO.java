@@ -7,6 +7,7 @@ import java.util.Map;
 import java.sql.Date;
 import javax.naming.NamingException;
 
+import static util.Utile.crypt;
 import model.Utente;
 import util.Database;
 
@@ -17,10 +18,10 @@ public class UtenteDAO implements UtenteDAO_interface {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		map.put("email", email);
-		map.put("data", data);
+		map.put("dataIscr", data);
 		map.put("nome", nome);
 		map.put("cognome", cognome);
-		map.put("password", password);
+		map.put("password", crypt(password));
 		map.put("ruolo", ruolo);
 		map.put("citta", citta);
 		map.put("dataNascita", dataNascita);
@@ -50,15 +51,15 @@ public class UtenteDAO implements UtenteDAO_interface {
         	System.out.println("Exception " + e);
         }
 	}
-	public static void insertUser(String email, Date data, String nome, String cognome, String password, int ruolo, 
+	public static void insertUser(String email, String nome, String cognome, String password, int ruolo, 
 			String citta, Date dataNascita) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		map.put("email", email);
-		map.put("data", data);
+		//map.put("dataIscr", dataAttuale);
 		map.put("nome", nome);
 		map.put("cognome", cognome);
-		map.put("password", password);
+		map.put("password", crypt(password));
 		map.put("ruolo", ruolo);
 		map.put("citta", citta);
 		map.put("dataNascita", dataNascita);
@@ -70,7 +71,7 @@ public class UtenteDAO implements UtenteDAO_interface {
 		}catch(NamingException e) {
     		System.out.println(e);
         }catch (SQLException e) {
-        	System.out.println(e);
+        	System.out.println("SQL exception nel DAO -> " + e);
         }catch (Exception e) {
         	System.out.println(e);                           
         }

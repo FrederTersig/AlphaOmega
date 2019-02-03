@@ -59,7 +59,7 @@ public class Utile {
 	
     public static int checkUser(String email, String pass) throws Exception {
         int w = 0;
-        /*try {
+        try {
             Database.connect();
             if (!isNull(pass)) {
             	System.out.println("CRIPTO");
@@ -68,7 +68,7 @@ public class Utile {
 
             String condition = "email = '" + email + "' AND password = '" + pass + "'"; 
             System.out.println(condition);
-            ResultSet r = Database.select("utente", condition);        
+            ResultSet r = Database.selectRecord("utente.id","utente",condition,"");        
             while (r.next()) {
                 w = r.getInt("id");
             }           
@@ -78,7 +78,7 @@ public class Utile {
         } catch (SQLException e) {
         	System.out.println("CheckUser SQLException: " + e.getMessage());
         }
-        System.out.println("FINE CHECKUSER, risultato >  " + w );*/
+        System.out.println("FINE CHECKUSER, risultato >  " + w );
         return w;
     }
     /**
@@ -197,52 +197,10 @@ public class Utile {
     }
     
     
-    /**
-     * crea un codice con lettere e numeri casuali 
-     * @return                 	Ritorna il codice/stringa generato.
-     */
-    public static String creaCodice() {
-
-    	String letC="ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789";
-    	StringBuilder sb = new StringBuilder();
-    	Random rand = new Random();
-    	for (int i=0; i<15; i++) {
-    		sb.append(letC.charAt(rand.nextInt(letC.length())));
-    	}
-
-    	return sb.toString();
-    }
     
     /**
      * Crea un url di un gioco e verifica che non sia già stato associato ad un altro gioco.
      * @return                  Url da assegnare al gioco (stringa)
      */
-    
-    public static String checkUrl() {
-    	//boolean unico=false;
-    	String risultato="";
-    	/*while(!unico) {
-	    	risultato = creaCodice();
-	    	unico =true;
-	    	try {
-	    		String condition ="gioco.url = 'gamez/" + risultato +"/'";
-	    		Database.connect();
-	    		ResultSet r=Database.select("gioco", condition);
-	    		if(r.next()) {
-	    			System.out.println("Esiste già un codice così");
-	    			unico = false;
-	    		}
-	    		Database.close();
-	    	}catch (NamingException e) {
-	        	System.out.println("checkCodice NamingException: " + e.getMessage());
-	        }catch (SQLException e) {
-	        	System.out.println("checkCodice SQLException: " + e.getMessage());
-	        }catch (Exception e) {
-	        	System.out.println("Exception: " + e.getMessage());
-	        }
-    	}*/
-    	String fine ="gamez/"+risultato+"/";
-    	return fine;
-    }
     
 }
