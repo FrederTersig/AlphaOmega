@@ -19,24 +19,13 @@
 		  </section>
 
 		  <section class="navbar-section">
-		  		<!-- SE loggato --><!--
-					<button class="btn btn-primary mx-2">Profilo</button>
-		    		<button class="btn btn-primary px-2">Logout</button>
-				-->
-
-		    	
-		    	<!-- SE ATTIVO O ADMIN --><!--
-		    		<button class="btn btn-primary mx-4">Pannello Gestione</button>
-					<button class="btn btn-primary mx-2">Profilo</button>
-		    		<button class="btn btn-primary px-2">Logout</button>
-		    	-->
-		      		
-		    	<!-- SE NON LOGGATO -->
-		    		<button class="btn btn-primary mx-2">Registrazione</button>
-		    		<button class="btn btn-primary px-2">Login</button>
+		  		
+		    <a href="registrazione" name="value" value="signin" class="btn btn-primary mx-2">Registrazione</a>
+		    <button class="btn btn-primary px-2">Login</button>
 		    	
 		  </section>
 	</header>
+<!--  -->
 
 
 	<body class="bg-secondary">
@@ -58,12 +47,13 @@
 				  <div class="column col-2">
 				   		<!-- Colonna di sinistra: qui saranno presenti le varie funzioni -->
 				    	<div class="mx-2">
-				    		Visualizza Catalogo
-							Ultime 10 pubblicazioni inserite
-							Pubblicazioni aggiornate di recente (ultimi 30 giorni)
-							<a class="btn btn-primary show-modal" href="#modal_utente">Elenco utenti più collaborativi</a><!-- Si apre un modal contenente la lista degli utenti -->
+				    		<a class="btn btn-primary my-1" href="">Visualizza Catalogo</a>
+				    		<a class="btn btn-primary my-1" href="">Catalogo con ristampe recenti</a>
+							<a class="btn btn-primary my-1" href="">Ultime 10 pubblicazioni inserite</a>
+							<a class="btn btn-primary my-1" href="">Pubblicazioni aggiornate di recente</a>
+							<a class="btn btn-primary show-modal my-1" href="#modal_utente">Elenco utenti più collaborativi</a><!-- Si apre un modal contenente la lista degli utenti -->
 
-							<div id="modal_utente" class="modal modal-sm">
+							<div id="modal_utente" class="modal modal-lg">
 								    <div class="modal-overlay"></div>
 								    <div class="modal-container">
 								        <div class="modal-header">
@@ -72,10 +62,44 @@
 								        </div>
 								        <div class="modal-body">
 								            <div class="content">
-								              <p>This is some text inside the Modal.</p>
-								              <h5>Lorem ipsum</h5>
-								              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-								              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+								              	<div class="container">
+													<div class="columns col-gapless">
+														<div class="column col-12">
+															<div class="text-left text-bold"><p>Elenco Utenti più collaborativi</p></div>
+														</div>
+													</div>
+												</div>
+												<table class="table table-striped table-hover">
+												  	<thead>
+												    	<tr>
+													      <th>Nome</th>
+													      <th>Cognome</th>
+													      <th>Data di Nascita</th>  
+													      <th>Email</th>
+													      <th>N.Inserimenti</th>
+													      <th>Elenco Ins.</th>
+												    	</tr>
+													</thead>
+													<!-- tbody è l'attributo da moltiplicare in base al risultato delle query -->
+													<tbody>
+													    <tr>
+													    	<td>Marione</td>
+													    	<td>Gerionamoltana</td>
+													    	<td>10/20/1000</td>
+													    	<td>marioneElGamamamamamamamanao@gmail.com</td>
+													    	<td>10</td>
+													    	<td><button class="btn btn-action">Lista</button></td>
+													    </tr>
+													    <tr>
+													    	<td>Giarlone</td>
+													    	<td>Geasd asdasdltana</td>
+													    	<td>10/20/1030</td>
+													    	<td>marionasdasddnao@gmail.com</td>
+													    	<td>7</td>
+													    	<td><button class="btn btn-action">Lista</button></td>
+													    </tr>
+													</tbody>
+												</table>
 								            </div>
 								        </div>
 								        <div class="modal-footer">

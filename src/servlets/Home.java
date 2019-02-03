@@ -54,24 +54,7 @@ public class Home extends HttpServlet {
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception{
     	System.out.println("process Request della Home");
-    	HttpSession s = SecurityLayer.checkSession(request);
-    	
-    	if(s != null){//condizione per vedere se la sessione esiste. 
-    		
-            if(s.getAttribute("id") != null && s.getAttribute("utente") != null){// Esistono id e utente nella sessione
-                id = (int) s.getAttribute("id");
-                utente = (Utente) s.getAttribute("utente");
-                //s.removeAttribute("ricerca");      //--> per cancellare la ricerca
-            }else{ // Non esistono id e utente nella sessione
-                id=0;
-                //utente non c'è.
-            }
-            System.out.println("Process Request Home ->  ID =" + id );           
-        }else{//Non esiste per niente la sessione, l'utente non è connesso
-            id = 0;
-            //utente non c'è quindi non mostri niente?
-            utente=null;
-        }  
+    	 
     	
     	data.put("id", id);    
     	data.put("utente", utente); // Potrebbe essere NULL se non è presente, creare oggetto vuoto?
@@ -94,11 +77,33 @@ public class Home extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println(" **Get di Home! **");
+		HttpSession s = SecurityLayer.checkSession(request);
+    	
+    	if(s != null){//condizione per vedere se la sessione esiste. 
+    		
+            if(s.getAttribute("id") != null && s.getAttribute("utente") != null){// Esistono id e utente nella sessione
+                id = (int) s.getAttribute("id");
+                utente = (Utente) s.getAttribute("utente");
+                //s.removeAttribute("ricerca");      //--> per cancellare la ricerca
+            }else{ // Non esistono id e utente nella sessione
+                id=0;
+                //utente non c'è.
+            }
+            System.out.println("Process Request Home ->  ID =" + id );           
+        }else{//Non esiste per niente la sessione, l'utente non è connesso
+            id = 0;
+            //utente non c'è quindi non mostri niente?
+            utente=null;
+        } 
+        
+		
+		
         try {        	
             processRequest(request, response);
         } catch (Exception e) {
            e.printStackTrace();
         }
+        
 	}
 
 	/**
@@ -121,10 +126,8 @@ public class Home extends HttpServlet {
         if(id==0) {//Se non si ha un id, quindi se non si è connessi
         	//System.out.println("id=0 -> provo doPost");
         	//System.out.println("Valore di action -->" + action);
-	        if("signin".equals(action)) {
-	        	System.out.println("Redirect to Registrazione");                             
-	            response.sendRedirect("Registrazione");
-	        }else if("login".equals(action)){ // SE il metodo post è il login....
+	        
+	        if("login".equals(action)){ // SE il metodo post è il login....
 	            System.out.println("Verso il login ");
 	            String email = request.getParameter("email");
 	            String password = request.getParameter("password");    
