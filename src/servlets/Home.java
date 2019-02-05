@@ -79,8 +79,7 @@ public class Home extends HttpServlet {
 		System.out.println(" **Get di Home! **");
 		HttpSession s = SecurityLayer.checkSession(request);
     	
-    	if(s != null){//condizione per vedere se la sessione esiste. 
-    		
+    	if(s != null){//condizione per vedere se la sessione esiste.   		
             if(s.getAttribute("id") != null && s.getAttribute("utente") != null){// Esistono id e utente nella sessione
                 id = (int) s.getAttribute("id");
                 utente = (Utente) s.getAttribute("utente");
@@ -88,6 +87,7 @@ public class Home extends HttpServlet {
             }else{ // Non esistono id e utente nella sessione
                 id=0;
                 //utente non c'è.
+                utente=null;
             }
             System.out.println("Process Request Home ->  ID =" + id );           
         }else{//Non esiste per niente la sessione, l'utente non è connesso
@@ -144,6 +144,8 @@ public class Home extends HttpServlet {
 	            if(id==0) { //Non esiste l'utente nel db
 	            	System.out.println("Utente non presente nel DB!");
 	            	data.put("id", 0);
+	            	utente=null;
+	            	data.put("utente", utente);
 	            	FreeMarker.process("home.html", data, response, getServletContext());
 	            }else { //Esiste l'utente nel db
 	            	System.out.println("Utente presente nel DB!  > procedo!!");
@@ -156,20 +158,16 @@ public class Home extends HttpServlet {
 	                    try {
 	                    	Database.connect();
 	                        id = (int) s.getAttribute("id");
-	                    	//ResultSet pr=Database.selectRecord("utente", "utente.id="+id);
 	                        ResultSet pr=Database.selectRecord("*", "utente", "utente.id="+id, "");
-	                    	while(pr.next()) { // DA CORREGGERE
-	                    		int role = pr.getInt("ruolo");
-	                			Date dn = pr.getDate("dataNascita");
-	                			String username = pr.getString("username");
-	                			System.out.println("USERNAME ::::::"+username);
+	                    	while(pr.next()) {
+	                    		int ruolo = pr.getInt("ruolo");
+	                			Date dataNascita = pr.getDate("dataNascita");
+	                			Date dataIscr = pr.getDate("dataIscr");
 	                			String nome = pr.getString("nome");
 	                			String cognome = pr.getString("cognome");
-	                			String emailNN = pr.getString("email");
-	                			Date ds = pr.getDate("dataSignup");
+	                			String emailX = pr.getString("email");
 	                			String citta = pr.getString("citta");
-	                			//profilo=new Utente(id,role,dn,username,nome,cognome,emailNN);
-	                    		
+	                    		profilo = new Utente(id,ruolo,dataIscr,nome,cognome,emailX,citta,dataNascita);
 	                    	}
 	                    	Database.close();
 	                    }catch (SQLException e) {
@@ -177,9 +175,12 @@ public class Home extends HttpServlet {
 	                    }catch (Exception e) {
 	                    	System.out.println(e);
 	                    }
-
+	                    
+	                    data.put("utente", profilo);
+	                    s.setAttribute("utente", profilo);
+	                    FreeMarker.process("home.html", data, response, getServletContext());
 	                }catch(Exception e){
-	                    System.out.println("Errore creazione sessione > "+e);
+	                    System.out.println("Errore creazione sessione HOME " + e);
 	                }
 	            }
 	        }
@@ -190,11 +191,27 @@ public class Home extends HttpServlet {
 	                SecurityLayer.disposeSession(request); 
 	                id=0; 
 	                data.put("id",id);
+	                utente = null;
+	                data.put("utente", utente);
 	                response.sendRedirect("");
 	            }catch(Exception e3){
 	                e3.printStackTrace();
 	            }
 	        }
+        }
+        
+        if("search".equals(action)) {
+        	System.out.println("Search");
+        	try {
+        		System.out.println("Cerchiamo::>>");
+        		String searchStringa= request.getParameter("ricerca");
+        		HttpSession s = SecurityLayer.checkSession(request);
+        		s.setAttribute("ricerca", searchStringa);
+        		data.put("ricerca", searchStringa);
+        		response.sendRedirect("ricercaPubblicazione");
+        	}catch(Exception e) {
+        		System.out.println("Home exception per la search" + e);
+        	}
         }
 		/*Fine del doPost*/
 	}

@@ -36,7 +36,21 @@
 		    	-->
 		  </section>
 	</header>
+
 	<body>
+		<script type="text/javascript">
+			$(".close-modal").on("click", function() {
+				alert("PROVA!!!!!");
+			  $(this).closest('.modal').removeClass('active');
+			});
+
+			$(".show-modal").on("click", function() {
+				alert("INIZIO")!!
+			  $('.modal').addClass('active');
+			});
+
+		</script>
+
 		<div class="container">
 			<div class="columns col-gapless">
 				<div class="col-12">
@@ -44,59 +58,133 @@
 				</div>
 			</div>
 			<br>
-			<form class="form-horizontal">
-				<div class="form-group">
-					<div class="col-3 col-sm-12">
-					    <label class="form-label" for="input_titolo">Titolo</label>
-					</div>
-					<div class="col-9 col-sm-12">
-					    <input class="form-input" type="text" id="input_titolo" placeholder="Titolo" required>
-					</div>
+			<div class="columns">
+				<div class="col-6 col-mx-auto">
+					<form class="form-horizontal">
+						<div class="form-group">
+							<div class="col-3 col-sm-12">
+							    <label class="form-label" for="input_titolo">Titolo</label>
+							</div>
+							<div class="col-9 col-sm-12">
+							    <input class="form-input" type="text" id="input_titolo" placeholder="Titolo" required>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-3 col-sm-12">
+							    <label class="form-label" for="input_descr">Descrizione</label>
+							</div>
+							<div class="col-9 col-sm-12">
+								<textarea class="form-input" id="input_descr" placeholder="Textarea" rows="3" required></textarea>
+							   <!-- <input class="form-input" type="text" id="input_autore" placeholder="Autore" required> -->
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-3 col-sm-12">
+							    <label class="form-label" for="input_editore">Editore</label>
+							</div>
+							<div class="col-9 col-sm-12">
+							    <input class="form-input" type="text" id="input_editore" placeholder="Editore" required>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-3 col-sm-12">
+							    <label class="form-label" for="input_dataPub">Data Pubblicazione</label>
+							</div>
+							<div class="col-9 col-sm-12">
+							    <input class="form-input" type="date" id="input_dataPub" required>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-3 col-sm-12">
+							    <label class="form-label" for="input_ISBN">Codice ISBN</label>
+							</div>
+							<div class="col-9 col-sm-12">
+							    <input class="form-input" type="text" id="input_ISBN" placeholder="ISBN" 
+							    pattern="(?:(?=.{17}$)97[89][ -](?:[0-9]+[ -]){2}[0-9]+[ -][0-9]|97[89][0-9]{10}|(?=.{13}$)(?:[0-9]+[ -]){2}[0-9]+[ -][0-9Xx]|[0-9]{9}[0-9Xx])" required title="Devono essere 13 cifre">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-3 col-sm-12">
+							    <label class="form-label" for="input_numPagine">Numero Pagine</label>
+							</div>
+							<div class="col-9 col-sm-12">
+							    <input class="form-input" type="text" id="input_numPagine" placeholder="Numero delle pagine contenute" required>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-3 col-sm-12">
+							    <label class="form-label" for="input_lingua">Lingua</label>
+							</div>
+							<div class="col-9 col-sm-12">
+							    <input class="form-input" type="text" id="input_lingua" placeholder="Lingua usata nella pubblicazione" required>
+							</div>
+						</div>
+						<!-- Lista Tag && Lista Autori sono identici -->
+						<!-- Bisogna a) creare un modal b) metterci una lista di "opzioni" che si possono selezionare -->
+						<br>
+
+						<div class="form-group"> <!-- Form Group INSERISCI TAG -->
+							<a class="btn btn-primary show-modal col-mx-auto" href="#modalTag">Inserimento Tag</a>
+							<div id="modalTag" class="modal modal-lg">
+								    <div class="modal-overlay"></div>
+								    <div class="modal-container">
+								        <div class="modal-header">
+								            <a href="#close" class="btn btn-clear float-right close-modal"></a>
+								            <div class="modal-title">Inserimento Tag</div>
+								        </div>
+								        <div class="modal-body">
+								            <div class="content">
+								              	<div class="form-group">
+								              		<!-- Questa è la parte che viene moltiplicata dalla query -->
+													  <label class="form-checkbox">
+													    <input type="checkbox" name="tagSpunta" value="">
+													    <i class="form-icon"></i> Nome Tag
+													  </label>
+													<!-- fine parte -->
+												</div>
+								            </div>
+								        </div>
+								        <div class="modal-footer">
+								            <a href="#close" class="btn btn-primary close-modal">Close</a>
+								        </div>
+								    </div>
+							</div>
+						
+							<a class="btn btn-primary show-modal col-mx-auto" href="#modalAutore">Inserimento Autore</a>
+							<div id="modalAutore" class="modal modal-lg">
+								    <div class="modal-overlay"></div>
+								    <div class="modal-container">
+								        <div class="modal-header">
+								            <a href="#close" class="btn btn-clear float-right close-modal"></a>
+								            <div class="modal-title">Inserimento Autore</div>
+								        </div>
+								        <div class="modal-body">
+								            <div class="content">
+								              	<div class="form-group">
+								              		<!-- Questa è la parte che viene moltiplicata dalla query -->
+													  <label class="form-checkbox">
+													    <input type="checkbox" name="autoreSpunta" value="">
+													    <i class="form-icon"></i> Nome Autore
+													  </label>
+													<!-- fine parte -->
+												</div>
+								            </div>
+								        </div>
+								        <div class="modal-footer">
+								            <a href="#close" class="btn btn-primary close-modal">Close</a>
+								        </div>
+								    </div>
+							</div>
+						</div><!-- FINE Form Group INSERISCI AUTORE -->
+						<br>
+						<button type="submit" class="btn p-centered text-bold" id="invioPubb" name="value" value="newPub" required>Invia Pubblicazione</button>
+					</form>
 				</div>
-				<div class="form-group">
-					<div class="col-3 col-sm-12">
-					    <label class="form-label" for="input_autore">Autore</label>
-					</div>
-					<div class="col-9 col-sm-12">
-					    <input class="form-input" type="text" id="input_autore" placeholder="Autore" required>
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="col-3 col-sm-12">
-					    <label class="form-label" for="input_editore">Editore</label>
-					</div>
-					<div class="col-9 col-sm-12">
-					    <input class="form-input" type="text" id="input_editore" placeholder="Editore" required>
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="col-3 col-sm-12">
-					    <label class="form-label" for="input_datarilascio">Data Rilascio</label>
-					</div>
-					<div class="col-9 col-sm-12">
-					    <input class="form-input" type="date" id="input_datarilascio" placeholder="DataRilascio" required>
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="col-3 col-sm-12">
-					    <label class="form-label" for="input_ISBN">Codice ISBN</label>
-					</div>
-					<div class="col-9 col-sm-12">
-					    <input class="form-input" type="text" id="input_ISBN" placeholder="ISBN" 
-					    pattern="(?:(?=.{17}$)97[89][ -](?:[0-9]+[ -]){2}[0-9]+[ -][0-9]|97[89][0-9]{10}|(?=.{13}$)(?:[0-9]+[ -]){2}[0-9]+[ -][0-9Xx]|[0-9]{9}[0-9Xx])" required title="Devono essere 13 cifre">
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="col-3 col-sm-12">
-					    <label class="form-label" for="input_Tag">Tag</label>
-					</div>
-					<div class="col-9 col-sm-12">
-					    <input class="form-input" type="text" id="input_tag" placeholder="inputtag" required>
-					</div>
-				</div>
-			</form>
+			</div>
 		</div>
 	</body>
+
+	
 	<footer class="navbar p-2 bg-dark" style="position:absolute;bottom:0;width:100vw">
 		<section class="navbar-section">
 		    	<a href="..." class="btn btn-link text-light">Aiuto!</a>
