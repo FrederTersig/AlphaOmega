@@ -6,7 +6,7 @@ import java.util.Map;
 public class Pubblicazione{
 	private int id;
 	private int idInseritore;
-	private int idEditore;
+	private String editore;
 	private String titolo;
 	private String descrizione;
 	private Date dataInserimento;
@@ -20,16 +20,16 @@ public class Pubblicazione{
 	// lista o array per il numero di ristampe del libro, con tanto di data
 	private Map<String,Object> elencoRistampe;
 	
-	public Pubblicazione(int id, int idInseritore, int idEditore, String titolo, String descrizione, Date dataInserimento) {
+	public Pubblicazione(int id, int idInseritore, String editore, String titolo, String descrizione, Date dataInserimento) {
 		this.id = id;
 		this.idInseritore = idInseritore;
 		this.titolo = titolo;
 		this.descrizione = descrizione;
 		this.dataInserimento = dataInserimento;
-		this.idEditore = idEditore;
+		this.editore = editore;
 	}
 	
-	public Pubblicazione(int id, int idInseritore, int idEditore, String titolo, String descrizione, Date dataInserimento, 
+	public Pubblicazione(int id, int idInseritore, String editore, String titolo, String descrizione, Date dataInserimento, 
 			int idMetadati, String ISBN, int numPagine, String lingua, Date dataCreazione) {
 		
 		this.id = id;
@@ -37,7 +37,7 @@ public class Pubblicazione{
 		this.titolo = titolo;
 		this.descrizione = descrizione;
 		this.dataInserimento = dataInserimento;
-		this.idEditore = idEditore;
+		this.editore = editore;
 		//parte metadati
 		this.idMetadati = idMetadati;
 		this.codiceISBN = ISBN;
@@ -60,11 +60,11 @@ public class Pubblicazione{
 	public void setIdInseritore(int idInseritore) {
 		this.idInseritore=idInseritore;
 	}
-	public int getIdEditore() {
-		return this.idEditore;
+	public String getIdEditore() {
+		return this.editore;
 	}
-	public void setIdEditore(int idEditore) {
-		this.idEditore=idEditore;
+	public void setIdEditore(String editore) {
+		this.editore=editore;
 	}
 	public String getTitolo() {
 		return this.titolo;

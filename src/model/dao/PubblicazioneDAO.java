@@ -25,11 +25,11 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 			while(rs.next()) {
 				int id = rs.getInt("id");
 				int idInseritore = rs.getInt("idUtente");
-				int idEditore = rs.getInt("idEditore");
+				String editore = rs.getString("editore");
 				Date dataInvio = rs.getDate("dataInvio");
 				String titolo = rs.getString("titolo");
 				String descrizione = rs.getString("descrizione");
-				Pubblicazione pub = new Pubblicazione(id,idInseritore, idEditore, titolo, descrizione, dataInvio);
+				Pubblicazione pub = new Pubblicazione(id,idInseritore, editore, titolo, descrizione, dataInvio);
 				lista.add(pub);
 			}
 			Database.close();
@@ -58,11 +58,11 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 			while(rs.next()) {
 				int id = rs.getInt("id");
 				int idInseritore = rs.getInt("idUtente");
-				int idEditore = rs.getInt("idEditore");
+				String editore = rs.getString("editore");
 				Date dataInvio = rs.getDate("dataInvio");
 				String titolo = rs.getString("titolo");
 				String descrizione = rs.getString("descrizione");
-				Pubblicazione pub = new Pubblicazione(id,idInseritore, idEditore, titolo, descrizione, dataInvio);
+				Pubblicazione pub = new Pubblicazione(id,idInseritore, editore, titolo, descrizione, dataInvio);
 				lista.add(pub);
 			}
 			Database.close();
@@ -85,11 +85,11 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 			while(rs.next()) {
 				int id = rs.getInt("id");
 				int idInseritore = rs.getInt("idUtente");
-				int idEditore = rs.getInt("idEditore");
+				String editore = rs.getString("editore");
 				Date dataInvio = rs.getDate("dataInvio");
 				String titolo = rs.getString("titolo");
 				String descrizione = rs.getString("descrizione");
-				Pubblicazione pub = new Pubblicazione(id,idInseritore, idEditore, titolo, descrizione, dataInvio);
+				Pubblicazione pub = new Pubblicazione(id,idInseritore, editore, titolo, descrizione, dataInvio);
 				lista.add(pub);
 			}
 			
@@ -107,7 +107,7 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 	public static Pubblicazione detailPub(int idPubblicazione) {//Dettagli di una specifica pubblicazione
 		//DA CONTROLLARE E CORREGGERE
 		
-		String columns="pubblicazione.idUtente, pubblicazione.idEditore, pubblicazione.titolo, pubblicazione.descrizione,"
+		String columns="pubblicazione.idUtente, pubblicazione.editore, pubblicazione.titolo, pubblicazione.descrizione,"
 				+ " pubblicazione.dataInvio, metadati.id, metadati.ISBN, metadati.numPagine, metadati.lingua, metadati.data ";
 		
 		String onMet="pubblicazione.id=metadati.idPubblicazione";
@@ -123,7 +123,7 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 			ResultSet rs = Database.join(columns, "pubblicazione", map, condition, "");	
 			while(rs.next()) {
 				int idInseritore = rs.getInt("pubblicazione.idUtente");
-				int idEditore = rs.getInt("pubblicazione.idEditore");
+				String editore = rs.getString("pubblicazione.editore");
 				Date dataInvio = rs.getDate("pubblicazione.dataInvio");
 				String titolo = rs.getString("pubblicazione.titolo");
 				String descrizione = rs.getString("pubblicazione.descrizione");
@@ -134,7 +134,7 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 				String lingua = rs.getString("metadati.lingua");
 				Date dataCreazione = rs.getDate("metadati.data");
 	
-				pub = new Pubblicazione(idPubblicazione,idInseritore, idEditore, titolo, descrizione, dataInvio,
+				pub = new Pubblicazione(idPubblicazione,idInseritore, editore, titolo, descrizione, dataInvio,
 						idMetadati, ISBN, numPagine, lingua, dataCreazione);
 			}
 			Database.close();
@@ -177,11 +177,11 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 			while(rs.next()) {
 				int id = rs.getInt("id");
 				int idInseritore = rs.getInt("idUtente");
-				int idEditore = rs.getInt("idEditore");
+				String editore = rs.getString("editore");
 				Date dataInvio = rs.getDate("dataInvio");
 				String titolo = rs.getString("titolo");
 				String descrizione = rs.getString("descrizione");
-				Pubblicazione pub = new Pubblicazione(id,idInseritore, idEditore, titolo, descrizione, dataInvio);
+				Pubblicazione pub = new Pubblicazione(id,idInseritore, editore, titolo, descrizione, dataInvio);
 				lista.add(pub);
 			}
 			Database.close();
@@ -212,14 +212,14 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 	public static List<Pubblicazione> authOtherPub(){//data pubblicazione mostra altre pubb degli autori
 		return null;
 	}
-	public static void insertPub(int id, String descrizione, Date dataInvio, String titolo, int idEditore, int idUtente) {//Inserisci pubblicazione -> popolare argomenti
+	public static void insertPub(int id, String descrizione, Date dataInvio, String titolo, String editore, int idUtente) {//Inserisci pubblicazione -> popolare argomenti
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		map.put("id",id);
 		map.put("descrizione", descrizione);
 		map.put("dataInvio", dataInvio);
 		map.put("titolo",titolo);
-		map.put("idEditore",idEditore);
+		map.put("editore",editore);
 		map.put("idUtente",idUtente);
 		try {
 			Database.connect();
@@ -233,13 +233,13 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
         	System.out.println(e);                           
         }
 	}
-	public static void updatePub(int id, String descrizione, Date dataInvio, String titolo, int idEditore, int idUtente) {//update pubblicazione -> simile alla insert
+	public static void updatePub(int id, String descrizione, Date dataInvio, String titolo, String editore, int idUtente) {//update pubblicazione -> simile alla insert
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		map.put("descrizione", descrizione);
 		map.put("dataInvio", dataInvio);
 		map.put("titolo",titolo);
-		map.put("idEditore",idEditore);
+		map.put("editore",editore);
 		map.put("idUtente",idUtente);
 		try {
 			Database.connect();
