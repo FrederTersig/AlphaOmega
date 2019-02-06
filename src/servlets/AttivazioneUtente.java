@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class BackendEditore
+ * Servlet implementation class AttivazioneUtente
  */
-@WebServlet("/BackendEditore")
-public class BackendEditore extends HttpServlet {
+@WebServlet(description = "Servlet per mostrare le richieste di attivazione da parte degli utenti passivi", urlPatterns = { "/AttivazioneUtente" })
+public class AttivazioneUtente extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BackendEditore() {
+    public AttivazioneUtente() {
         super();
         // TODO Auto-generated constructor stub
     }

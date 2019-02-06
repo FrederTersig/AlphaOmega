@@ -12,28 +12,38 @@
 		<link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	</head>
-	<header class="navbar p-2 bg-dark">
-		  <section class="navbar-section">
-		   		<a href="..." class="navbar-brand mr-2 text-light">Biblioteca Alfa Omega</a>
-
-		  </section>
-
-		  <section class="navbar-section">
-		  		<!-- SE loggato --><!--
-					<button class="btn btn-primary mx-2">Profilo</button>
-		    		<button class="btn btn-primary px-2">Logout</button>
-				-->
-
-		    	
-		    	<!-- SE ATTIVO O ADMIN --><!--
-		    		<button class="btn btn-primary mx-4">Pannello Gestione</button>
-					<button class="btn btn-primary mx-2">Profilo</button>
-		    		<button class="btn btn-primary px-2">Logout</button>
-		    	-->
-		      		
-		    	<!-- SE NON LOGGATO -->
-		    		<button type="submit" name="value" value="signin" class="btn btn-primary mx-2">Registrazione</button>
-		    		<button class="btn btn-primary px-2">Login</button>
-		    	
-		  </section>
+	<header class="navbar p-2 bg-dark navbar">
+		<section class="navbar-section">
+			<a href="home" class="navbar-brand mr-2 text-light">Biblioteca Alpha Omega</a>
+		</section>
+		<section class="navbar-section">
+			<#if id != 0 && utente??>
+				<#if utente.getRuolo() == 2 || utente.getRuolo() == 3>
+				ERRORE
+				</#if>
+			<#else>
+				<!-- Usando Freemarker si va a modificare questa sezione così da ospitare altre cose -->
+				<a href="registrazione" name="value" value="signin" class="btn btn-primary btn-lg">Registrati</a>
+				<form class="form-horizontal" method="post" role="form">
+					<div class="form-group">
+						<input class="form-input col-5" type="text" id="logEmail" placeholder="Email">
+						<input class="form-input col-5" type="text" id="logPassword" placeholder="Password">
+						<button type="submit" class="btn btn-primary col-2">Login</button>
+					</div>
+				</form>
+			</#if>
+			
+		</section>
 	</header>
+
+
+
+<#if id != 0 && utente??>
+	<#if utente.getRuolo() == 2 || utente.getRuolo() == 3>
+	    <#include "headerGest.html">
+	<#else>
+	    <#include "header.html">
+	</#if>
+<#else>
+	<#include "header.html">
+</#if>

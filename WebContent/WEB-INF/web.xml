@@ -116,6 +116,15 @@
     <url-pattern>/backendAutore</url-pattern>
   </servlet-mapping>
   <servlet>
+    <servlet-name>AttivazioneUtente</servlet-name>
+    <servlet-class>servlets.AttivazioneUtente</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AttivazioneUtente</servlet-name>
+    <url-pattern>/attivazioneUtente</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>BackendAzioniUtente</servlet-name>
     <servlet-class>servlets.BackendAzioniUtente</servlet-class>
   </servlet>
@@ -123,11 +132,7 @@
     <servlet-name>BackendAzioniUtente</servlet-name>
     <url-pattern>/backendAzioniUtente</url-pattern>
   </servlet-mapping>
-
-
-
   <session-config>
     <session-timeout>30</session-timeout>
   </session-config>
-  
 </web-app>

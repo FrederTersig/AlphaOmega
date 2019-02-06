@@ -1,32 +1,5 @@
-<!DOCTYPE html>
-<html lang="en" >
-	<head>
-		<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-        <meta charset="utf-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-        <meta name="description" content=""/>
-        <meta name="author" content="Tersigni  Federico"/>
-		<title>Homepage</title>
-		<link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
-		<link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
-		<link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	</head>
-	<header class="navbar p-2 bg-dark">
-		  <section class="navbar-section">
-		   		<a href="..." class="navbar-brand mr-2 text-light">Biblioteca Alfa Omega</a>
 
-		  </section>
-
-		  <section class="navbar-section">
-		  		
-		    <a href="registrazione" name="value" value="signin" class="btn btn-primary mx-2">Registrazione</a>
-		    <button class="btn btn-primary px-2">Login</button>
-		    	
-		  </section>
-	</header>
-<!--  -->
-
+<#include "header.html">
 
 	<body class="bg-secondary">
 		<script type="text/javascript">
@@ -51,7 +24,7 @@
 				    		<a class="btn btn-primary my-1" href="">Catalogo con ristampe recenti</a>
 							<a class="btn btn-primary my-1" href="">Ultime 10 pubblicazioni inserite</a>
 							<a class="btn btn-primary my-1" href="">Pubblicazioni aggiornate di recente</a>
-							<a class="btn btn-primary show-modal my-1" href="#modal_utente">Elenco utenti più collaborativi</a><!-- Si apre un modal contenente la lista degli utenti -->
+							<a class="btn btn-primary show-modal my-1" href="#modal_utente">Elenco utenti piu' collaborativi</a><!-- Si apre un modal contenente la lista degli utenti -->
 
 							<div id="modal_utente" class="modal modal-lg">
 								    <div class="modal-overlay"></div>
@@ -159,16 +132,6 @@
 	<!-- 
 	
 	-->
-	<footer class="navbar p-2 bg-dark" style="position:absolute;bottom:0;width:100vw">
-		<section class="navbar-section">
-		    	<a href="..." class="btn btn-link text-light">Aiuto!</a>
-		</section>
-
-		<section class="navbar-section">
-		    	<div class="input-group input-inline">
-		      		<a href="..." class="btn btn-link text-light pr-2">Copyright @ Federico Tersigni 2019</a>
-		    	</div>
-		</section>
-	</footer>
+	<#include "footer.html">
 
 </html>
