@@ -31,17 +31,19 @@ import model.dao.UtenteDAO;
 /**
  * Servlet implementation class Registrazione
  */
-@WebServlet("/Registrazione")
+
 public class Registrazione extends HttpServlet {
 	Map<String, Object> map = new HashMap<String,Object>(); // la tree map è da togliere
-       
+	public int id=0; //id dell'utente -> default
+	public Utente utente;
     
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		System.out.println("process request della Registrazione");
 		//Non c'è motivo per avere una sessione in questa pagina.
 		//CANCELLO la sessione entrando in questa pagina
 		//ricordando che il bottone per questa pagina appare SOLO se si è GUEST.
-		
+		map.put("id", id);    
+    	map.put("utente", utente);
 		FreeMarker.process("registrazione.html", map, response, getServletContext()); // data ??
 	}
     
@@ -52,6 +54,8 @@ public class Registrazione extends HttpServlet {
 		System.out.println("doGet della registrazione");
 		HttpSession session = request.getSession();
         session.invalidate();
+        utente=null;
+        id=0;
         try {
             processRequest(request, response);
         } catch (Exception e) {

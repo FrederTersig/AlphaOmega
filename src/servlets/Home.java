@@ -58,11 +58,9 @@ public class Home extends HttpServlet {
     	
     	data.put("id", id);    
     	data.put("utente", utente); // Potrebbe essere NULL se non è presente, creare oggetto vuoto?
-    	//System.out.println(response);
-    	//System.out.println(data); 
-    	//System.out.println(getServletContext());
+    	
     	System.out.println("-----------Prima del FreeMarker HOME------------");
-    	//response.sendRedirect("home");
+    	
         FreeMarker.process("home.html", data, response, getServletContext());      
     }
     
@@ -193,10 +191,14 @@ public class Home extends HttpServlet {
 	                data.put("id",id);
 	                utente = null;
 	                data.put("utente", utente);
-	                response.sendRedirect("");
+	                response.sendRedirect("home");
 	            }catch(Exception e3){
 	                e3.printStackTrace();
 	            }
+	        }else if("profilo".equals(action)) {
+	        	System.out.println("Sto cercando di entrare nel mio profilo");
+	        	//Mi devo ricavare il mio ID
+	        	//Devo andare nella pagina "dettagliProfilo" utilizzando il mio ID come "destinazione"
 	        }
         }
         

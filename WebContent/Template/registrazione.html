@@ -1,23 +1,7 @@
-<#include="header.html">
+<#include "header.html">
 	
 	<body>
-		<!-- SCRIPT => la parte dove avviene la conferma della password  // DA CAMBIARE-->
-		<script>
-			var password = document.getElementById("input_password"), confirm_password = document.getElementById("conferma_password");
 		
-
-			function validatePassword(){
-			  if(password.value != confirm_password.value) {
-			    confirm_password.setCustomValidity("La password non è la stessa.");
-			    
-			  } else {
-			    confirm_password.setCustomValidity('');
-			  }
-			}
-
-			password.onchange = validatePassword;
-			confirm_password.onkeyup = validatePassword;
-		</script>
 		<br>
 		<div class="container">
 			<div class="columns col-gapless">
@@ -89,6 +73,23 @@
 			</form>
 		</div>
 
+		<!-- SCRIPT => la parte dove avviene la conferma della password  // DA CAMBIARE-->
+		<script>
+			var password = document.getElementById("input_password"), confirm_password = document.getElementById("conferma_password");
+		
 
+			function validatePassword(){
+			  if(password.value != confirm_password.value) {
+			    confirm_password.setCustomValidity("La password non è la stessa.");
+			    
+			  } else {
+			    confirm_password.setCustomValidity('');
+			  }
+			}
+
+			password.onchange = validatePassword;
+			confirm_password.onkeyup = validatePassword;
+		</script>
 	</body>
-<#include="footer.html">
+	
+<#include "footer.html">

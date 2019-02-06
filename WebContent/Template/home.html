@@ -2,18 +2,7 @@
 <#include "header.html">
 
 	<body class="bg-secondary">
-		<script type="text/javascript">
-			$(".close-modal").on("click", function() {
-				alert("PROVA!!!!!");
-			  $(this).closest('.modal').removeClass('active');
-			});
-
-			$(".show-modal").on("click", function() {
-				alert("INIZIO")!!
-			  $('.modal').addClass('active');
-			});
-
-		</script>
+		
 		<!-- divider element -->	
 			<!-- vertical divider element with text -->
 			<div class="columns pt-2">
@@ -61,16 +50,9 @@
 													    	<td>10/20/1000</td>
 													    	<td>marioneElGamamamamamamamanao@gmail.com</td>
 													    	<td>10</td>
-													    	<td><button class="btn btn-action">Lista</button></td>
+													    	<td><button class="btn btn-action">Visita Profilo</button></td>
 													    </tr>
-													    <tr>
-													    	<td>Giarlone</td>
-													    	<td>Geasd asdasdltana</td>
-													    	<td>10/20/1030</td>
-													    	<td>marionasdasddnao@gmail.com</td>
-													    	<td>7</td>
-													    	<td><button class="btn btn-action">Lista</button></td>
-													    </tr>
+													    
 													</tbody>
 												</table>
 								            </div>
@@ -89,49 +71,58 @@
 				  <div class="column col-9">
 				    	<!-- colonna di destra: qui sarà presente il motore di ricerca del catalogo -->
 				    	<h3><p>Benvenuti nella biblioteca digitale Alfa Omega!</p></h3>
-				    	<p>Si può usare il nostro motore di ricerca per cercare le pubblicazioni desiderate!</p>
-				  		<div class="form-group">
-				  			<label class="form-label" for="motore_ricerca">Motore di ricerca</label>
-				  			<input class="form-input" style="width:75%" type="text" id="motore_ricerca" placeholder="Scrivi qui">
+				    	<p>Si puo' usare il nostro motore di ricerca per cercare le pubblicazioni desiderate!</p>
+				    	<form> <!-- FORM DELLA RICERCA -->
+					  		<div class="form-group">
+					  			<label class="form-label" for="motore_ricerca">Motore di ricerca</label>
+					  			<input class="form-input" style="width:75%" type="text" id="motore_ricerca" placeholder="Scrivi qui">
 
-				  			<label class="form-label d-inline pr-1">Ricerca per: </label>
-				  			<label class="form-radio d-inline">
-				  				<input type="radio" name="attributo" value="titolo" checked>
-				  				<i class="form-icon"></i> Titolo
-				  			</label>
-				  			<label class="form-radio d-inline">
-				  				<input type="radio" name="attributo" value="isbn">
-				  				<i class="form-icon"></i> ISBN
-				  			</label>
-				  			<label class="form-radio d-inline">
-				  				<input type="radio" name="attributo" value="autore">
-				  				<i class="form-icon"></i> Autore
-				  			</label>
-				  			<label class="form-radio d-inline">
-				  				<input type="radio" name="attributo" value="editore">
-				  				<i class="form-icon"></i> Editore
-				  			</label>
-				  			<label class="form-radio d-inline">
-				  				<input type="radio" name="attributo" value="tag">
-				  				<i class="form-icon"></i> Tag 
-				  			</label>
+					  			<label class="form-label d-inline pr-1">Ricerca per: </label>
+					  			<label class="form-radio d-inline">
+					  				<input type="radio" name="attributo" value="titolo" checked>
+					  				<i class="form-icon"></i> Titolo
+					  			</label>
+					  			<label class="form-radio d-inline">
+					  				<input type="radio" name="attributo" value="isbn">
+					  				<i class="form-icon"></i> ISBN
+					  			</label>
+					  			<label class="form-radio d-inline">
+					  				<input type="radio" name="attributo" value="autore">
+					  				<i class="form-icon"></i> Autore
+					  			</label>
+					  			<label class="form-radio d-inline">
+					  				<input type="radio" name="attributo" value="editore">
+					  				<i class="form-icon"></i> Editore
+					  			</label>
+					  			<label class="form-radio d-inline">
+					  				<input type="radio" name="attributo" value="tag">
+					  				<i class="form-icon"></i> Tag 
+					  			</label>
 
-				  			<label class="form-switch">
-							    <input type="checkbox">
-							    <i class="form-icon"></i> Download Disponibili
-							</label>
-							
-				  		</div>
-
+					  			<label class="form-switch">
+								    <input type="checkbox">
+								    <i class="form-icon"></i> Download Disponibili
+								</label>
+								
+					  		</div>
+					  	</form>
 				  		
 				  </div>
 			</div>
-			
+			<script type="text/javascript">
+			$(".close-modal").on("click", function() {
+				alert("PROVA!!!!!");
+			  $(this).closest('.modal').removeClass('active');
+			});
+
+			$(".show-modal").on("click", function() {
+				alert("INIZIO")!!
+			  $('.modal').addClass('active');
+			});
+
+			</script>
 
 	</body>
-	<!-- 
 	
-	-->
-	<#include "footer.html">
+<#include "footer.html">
 
-</html>

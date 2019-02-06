@@ -18,17 +18,26 @@
 		</section>
 		<section class="navbar-section">
 			<#if id != 0 && utente??>
-				<#if utente.getRuolo() == 2 || utente.getRuolo() == 3>
-				ERRORE
+				<form class="form-horizontal" method="post" role="form">
+					<button type="submit" name="value" value="logout" class="btn btn-primary mr-1">Logout</button>
+					
+				</form>
+				<form class="form-horizontal" method="post" role="form">
+					<button type="submit" name="value" value="profilo" class="btn btn-primary mr-1">Profilo</button>
+					
+					<!-- Si trova in un form a parte perché deve passare l'id del dettaglioProfilo da visitare -->
+				</form>
+				<#if utente.getRuolo() != 1>
+					<a href="pannelloGestione" class="btn btn-primary">Pannello di Gestione</a>					
 				</#if>
 			<#else>
 				<!-- Usando Freemarker si va a modificare questa sezione così da ospitare altre cose -->
 				<a href="registrazione" name="value" value="signin" class="btn btn-primary btn-lg">Registrati</a>
 				<form class="form-horizontal" method="post" role="form">
 					<div class="form-group">
-						<input class="form-input col-5" type="text" id="logEmail" placeholder="Email">
-						<input class="form-input col-5" type="text" id="logPassword" placeholder="Password">
-						<button type="submit" class="btn btn-primary col-2">Login</button>
+						<input class="form-input col-5" name="email" type="text" id="logEmail" placeholder="Email">
+						<input class="form-input col-5" name="password" type="text" id="logPassword" placeholder="Password">
+						<button type="submit" name="value" value="login" class="btn btn-primary col-2">Login</button>
 					</div>
 				</form>
 			</#if>
@@ -38,12 +47,3 @@
 
 
 
-<#if id != 0 && utente??>
-	<#if utente.getRuolo() == 2 || utente.getRuolo() == 3>
-	    <#include "headerGest.html">
-	<#else>
-	    <#include "header.html">
-	</#if>
-<#else>
-	<#include "header.html">
-</#if>
