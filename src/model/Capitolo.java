@@ -8,7 +8,7 @@ public class Capitolo {
 	int numero;
 	int pagInizio;
 	
-	public Capitolo(int id, int idPubblicazione, String titolo, int numero, int capitolo) {
+	public Capitolo(int id, int idPubblicazione, String titolo, int numero, int pagInizio) {
 		this.id=id;
 		this.idPubblicazione=idPubblicazione;
 		this.titolo=titolo;

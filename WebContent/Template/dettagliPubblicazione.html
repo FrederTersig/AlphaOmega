@@ -6,39 +6,134 @@
 
 		<div class="container">
 			<div class="columns col-gapless">
-				<div class="column col-6">
+				<div class="column col-4">
 					<div class="text-left">
-						<p><div class="text-bold">Autore:  </div>Nome dell'autore</p>
-						<p><div class="text-bold">Editore: </div>Nome dell'editore</p>
-
+						<p><div class="text-bold">Data pubblicazione:</div>Data della pubblicazione</p>
+						<p><div class="text-bold">Autore:</div>Nome dell'autore</p>
+						<p><div class="text-bold">Editore:</div>Nome dell'editore</p>
+						
+						
 					</div>
 				</div>
-				<div class="column col-6">
-					<div class="text-left">
-						<p><div class="text-bold">Tags: </div> Dramma, Giallo, Commedia, Informatica</p>
-
+				<div class="column col-4">
+					<div class="text-left">					
+						<p><div class="text-bold">Lingua:</div>Italiano</p>
+						<p><div class="text-bold">Codice ISBN:</div> 1923892148921</p>
+						<p><div class="text-bold">Numero delle pagine:</div> 900 </p>
+						
 					</div>
 				</div>	
-
+				<div class="column col-4">
+					<div class="text-left">					
+						<p><div class="text-bold">Tags:</div> Dramma, Giallo, Commedia, Informatica</p>
+						<p><div class="text-bold">Data di inserimento:</div>Data dell'inserimento</p>
+						<p><div class="text-bold">Inserito da:</div>Nome e Cognome utente</p>
+					</div>
+				</div>	
+				
 			</div>
 			<div class="columns col-gapless">
 				<div class="col-12">
-					<p><div class="text-bold">Descrizione: </div> Questa è la descrizione della specifica pubblicazione che si sta visualizzando. questa pubblicazione per ora non contiene niente perché ovviamente non c'ho niente da scrivere però volendo bleaaaaaaaaaaaaaaaaaaaaaaaaaaa asdji gn oa sdja sdopkasndjasdpo kasmnd asp djoiasjdl alskd lkasdk samd lsladj klasdl kansdoj laksdnsajd jaskd lòmaskldn lkasdkòl amslkd nklasjd òasndj asijdas mdlkansdkl asòldkalknd dlasd. interessante.</p>
-
+					<p><div class="text-bold">Descrizione: </div> 
+					Questa � la descrizione della specifica pubblicazione che si sta visualizzando. 
+					questa pubblicazione per ora non contiene niente perché ovviamente non c'ho niente da scrivere però 
+					volendo bleaaaaaaaaaaaaaaaaaaaaaaaaaaa asdji gn oa sdja sdopkasndjasdpo kasmnd asp djoiasjdl alskd 
+					lkasdk samd lsladj klasdl kansdoj laksdnsajd jaskd lòmaskldn lkasdkòl amslkd nklasjd òasndj asijdas 
+					mdlkansdkl asòldkalknd dlasd. interessante.</p>
 				</div>
 			</div>
+			<br>
+			
 			<div class="columns col-gapless">
-				<div class="col-1">
-					<div class="text-bold">Source: </div>
+				<div class="col-4">
+					<a class="btn show-modal col-mx-auto" href="#listaCapitoli"><b>Lista Capitoli</b></a>
+					<a class="btn show-modal col-mx-auto" href="#inviaCapitoli"><b>Invia Capitoli</b></a>
 				</div>
-				<div class="col-11">
-					<div class="text-left">
-						<!-- Questo viene aggiunto SE è presente  altra source -->
-						Descrizione della source -> url della source<br>
-						Descrizione della source -> url della source<br>
+				<div class="col-4">
+					<a class="btn show-modal col-mx-auto" href="#listaCapitoli"><b>Lista Ristampe</b></a>
+					<a class="btn show-modal col-mx-auto" href="#inviaCapitoli"><b>Invia Ristampa</b></a>
+				</div>
+				<div class="col-4">
+					<a class="btn show-modal col-mx-auto" href="#listaCapitoli"><b>Lista Sorgenti</b></a>
+					<a class="btn show-modal col-mx-auto" href="#inviaCapitoli"><b>Invia Sorgente</b></a>
+				</div>
+			</div>
+			
+			<!--  PARTE DEL CAPITOLO -->
+			<div id="listaCapitoli" class="modal modal-lg">
+				<div class="modal-overlay"></div>
+				<div class="modal-container">
+					<div class="modal-header">
+						<a href="#close" class="btn btn-clear float-right close-modal"></a>
+						<div class="modal-title">Lista dei capitoli</div>
+					</div>
+					<div class="modal-body">
+						<div class="content">
+							<div class="form-group">
+							<!-- Questa � la parte che viene moltiplicata dalla query -->
+									 <#if listaCapitoli ??>
+								      	<#list listaCapitoli as Capitolo>
+											 	
+										</#list>
+									</#if>
+							<!-- fine parte -->
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<a href="#close" class="btn btn-primary close-modal">Close</a>
 					</div>
 				</div>
 			</div>
+			
+			<div id="inviaCapitoli" class="modal modal-lg">
+				<div class="modal-overlay"></div>
+				<div class="modal-container">
+					<div class="modal-header">
+						<a href="#close" class="btn btn-clear float-right close-modal"></a>
+						<div class="modal-title"><b>Inserisci capitoli</b></div>
+					</div>
+					<div class="modal-body">
+						<div class="content">
+							<form class="form-horizontal" method="post" role="form">
+								<div class="form-group">
+									<div class="columns col-gapless">
+										<div class="col-4">
+											<input class="form-input" type="text" name="titolo" placeholder="titolo" required>
+										</div>
+										<div class="col-4">
+											<input class="form-input" type="text" name="numero" placeholder="numero" required>
+										</div>
+										<div class="col-4">
+											<input class="form-input" type="number" name="pagInizio" placeholder="Pagina Inizio" required>
+										</div>
+										
+									</div>
+								</div>
+								<button type="submit" class="btn p-centered text-bold" id="invioCapitolo" name="value" value="invioCapitolo" required>Crea Capitolo</button>
+							</form>
+							<!-- Visualizza la lista dei capitoli -->
+							<br>
+							<#if listaCapitoli ??>
+								<#list listaCapitoli as Capitolo>
+									<div class="text-dark">
+										<b>${Capitolo.getNumero()}</b> - ${Capitolo.getTitolo()} - Inizio a pagina ${Capitolo.getPagInizio()} 
+									</div>
+									<br>
+								</#list>
+							</#if>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<a href="#close" class="btn btn-primary close-modal">Close</a>
+					</div>
+				</div>
+			</div>
+			
+			<!--  PARTE DEL SORGENTE -->
+			
+			<!--  PARTE DEL RISTAMPA -->
+			
 			<!-- Lista delle pubblicazioni degli stessi autori!! -->
 			<br>
 			<br>
@@ -48,6 +143,9 @@
 				</div>
 			</div>
 			<br>
+			
+			
+			<!--  Lista Pubblicazioni Simili  -->
 			<div class="columns col-gapless text-center">
 				<div class="col-3">
 					<p>Pubblicazione 1</p>
