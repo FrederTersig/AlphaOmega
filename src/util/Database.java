@@ -67,58 +67,6 @@ public class Database {
     	return Database.executeQuery(query);
     }
  
-    
-    /**
-    * Select record con join tra due tabelle
-    * @param table_1           nome della prima tabella
-    * @param table_2           nome della seconda tabella
-    * @param join_condition    condizione del join tra la tabelle
-    * @param order			   ordine da dare al risultato
-    * @return                  dati prelevati
-    * @throws java.sql.SQLException
-    */
-    
-   
-    public static ResultSet selectJoin(String column, String table_1, String table_2, String join_condition, String order)throws SQLException{
-    	String query = "SELECT "+column+" FROM " + table_1 + " JOIN " + table_2 + " ON " + join_condition + " ORDER BY "+ order ;
-    	System.out.println(query);
-        return Database.executeQuery(query);
-    }
- 
-    /**
-     * Metodo per fare una select usando la join e restituendo un risultato ordinato
-     * @param column			Colonna/e da selezionare
-     * @param table_1          	Prima tabella da cui si richiamano i dati
-     * @param table_2           Secondo tabella da cui si richiamano i dati
-     * @param join_condition    Join condition tra le tabelle
-     * @param where_condition   condizione per filtrare i dati
-     * @param order             ordine da dare ai dati
-     * @return                  restituisce il ResultSet con i dati ordinati
-     * @throws java.sql.SQLException
-     */
-    public static ResultSet selectJoin(String column,String table_1, String table_2, String join_condition, String where_condition, String order) throws SQLException{
-        String query = "SELECT "+column+" FROM " + table_1 + " JOIN " + table_2 + " ON " + join_condition + " WHERE " + where_condition + " ORDER BY " + order;
-        System.out.println(query);
-        return Database.executeQuery(query);
-    }
-    /**
-     * Metodo per fare una select usando la join e restituendo un risultato ordinato
-     * @param column			Colonna/e da selezionare
-     * @param table_1          	Prima tabella da cui si richiamano i dati
-     * @param table_2           Secondo tabella da cui si richiamano i dati
-     * @param join_1    		Join condition tra le tabelle
-     * @param table_3           terza tabella da cui si richiamano i dati
-     * @param join_2    		Join condition tra le tabelle
-     * @param where_condition   condizione per filtrare i dati
-     * @param order             ordine da dare ai dati
-     * @return                  restituisce il ResultSet con i dati ordinati
-     * @throws java.sql.SQLException
-     */
-    public static ResultSet selectJoin(String column,String table_1,String table_2, String join_1, String table_3, String join_2, String where_condition, String order) throws SQLException{
-    	String query = "SELECT "+column+" FROM "+table_1+" JOIN "+table_2+" ON "+join_1+" JOIN "+table_3+" ON "+join_2+" WHERE "+where_condition+" ORDER BY "+order;
-    	System.out.println(query);
-    	return Database.executeQuery(query);
-    }
 
     /**
      * Metodo per inserire il record nel DB

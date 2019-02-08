@@ -11,7 +11,6 @@ public class Pubblicazione{
 	private String descrizione;
 	private Date dataInserimento;
 	
-	private int idMetadati;
 	private String codiceISBN;
 	private int numPagine;
 	private String lingua;
@@ -30,7 +29,7 @@ public class Pubblicazione{
 	}
 	
 	public Pubblicazione(int id, int idInseritore, String editore, String titolo, String descrizione, Date dataInserimento, 
-			int idMetadati, String ISBN, int numPagine, String lingua, Date dataCreazione) {
+			String ISBN, int numPagine, String lingua, Date dataCreazione) {
 		
 		this.id = id;
 		this.idInseritore = idInseritore;
@@ -39,13 +38,26 @@ public class Pubblicazione{
 		this.dataInserimento = dataInserimento;
 		this.editore = editore;
 		//parte metadati
-		this.idMetadati = idMetadati;
 		this.codiceISBN = ISBN;
 		this.numPagine = numPagine;
 		this.lingua = lingua;
 		this.dataCreazione = dataCreazione;
 	}
-	
+	public Pubblicazione(int idInseritore, String editore, String titolo, String descrizione, Date dataInserimento, 
+			String ISBN, int numPagine, String lingua, Date dataCreazione) {
+		
+		//this.id = id;
+		this.idInseritore = idInseritore;
+		this.titolo = titolo;
+		this.descrizione = descrizione;
+		this.dataInserimento = dataInserimento;
+		this.editore = editore;
+		//parte metadati
+		this.codiceISBN = ISBN;
+		this.numPagine = numPagine;
+		this.lingua = lingua;
+		this.dataCreazione = dataCreazione;
+	}
 
 	
 	public int getId(){
@@ -85,12 +97,6 @@ public class Pubblicazione{
 		this.dataInserimento = dataInserimento;
 	}
 	
-	public int getIdMetadati() {
-		return this.idMetadati;
-	}
-	public void setIdMetadati(int idMetadati) {
-		this.idMetadati=idMetadati;
-	}
 	public String getCodiceISBN() {
 		return this.codiceISBN;
 	}

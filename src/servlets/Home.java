@@ -41,7 +41,7 @@ public class Home extends HttpServlet {
      */
 	Map<String, Object> data = new HashMap<String,Object>();
     public int id=0; //id dell'utente -> default
-    public int ruolo=1; //ruolo dell'utente {1=normale,2=moderatore,3=admin} -> di default
+    //public int ruolo=1; //ruolo dell'utente {1=normale,2=moderatore,3=admin} -> di default
     public Utente utente;
     
     //Gli elementi della  home:

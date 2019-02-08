@@ -15,13 +15,13 @@ import model.Utente;
 import util.Database;
 
 public class PubblicazioneDAO implements PubblicazioneDAO_interface{
+	
 	public static List<Pubblicazione> lastTenPub(){ //Ultimi 10 giorni
 		ArrayList<Pubblicazione> lista=null;
 		try {
 			lista = new ArrayList<Pubblicazione>();
 			Database.connect();
 			ResultSet rs = Database.selectRecord("*", "pubblicazione", "", "pubblicazione.dataInvio DESC LIMIT 10");
-			//ResultSet rs = Database.selectRecord("pubblicazione","pubblicazione.data DESC LIMIT 10");
 			while(rs.next()) {
 				int id = rs.getInt("id");
 				int idInseritore = rs.getInt("idUtente");
@@ -42,6 +42,7 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 	    }
 		return lista;
 	}
+	
 	public static List<Pubblicazione> recentUpdated(){//Ultimi 30 giorni --> Meglio la Procedura??
 		ArrayList<Pubblicazione> lista=null;
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -75,13 +76,13 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 	    }
 		return lista;
 	}
+	
 	public static List<Pubblicazione> userPub(int idUtente){//pubblicazioni di un utente
 		ArrayList<Pubblicazione> lista=null;
 		try {
 			lista = new ArrayList<Pubblicazione>();
 			Database.connect();
 			ResultSet rs = Database.selectRecord("pubblicazione", "", "pubblicazione.idUtente="+idUtente, "pubblicazione.dataInvio");
-			//ResultSet rs = Database.selectRecord("pubblicazione", "pubblicazione.idUtente="+idUtente, "pubblicazione.dataInvio");
 			while(rs.next()) {
 				int id = rs.getInt("id");
 				int idInseritore = rs.getInt("idUtente");
@@ -91,8 +92,7 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 				String descrizione = rs.getString("descrizione");
 				Pubblicazione pub = new Pubblicazione(id,idInseritore, editore, titolo, descrizione, dataInvio);
 				lista.add(pub);
-			}
-			
+			}			
 			Database.close();
 		}catch(NamingException e) {
 			System.out.println("NamingException"+e);
@@ -101,41 +101,32 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 	    }catch (Exception e) {
 	    	System.out.println("Exception"+e);    
 	    }
-		return lista;
-		
+		return lista;		
 	}
+	
 	public static Pubblicazione detailPub(int idPubblicazione) {//Dettagli di una specifica pubblicazione
-		//DA CONTROLLARE E CORREGGERE
 		
-		String columns="pubblicazione.idUtente, pubblicazione.editore, pubblicazione.titolo, pubblicazione.descrizione,"
-				+ " pubblicazione.dataInvio, metadati.id, metadati.ISBN, metadati.numPagine, metadati.lingua, metadati.data ";
-		
-		String onMet="pubblicazione.id=metadati.idPubblicazione";
-		//String onRis="";
+		String column="*";		
 		String condition="pubblicazione.id="+ idPubblicazione;
-		
-		Map<String, Object> map = new HashMap<String,Object>();
-		map.put("metadati", onMet);
 		
 		Pubblicazione pub = null;
 		try {
 			Database.connect();
-			ResultSet rs = Database.join(columns, "pubblicazione", map, condition, "");	
+			ResultSet rs = Database.selectRecord(column, "pubblicazione", condition, "");
+
 			while(rs.next()) {
 				int idInseritore = rs.getInt("pubblicazione.idUtente");
 				String editore = rs.getString("pubblicazione.editore");
 				Date dataInvio = rs.getDate("pubblicazione.dataInvio");
 				String titolo = rs.getString("pubblicazione.titolo");
-				String descrizione = rs.getString("pubblicazione.descrizione");
-				//parte metadati
-				int idMetadati = rs.getInt("metadati.id");
-				String ISBN = rs.getString("metadati.ISBN");
-				int numPagine = rs.getInt("metadati.numPagine");
-				String lingua = rs.getString("metadati.lingua");
-				Date dataCreazione = rs.getDate("metadati.data");
+				String descrizione = rs.getString("pubblicazione.descrizione");;
+				String ISBN = rs.getString("pubblicazione.ISBN");
+				int numPagine = rs.getInt("pubblicazione.numPagine");
+				String lingua = rs.getString("pubblicazione.lingua");
+				Date dataScrittura = rs.getDate("pubblicazione.dataScrittura");
 	
 				pub = new Pubblicazione(idPubblicazione,idInseritore, editore, titolo, descrizione, dataInvio,
-						idMetadati, ISBN, numPagine, lingua, dataCreazione);
+						ISBN, numPagine, lingua, dataScrittura);
 			}
 			Database.close();
 		}catch(NamingException e) {
@@ -146,11 +137,10 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 	    	System.out.println("Exception"+e);    
 	    }
 		
-		//Prova a vedere se il riutilizzo di "map" può aiutare
 		Map<String, Object> data = new HashMap<String,Object>();
 		try {
 			Database.connect();
-			ResultSet rs = Database.selectRecord("*", "ristampa", "ristampa.idMetadati=" + pub.getIdMetadati(), "");
+			ResultSet rs = Database.selectRecord("*", "ristampa", "ristampa.idPubblicazione=" + pub.getId(), "");
 			while(rs.next()){
 				data.put("numero", rs.getInt("numero"));
 				data.put("data", rs.getDate("data"));
@@ -173,12 +163,13 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 		try {
 			Database.connect();
 			ResultSet rs = Database.selectRecord("*", "pubblicazione", "", "pubblicazione.titolo");
-			//ResultSet rs = Database.selectRecord("pubblicazione", "pubblicazione.titolo");
+			
 			while(rs.next()) {
 				int id = rs.getInt("id");
 				int idInseritore = rs.getInt("idUtente");
 				String editore = rs.getString("editore");
 				Date dataInvio = rs.getDate("dataInvio");
+				String ISBN = rs.getString("ISBN");
 				String titolo = rs.getString("titolo");
 				String descrizione = rs.getString("descrizione");
 				Pubblicazione pub = new Pubblicazione(id,idInseritore, editore, titolo, descrizione, dataInvio);
@@ -194,13 +185,7 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 	    }
 		return lista;
 	}
-	/*ELEMENTI IMPORTANTI PER LA CHIAMATA
-	 * Titolo, ISBN, Autore, Editore, Tag
-	 * Download disponibile
-	 * Data Rilascio (metadati.data)
-	 * Data Ultima Ristampa (!!!!)
-	 * Chiamata Critica
-	 * */
+	
 	public static List<Pubblicazione> researchPub(){ // Ricerca per varie cose-> popolare argomenti
 		ArrayList<Pubblicazione> lista=null;
 		//Query fatta nella stored procedure. 
@@ -212,35 +197,45 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 	public static List<Pubblicazione> authOtherPub(){//data pubblicazione mostra altre pubb degli autori
 		return null;
 	}
-	public static void insertPub(int id, String descrizione, Date dataInvio, String titolo, String editore, int idUtente) {//Inserisci pubblicazione -> popolare argomenti
+	public static void insertPub(String descrizione, String titolo, String editore, 
+			int idUtente, String ISBN, int numPagine, String lingua, Date dataCreazione) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		map.put("id",id);
 		map.put("descrizione", descrizione);
-		map.put("dataInvio", dataInvio);
 		map.put("titolo",titolo);
 		map.put("editore",editore);
 		map.put("idUtente",idUtente);
+		map.put("ISBN", ISBN);
+		map.put("numPagine", numPagine);
+		map.put("lingua",lingua);
+		map.put("dataScrittura", dataCreazione);
+		
 		try {
 			Database.connect();
 			Database.insertRecord("pubblicazione", map);
 			Database.close();
 		}catch(NamingException e) {
-    		System.out.println(e);
+    		System.out.println("prima parte " +e);
         }catch (SQLException e) {
-        	System.out.println(e);
+        	System.out.println("prima parte " +e);
         }catch (Exception e) {
-        	System.out.println(e);                           
+        	System.out.println("prima parte " +e);                           
         }
+
 	}
-	public static void updatePub(int id, String descrizione, Date dataInvio, String titolo, String editore, int idUtente) {//update pubblicazione -> simile alla insert
+	public static void updatePub(int id,String descrizione, String titolo, String editore, 
+			int idUtente, String ISBN, int numPagine, String lingua, Date dataCreazione) {
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		map.put("descrizione", descrizione);
-		map.put("dataInvio", dataInvio);
 		map.put("titolo",titolo);
 		map.put("editore",editore);
 		map.put("idUtente",idUtente);
+		map.put("ISBN", ISBN);
+		map.put("numPagine", numPagine);
+		map.put("lingua",lingua);
+		map.put("dataScrittura", dataCreazione);
 		try {
 			Database.connect();
 			Database.updateRecord("pubblicazione", map, "pubblicazione.id="+id);

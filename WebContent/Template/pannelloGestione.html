@@ -5,20 +5,45 @@
 			<div class="columns col-gapless">
 				<div class="col-12">
 					<p><div class="text-bold text-center"><h1>Pannello di Gestione</h1></div></p>
-					<p><div class="text-bold text-center"><h3>Admin</h3></div></p><!-- ADMIN o MODERATORE o UTENTE AVANZATO -->
+					<p><div class="text-bold text-center"><h3>
+					<#if utente??>
+						<#if ruolo == 1>
+						Utente Attivo
+						<#elseif ruolo == 2>
+						Moderatore
+						<#elseif ruolo == 3>
+						Admin
+						</#if>
+					</#if>
+					</h3></div></p><!-- ADMIN o MODERATORE o UTENTE AVANZATO -->
 				</div>
 			</div>
 			<br>
 			<div class="columns col-gapless">
 				<div class="col-4 col-mx-auto">
-					<p><a href="attivazioneUtente" class="btn btn-primary p-centered"> Richieste Attivazione Utente </a></p>
-					<p><a href="backendRecensione" class="btn btn-primary p-centered"> Gestione Recensioni </a></p>
-					<p><a href="backendPubblicazione" class="btn btn-primary p-centered"> Gestione Pubblicazioni </a></p>
-					<p><a href="inserimentoPubblicazione" class="btn btn-primary p-centered"> Inserimento Pubblicazioni </a></p>
-					<p><a href="backendUtenza" class="btn btn-primary p-centered"> Gestione Utenza </a></p>
-					<p><a href="backendTag" class="btn btn-primary p-centered"> Gestione Tag </a></p>
-					<p><a href="backendAutore" class="btn btn-primary p-centered"> Gestione Autori </a></p>
-					<p><a href="backendAzioniUtente" class="btn btn-primary p-centered"> Gestione Azioni Utente Attivo </a></p>
+				<#if utente??>
+					<#if ruolo == 1>
+						<p><a href="inserimentoPubblicazione" class="btn btn-primary p-centered"> Inserimento Pubblicazioni </a></p>
+						<p><a href="backendTag" class="btn btn-primary p-centered"> Gestione Tag </a></p>
+						<p><a href="backendAutore" class="btn btn-primary p-centered"> Gestione Autori </a></p>
+					<#elseif ruolo == 2>
+						<p><a href="inserimentoPubblicazione" class="btn btn-primary p-centered"> Inserimento Pubblicazioni </a></p>
+						<p><a href="backendTag" class="btn btn-primary p-centered"> Gestione Tag </a></p>
+						<p><a href="backendAutore" class="btn btn-primary p-centered"> Gestione Autori </a></p>
+						<p><a href="attivazioneUtente" class="btn btn-primary p-centered"> Richieste Attivazione Utente </a></p>
+						<p><a href="backendRecensione" class="btn btn-primary p-centered"> Gestione Recensioni </a></p>
+					<#elseif ruolo == 3>
+						<p><a href="inserimentoPubblicazione" class="btn btn-primary p-centered"> Inserimento Pubblicazioni </a></p>
+						<p><a href="backendTag" class="btn btn-primary p-centered"> Gestione Tag </a></p>
+						<p><a href="backendAutore" class="btn btn-primary p-centered"> Gestione Autori </a></p>
+						<p><a href="attivazioneUtente" class="btn btn-primary p-centered"> Richieste Attivazione Utente </a></p>
+						<p><a href="backendRecensione" class="btn btn-primary p-centered"> Gestione Recensioni </a></p>
+						<p><a href="backendPubblicazione" class="btn btn-primary p-centered"> Gestione Pubblicazioni </a></p>				
+						<p><a href="backendUtenza" class="btn btn-primary p-centered"> Gestione Utenza </a></p>					
+						<p><a href="backendAzioniUtente" class="btn btn-primary p-centered"> Gestione Azioni Utente Attivo </a></p>
+					</#if>
+				</#if>
+					
 				</div>
 			</div>
 		</div>

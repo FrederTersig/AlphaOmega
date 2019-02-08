@@ -11,6 +11,9 @@ public interface TagDAO_interface {
 	public static  List<Tag> showAllTags(){
 		return null;
 	}
+	public static void insertPubTag(int idPubblicazione, String[] listaIdTag) {
+		
+	}
 	public static void insertTag() {
 	
 	}

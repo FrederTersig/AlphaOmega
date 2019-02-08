@@ -24,28 +24,24 @@ import java.io.*;
 public class Utile {
 	
 	
-	/**
-     * Restituisce l'id del gioco
-     * @param String    			il titolo del gioco
-     * @param String    			l'autore del gioco
-     * @param String    			l'url del gioco
-     * @return                  	l'id del gioco presente nel sistema
-     */ 
-	public static int checkGioco(String titolo, String autore, String url ) throws Exception {
+	
+	public static int existPub(String ISBN, int idUtente) throws Exception {
 		int w=0;
-	/*	try {
-			String condition ="gioco.titolo = '" + titolo + "' AND gioco.creatore = '" + autore + "' AND gioco.url='"+url+"'";
+		String table ="pubblicazione";
+		String condition ="pubblicazione.ISBN = '" + ISBN + "' AND pubblicazione.idUtente = " + idUtente;
+		try {
 			Database.connect();
-			ResultSet r=Database.select("gioco", condition);
-			while ( r.next()) {
-				w = r.getInt("id");
+			ResultSet rs=Database.selectRecord("*", table, condition, "");
+			while (rs.next()) { 
+				int id = rs.getInt("id");
+				w = id;
 			}
 			Database.close();
 		}catch (NamingException e) {
-        	System.out.println("checkGioco NamingException: " + e.getMessage());
+        	System.out.println("existPub NamingException: " + e.getMessage());
         } catch (SQLException e) {
-        	System.out.println("checkGioco SQLException: " + e.getMessage());
-        }*/
+        	System.out.println("existPub SQLException: " + e.getMessage());
+        }
 		return w;
 	}
 	
@@ -119,11 +115,11 @@ public class Utile {
 
     public static int checkRuolo(int id) throws Exception{
     		System.out.println("Inizio CheckRuolo");
-    		int z=1;
-    		/*try {
+    		int z=0;
+    		try {
     			Database.connect();
     			String condition ="id = '" + id + "'";
-    			ResultSet r = Database.select("utente", condition);
+    			ResultSet r = Database.selectRecord("*","utente", condition,"");
     			while (r.next()) {
     				z = r.getInt("ruolo");
     			}
@@ -131,32 +127,8 @@ public class Utile {
     			System.out.println("CheckRuolo NamingException: " + e.getMessage());
             }catch(SQLException e) {
             	System.out.println("CheckRuolo SQLException: " + e.getMessage());
-            }*/
+            }
             return z;
-    }
-    /**
-     * Restituisce una booleana che spiega se il trofeo è presente nella lista dei trofei conquistati dall'utente
-     * 
-     * @param idUtente   		l'id dell'utente
-     * @param idTrofeo			l'id del trofeo
-     * @return                  valore booleano: Se true, il trofeo è stato già preso dall'utente. Se false no
-     */ 
-    public static boolean checkTrofeoUtente(int idUtente, int idTrofeo) throws Exception{
-    	System.out.println("Inizio checkTrofeoUtente");
-    	boolean check = false;
-    	/*try {
-    		Database.connect();
-    		String condition ="trofeoutente.idUtente="+idUtente+" AND trofeoutente.idTrofeo="+idTrofeo;
-    		ResultSet rs = Database.select("trofeoutente", condition);
-    		while(rs.next()) check = true; //Esiste un trofeo
-    		Database.close();
-    	}catch(NamingException e) {
-			System.out.println("CheckRuolo NamingException: " + e.getMessage());
-        }catch(SQLException e) {
-        	System.out.println("CheckRuolo SQLException: " + e.getMessage());
-        }*/
-    	
-    	return check;
     }
     
     
