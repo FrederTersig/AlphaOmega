@@ -95,6 +95,7 @@ public class Registrazione extends HttpServlet {
             	if(check==0) {
             		//conversione di dataNascita da String a Date
             		SimpleDateFormat data_a = new SimpleDateFormat("yyyy-MM-dd");
+            		
             		java.util.Date date = data_a.parse(dataNascita);
             		java.sql.Date nascita = new java.sql.Date(date.getTime());
             		//fine conversione

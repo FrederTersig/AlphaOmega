@@ -1,10 +1,13 @@
 package servlets;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,6 +19,8 @@ import model.Pubblicazione;
 import model.Capitolo;
 import model.Utente;
 import model.dao.CapitoloDAO;
+import model.dao.RistampaDAO;
+import model.dao.SorgenteDAO;
 import util.FreeMarker;
 import util.SecurityLayer;
 
@@ -87,13 +92,39 @@ public class DettagliPubblicazione extends HttpServlet {
 		System.out.println("DettagliPubblicazione DOPOST");
         String action = request.getParameter("value");
         System.out.println(" >> " +action+ " << ");
+        // ----> 1 nelle funzioni significa ID PUBBLICAZIONE!!!!
         if("invioCapitolo".equals(action)) {
         	String titolo = request.getParameter("titolo");
         	int numero = Integer.parseInt(request.getParameter("numero"));
         	int pagInizio = Integer.parseInt(request.getParameter("pagInizio"));
-        	
+        	// --> BISOGNA AGGIUNGERE L'AZIONE NELLA ENTRY!!
         	System.out.println(titolo + " " + numero + " " + pagInizio);
         	CapitoloDAO.insertCapitolo(1, numero, pagInizio, titolo);
+        	response.sendRedirect("dettagliPubblicazione");
+        }else if("invioSorgenti".equals(action)) {
+        	String descrizione = request.getParameter("descrizione");
+        	String formato =request.getParameter("formato");
+        	String tipo =request.getParameter("tipo");
+        	String URI = request.getParameter("URI");
+        	// --> BISOGNA AGGIUNGERE L'AZIONE NELLA ENTRY!!
+        	
+        	SorgenteDAO.insertSorgente(descrizione, formato, 1, tipo, URI);
+        	response.sendRedirect("dettagliPubblicazione");
+        }else if("invioRistampe".equals(action)) {
+        	int numero = Integer.parseInt(request.getParameter("numero"));
+        	int idPubblicazione = Integer.parseInt(request.getParameter("idPubblicazione"));   	
+        	String dataR = request.getParameter("dataRistampa");
+        	try {
+        		//conversione data da String a Date
+            	SimpleDateFormat data_a = new SimpleDateFormat("yyyy-MM-dd");
+        		java.util.Date data_b = data_a.parse(dataR);
+        		java.sql.Date dataRistampa = new java.sql.Date(data_b.getTime());        	
+            	RistampaDAO.insertRistampa(numero, idPubblicazione, dataRistampa);
+        	
+            } catch (Exception e) {
+            	System.out.println(e);
+            }
+        	
         	response.sendRedirect("dettagliPubblicazione");
         }
 	}
