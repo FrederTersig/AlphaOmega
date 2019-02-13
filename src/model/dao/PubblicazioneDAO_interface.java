@@ -11,6 +11,9 @@ public interface PubblicazioneDAO_interface {
 	public static List<Pubblicazione> recentUpdates(){//Ultimi 30 giorni
 		return null;
 	}
+	public static List<Pubblicazione> downloadPub(){
+		return null;
+	}
 	public static List<Pubblicazione> userPub(int idUtente){//pubblicazioni di un utente
 		return null;
 	}

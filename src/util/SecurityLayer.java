@@ -63,7 +63,7 @@ public class SecurityLayer {
 
     /**
      * Cancella la sessione rimasta attiva e ne crea un'altra 
-     * @param toTrim    stringa da elaborare
+     * @param toTrim    stringa da elaborare 
      * @return          stringa "pulita"
      */
     public static HttpSession createSession(HttpServletRequest request, String email, int userid) {

@@ -1,6 +1,7 @@
 package model;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class Pubblicazione{
@@ -16,15 +17,21 @@ public class Pubblicazione{
 	private String lingua;
 	private Date dataCreazione; 
 	
+	private ArrayList<String> listaAutori;
+	private ArrayList<String> listaTag;
+	
 	// lista o array per il numero di ristampe del libro, con tanto di data
 	private Map<String,Object> elencoRistampe;
 	
-	public Pubblicazione(int id, int idInseritore, String editore, String titolo, String descrizione, Date dataInserimento) {
+	
+	public Pubblicazione() {
+		
+	}
+	
+	public Pubblicazione(int id, String editore, String titolo, Date dataScrittura) {
 		this.id = id;
-		this.idInseritore = idInseritore;
 		this.titolo = titolo;
-		this.descrizione = descrizione;
-		this.dataInserimento = dataInserimento;
+		this.dataCreazione = dataScrittura;
 		this.editore = editore;
 	}
 	
@@ -59,6 +66,53 @@ public class Pubblicazione{
 		this.dataCreazione = dataCreazione;
 	}
 
+	public Pubblicazione(int id, String titolo, String ISBN) {
+		
+		this.id = id;
+		this.titolo = titolo;
+		this.codiceISBN = ISBN;
+		this.listaAutori = new ArrayList<String>();
+		this.listaTag = new ArrayList<String>();
+	}	
+	
+	public ArrayList<String> getListaAutori(){
+		return this.listaAutori;
+	}
+	
+	public void addAutore(String autore) {
+		this.listaAutori.add(autore);
+	}
+	public Boolean containsAutore(String autore) {
+		if(this.listaAutori.contains(autore)) return true;
+		return false;
+		
+	}
+	public String showAutori() {
+		String elenco="";
+		int length = this.listaAutori.size();
+		for(int i=0; i<length; i++) elenco += this.listaAutori.get(i) + ", ";
+		elenco = elenco.substring(0, elenco.length() -2);
+		return elenco;
+	}
+	public ArrayList<String> getListaTag(){
+		return this.listaTag;
+	}
+	
+	public void addTag(String tag) {
+		this.listaTag.add(tag);
+	}
+	public Boolean containsTag(String tag) {
+		if(this.listaTag.contains(tag)) return true;
+		return false;
+	}
+	public String showTags() {
+		String elenco="";
+		int length = this.listaTag.size();
+		for(int i=0; i<length; i++) elenco += this.listaTag.get(i) + ", ";
+		elenco = elenco.substring(0, elenco.length() -2);
+		return elenco;
+	}
+	
 	
 	public int getId(){
 		return this.id;

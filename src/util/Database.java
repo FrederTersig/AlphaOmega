@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Map;
 /**
  * 
@@ -94,6 +95,8 @@ public class Database {
         return Database.updateQuery(query);
     }
     
+   
+    
     //Query join che si applica ad un qualsiasi numero di attributi sul JOIN
     public static ResultSet join(String column, String table,Map<String,Object> data,String condition, String order)throws SQLException{
     	String query = "SELECT "+ column +" FROM "+ table;
@@ -108,6 +111,25 @@ public class Database {
         if(order != null && !order.trim().isEmpty()) query += " ORDER BY " + order;
     	return Database.executeQuery(query);
     }
+    
+    public static ResultSet callProcedure(String proc, ArrayList<String> data)throws SQLException{
+    	System.out.println("COMINCIO CALL PROCEDURE --- ERRORE QUI!!");
+    	String query = "CALL "+ proc +"(";
+    	String arg = "";
+    	int len = data.size();
+    	for(int i=0; i<len; i++) {
+    		System.out.println(data.get(i));
+    		arg = arg + "'" + data.get(i) + "'" + ",";
+    		System.out.println(arg);
+    	}
+    	arg = arg.substring(0, arg.length() - 1);
+    	query = query + arg +");";
+    	
+    	System.out.println("CALL PROCEDURE!! ECCO LA QUERY CHE MOSTRA ::");
+    	System.out.println(query);
+    	return Database.executeQuery(query);
+    }
+    	
     /**
      * Metodo per fare l'update di un record
      * @param table         tabella dove andiamo ad aggiornare i dati

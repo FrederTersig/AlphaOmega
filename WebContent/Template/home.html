@@ -9,12 +9,14 @@
 				  <div class="column col-2">
 				   		<!-- Colonna di sinistra: qui saranno presenti le varie funzioni -->
 				    	<div class="mx-2">
-				    		<a class="btn btn-primary my-1" href="">Visualizza Catalogo</a>
-				    		<a class="btn btn-primary my-1" href="">Catalogo con ristampe recenti</a>
-							<a class="btn btn-primary my-1" href="">Ultime 10 pubblicazioni inserite</a>
-							<a class="btn btn-primary my-1" href="">Pubblicazioni aggiornate di recente</a>
+				    		<a class="btn btn-primary my-1" href="ricercaPubblicazione?tipoRicerca=5">Visualizza Catalogo</a>
+				    		<a class="btn btn-primary my-1" href="ricercaPubblicazione?tipoRicerca=1">Catalogo con ristampe recenti</a>
+							<a class="btn btn-primary my-1" href="ricercaPubblicazione?tipoRicerca=2">Ultime 10 pubblicazioni inserite</a>
+							<a class="btn btn-primary my-1" href="ricercaPubblicazione?tipoRicerca=3">Pubblicazioni aggiornate di recente</a>
+							<a class="btn btn-primary my-1" href="ricercaPubblicazione?tipoRicerca=4">Pubblicazioni che hanno un download</a>
 							<a class="btn btn-primary show-modal my-1" href="#modal_utente">Elenco utenti piu' collaborativi</a><!-- Si apre un modal contenente la lista degli utenti -->
-
+							
+							
 							<div id="modal_utente" class="modal modal-lg">
 								    <div class="modal-overlay"></div>
 								    <div class="modal-container">
@@ -70,38 +72,53 @@
 				  <div class="divider-vert col-1" data-content=""></div>
 				  <div class="column col-9">
 				    	<!-- colonna di destra: qui sarà presente il motore di ricerca del catalogo -->
-				    	<h3><p>Benvenuti nella biblioteca digitale Alfa Omega!</p></h3>
-				    	<p>Si puo' usare il nostro motore di ricerca per cercare le pubblicazioni desiderate!</p>
-				    	<form> <!-- FORM DELLA RICERCA -->
+				    	<div class="text-center">
+					    	<h3><p>Benvenuti nella biblioteca digitale Alfa Omega!</p></h3>
+					    	<p>Si puo' usare il nostro motore di ricerca per cercare le pubblicazioni desiderate!</p>
+				    	</div>
+				    	<br>
+				    	<br>
+				    	<form method="post" role="form"> <!-- FORM DELLA RICERCA -->
 					  		<div class="form-group">
-					  			<label class="form-label" for="motore_ricerca">Motore di ricerca</label>
-					  			<input class="form-input" style="width:75%" type="text" id="motore_ricerca" placeholder="Scrivi qui">
+					  			<div class="columns col-gapless">
+					  				<div class="columns col-10 col-mx-auto">
+						  				<div class="col-6">
+						  				
+										  	<label class="form-label text-center" for="titolo"><b>Titolo</b></label>
+										  	<input class="form-input" type="text" id="titolo" name="titolo" placeholder="Titolo" required>
+	
+						  				</div>
+						  				<div class="col-6">
+						  					<label class="form-label text-center" for="codiceisbn"><b>ISBN</b></label>
+										  	<input class="form-input" type="text" id="codiceisbn" name="codiceisbn" placeholder="ISBN" required>
+						  					
+						  				</div>
+						  			</div>
+						  			<div class="columns col-10 col-mx-auto">
+						  				<div class="col-6">
+						  					<label class="form-label text-center" for="autore"><b>Nome Autore</b></label>
+										  	<input class="form-input" type="text" id="autore" name="autore" placeholder="Nome Autore" required>
+						  					
+						  				</div>
+						  				<div class="col-6">
+						  					<label class="form-label text-center" for="tag"><b>Tag</b></label>
+										  	<input class="form-input" type="text" id="tag" name="tag" placeholder="Tag" required>
+						  				
+						  				</div>
+						  			</div>
+					  			</div>
 
-					  			<label class="form-label d-inline pr-1">Ricerca per: </label>
-					  			<label class="form-radio d-inline">
-					  				<input type="radio" name="attributo" value="titolo" checked>
-					  				<i class="form-icon"></i> Titolo
-					  			</label>
-					  			<label class="form-radio d-inline">
-					  				<input type="radio" name="attributo" value="isbn">
-					  				<i class="form-icon"></i> ISBN
-					  			</label>
-					  			<label class="form-radio d-inline">
-					  				<input type="radio" name="attributo" value="autore">
-					  				<i class="form-icon"></i> Autore
-					  			</label>
 					  			
-					  			<label class="form-radio d-inline">
-					  				<input type="radio" name="attributo" value="tag">
-					  				<i class="form-icon"></i> Tag 
-					  			</label>
-
-					  			<label class="form-switch">
-								    <input type="checkbox">
-								    <i class="form-icon"></i> Download Disponibili
-								</label>
 								
 					  		</div>
+					  		<br>
+					  		<div class="columns">
+					  			<div class="col-6 col-mx-auto">
+						  				<div class="col-6 col-mx-auto">
+						  					<button type="submit" class="btn p-centered text-bold my-3" id="search" name="value" value="search" required>Cerca!</button>
+						  				</div>
+						  		</div>
+						  	</div>
 					  	</form>
 				  		
 				  </div>

@@ -205,12 +205,30 @@ public class Home extends HttpServlet {
         if("search".equals(action)) {
         	System.out.println("Search");
         	try {
-        		System.out.println("Cerchiamo::>>");
-        		String searchStringa= request.getParameter("ricerca");
-        		HttpSession s = SecurityLayer.checkSession(request);
-        		s.setAttribute("ricerca", searchStringa);
-        		data.put("ricerca", searchStringa);
+        		System.out.println("Iniziamo la ricerca ---->");
+        		String cercaTitolo = request.getParameter("titolo");
+        		String cercaISBN = request.getParameter("codiceisbn");
+        		String cercaAutore = request.getParameter("autore");
+        		String cercaTag = request.getParameter("tag");
+        		
+        		System.out.println(cercaTitolo + " " + cercaISBN + " " + cercaAutore + " " + cercaTag);
+        		
+        		//HttpSession s = SecurityLayer.checkSession(request);
+        		//Purtroppo SE l'utente non è connesso devo creare una sessione con cui poter mandare i dati! 
+        		/*
+        		 * HttpSession s = request.getSession(true);
+        		 * s.setAttribute("titolo", cercaTitolo); ecc ecc.. come sotto in pratica
+        		 * 
+        		 * 
+        		 * */
+        		HttpSession s= request.getSession(true);
+        		s.setAttribute("tipoRicerca", 0); // Il tipo della ricerca è settato a 0, significa che proviene dall'engine della home
+        		s.setAttribute("titolo", cercaTitolo);
+        		s.setAttribute("ISBN", cercaISBN);
+        		s.setAttribute("autore", cercaAutore);
+        		s.setAttribute("tag", cercaTag);
         		response.sendRedirect("ricercaPubblicazione");
+        		
         	}catch(Exception e) {
         		System.out.println("Home exception per la search" + e);
         	}

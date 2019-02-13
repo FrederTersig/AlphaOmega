@@ -11,39 +11,135 @@
 			</div>
 		</div>
 		<table class="table table-striped table-hover">
-		  	<thead>
-		    	<tr>
-			      <th>Titolo</th>
-			      <th>Autore</th>  
-			      <th>ISBN</th>
-			      <!--Ricerca nella home  -->
-			      <th>TAG</th>
-			      <!--catalogo con ultime ristampe -->
-			      <th>Ultima Ristampa</th>
-			      <!--Ultime 10 pubblicazioni inserite -->
-			      <th>Data Inserimento</th>
-			      <th>Nome Inseritore</th>
-			      <!--Ultime pubblicazioni aggiornate (30 gg) -->
-			      <th>Ultimo Aggiornamento</th>
-			      <!--Ricerca nella home, aggiunta DOWNLOAD -->
-			      <th>Download</th>
-
-		    	</tr>
-			</thead>
-			<!-- tbody è l'attributo da moltiplicare in base al risultato delle query -->
-			<tbody>
-			    <tr>
-			      <td>La prova delle prove kjkbjhbhj hkj hkh hlj klj kllkj lkjlkjkk k kl j lk jlk</td>
-			      <td>Autore pubblicazione</td> <!-- Questi elementi vengono mandati gi� lavorati -->
-			      <td>Editore</td>
-			      <td>1234123412341234</td>
-			      <td>13/12/2018</td>
-			      <td>15/12/2019</td>
-			      <td>Sì</td>
-			      <td><button class="btn btn-action">Tags</button></td>
-			    </tr>
-			    
-		 	</tbody>
+		<!--  in base al tipo di ricerca, si cambiano i campi di visualizzazione della tabella -->
+			<#if tipoRicerca == 0><!-- id - titolo - isbn - autori - tags   -->
+				<thead>
+			    	<tr>
+						<th>Titolo</th> 
+						<th>ISBN</th>
+						<th>Autore/i</th>
+						<th>Tags</th>
+					
+			    	</tr>
+				</thead>
+				<#if pubblicazioni ??>
+					<#list pubblicazioni as Pubblicazione>
+						<tbody>
+						    <tr>
+						    	 <td><a href="dettagliPubblicazione?codice=${Pubblicazione.getId()}">${Pubblicazione.getTitolo()}</a></td>
+						    	 <td>${Pubblicazione.getCodiceISBN()}</td>
+						    	 <td>${Pubblicazione.showAutori()}</td>
+						    	 <td>${Pubblicazione.showTags()}</td>
+						    </tr>
+						</tbody>
+						
+					</#list>
+				</#if>
+				
+			<#elseif tipoRicerca ==1><!-- id - titolo - autore/i - ultima ristampa - nome ristampa  -->
+				<thead>
+			    	<tr>
+						<th>Titolo</th> 
+						<th>Autore/i</th>
+						<th>Ultima Ristampa</th>
+						<th>Nome Ristampa</th>
+					
+					
+			    	</tr>
+				</thead>
+				<#if pubblicazioni ??>
+					<#list listaPub as Pubblicazione>
+						<tbody>
+						    <tr>
+						    	 <td>??</td>
+						    </tr>
+						</tbody>
+						
+					</#list>
+				</#if>
+			<#elseif tipoRicerca ==2><!-- id - titolo - autore/i - isbn - data invio -->
+				<thead>
+			    	<tr>
+						<th>Titolo</th> 
+						<th>ISBN</th>
+						<th>Autore/i</th>
+						<th>Data Inserimento</th>
+					
+			    	</tr>
+				</thead>
+				<#if pubblicazioni ??>
+					<#list listaPub as Pubblicazione>
+						<tbody>
+						    <tr>
+						    	 <td>???</td>
+						    </tr>
+						</tbody>
+						
+					</#list>
+				</#if>
+			<#elseif tipoRicerca ==3><!-- id - titolo - isbn - data dell'entry!! - nome inseritore -->
+				<thead>
+			    	<tr>
+						<th>Titolo</th> 
+						<th>ISBN</th>
+						<th>Data Ultima Modifica</th>
+						<th>Modifica effettuata da</th>
+					
+			    	</tr>
+				</thead>
+				<#if pubblicazioni ??>
+					<#list listaPub as Pubblicazione>
+						<tbody>
+						    <tr>
+						    	 <td>???</td>
+						    </tr>
+						</tbody>
+						
+					</#list>
+				</#if>
+			<#elseif tipoRicerca ==4><!-- id - titolo - isbn - editore - download -->
+				<thead>
+			    	<tr>
+						<th>Titolo</th> 
+						<th>ISBN</th>
+						<th>Editore</th>
+						<th>Download</th>
+					
+			    	</tr>
+				</thead>
+				<#if pubblicazioni ??>
+					<#list listaPub as Pubblicazione>
+						<tbody>
+						    <tr>
+						    	 <td>???</td>
+						    </tr>
+						</tbody>
+						
+					</#list>
+				</#if>
+			<#else><!-- id - titolo - editore - autori - data di creazione -->
+				<thead>
+			    	<tr>
+						<th>Titolo</th> 
+						<th>Editore</th>
+						<th>Autore/i</th>
+						<th>Data di Pubblicazione</th>
+					
+			    	</tr>
+				</thead>
+				<#if pubblicazioni ??>
+					<#list listaPub as Pubblicazione>
+						<tbody>
+						    <tr>
+						    	 <td>???</td>
+						    </tr>
+						</tbody>
+						
+					</#list>
+				</#if>
+			</#if>
+		
+		  	
 		</table>
 	</body>
 <#include "footer.html">

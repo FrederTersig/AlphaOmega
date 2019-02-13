@@ -29,7 +29,7 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 				Date dataInvio = rs.getDate("dataInvio");
 				String titolo = rs.getString("titolo");
 				String descrizione = rs.getString("descrizione");
-				Pubblicazione pub = new Pubblicazione(id,idInseritore, editore, titolo, descrizione, dataInvio);
+				Pubblicazione pub = new Pubblicazione();
 				lista.add(pub);
 			}
 			Database.close();
@@ -63,7 +63,7 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 				Date dataInvio = rs.getDate("dataInvio");
 				String titolo = rs.getString("titolo");
 				String descrizione = rs.getString("descrizione");
-				Pubblicazione pub = new Pubblicazione(id,idInseritore, editore, titolo, descrizione, dataInvio);
+				Pubblicazione pub = new Pubblicazione();
 				lista.add(pub);
 			}
 			Database.close();
@@ -74,6 +74,40 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 	    }catch (Exception e) {
 	    	System.out.println("Exception"+e);    
 	    }
+		return lista;
+	}
+	
+	public static List<Pubblicazione> downloadPub(){ // mostra pubblicazioni che hanno un "download"
+		ArrayList<Pubblicazione> lista=null;
+		Map<String, Object> map = new HashMap<String, Object>();/*
+		map.put("entry", "pubblicazione.id = entry.idPubblicazione");
+		
+		try {
+			lista = new ArrayList<Pubblicazione>();
+			Database.connect();
+			// **** DA CONTROLLARE IL RISULTATO -> al posto di * mettere "entry.data, pubblicazione.titolo ecc"
+			ResultSet rs = Database.join("*", "pubblicazione", map, "", "entry.data BETWEEN NOW() - INTERVAL 30 DAY AND NOW");
+			//ResultSet rs = Database.selectJoin("*", "pubblicazione", "entry", "pubblicazione.id = entry.idPubblicazione", 
+			//		"entry.data BETWEEN NOW() - INTERVAL 30 DAY AND NOW");
+			
+			while(rs.next()) {
+				int id = rs.getInt("id");
+				int idInseritore = rs.getInt("idUtente");
+				String editore = rs.getString("editore");
+				Date dataInvio = rs.getDate("dataInvio");
+				String titolo = rs.getString("titolo");
+				String descrizione = rs.getString("descrizione");
+				Pubblicazione pub = new Pubblicazione(id,idInseritore, editore, titolo, descrizione, dataInvio);
+				lista.add(pub);
+			}
+			Database.close();
+		}catch(NamingException e) {
+			System.out.println("NamingException"+e);
+	    }catch (SQLException e) {
+	    	System.out.println("SQLException"+e);
+	    }catch (Exception e) {
+	    	System.out.println("Exception"+e);    
+	    }*/
 		return lista;
 	}
 	
@@ -90,7 +124,7 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 				Date dataInvio = rs.getDate("dataInvio");
 				String titolo = rs.getString("titolo");
 				String descrizione = rs.getString("descrizione");
-				Pubblicazione pub = new Pubblicazione(id,idInseritore, editore, titolo, descrizione, dataInvio);
+				Pubblicazione pub = new Pubblicazione();
 				lista.add(pub);
 			}			
 			Database.close();
@@ -161,19 +195,21 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 	public static List<Pubblicazione> showCat(){//Mostra l'intero catalogo
 		ArrayList<Pubblicazione> lista=null;
 		try {
+			lista = new ArrayList<Pubblicazione>();
 			Database.connect();
 			ResultSet rs = Database.selectRecord("*", "pubblicazione", "", "pubblicazione.titolo");
-			
+			System.out.println("dopo rs");
 			while(rs.next()) {
+				System.out.println("inizio rs.next showCat()");
 				int id = rs.getInt("id");
-				int idInseritore = rs.getInt("idUtente");
-				String editore = rs.getString("editore");
-				Date dataInvio = rs.getDate("dataInvio");
-				String ISBN = rs.getString("ISBN");
+				Date dataScrittura = rs.getDate("dataScrittura");
+				//Abbiamo bisogno anche della lista autori.
 				String titolo = rs.getString("titolo");
-				String descrizione = rs.getString("descrizione");
-				Pubblicazione pub = new Pubblicazione(id,idInseritore, editore, titolo, descrizione, dataInvio);
+				String editore = rs.getString("editore");
+				System.out.println("vedo se le variabili sono nulle - >" + id +"|"+ editore +"|"+ titolo + "|" + dataScrittura);
+				Pubblicazione pub = new Pubblicazione(id, editore, titolo, dataScrittura);
 				lista.add(pub);
+				System.out.println("Riesco a creare la lista aggiungendo pub : " + lista);
 			}
 			Database.close();
 		}catch(NamingException e) {
@@ -182,13 +218,67 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 	    	System.out.println("SQLException"+e);
 	    }catch (Exception e) {
 	    	System.out.println("Exception"+e);    
+	    	 e.printStackTrace(System.out);
 	    }
+		System.out.println("riesco ad uscire da qui???");
 		return lista;
 	}
 	
-	public static List<Pubblicazione> researchPub(){ // Ricerca per varie cose-> popolare argomenti
+	public static List<Pubblicazione> researchPub(String titolo, String ISBN, String Autore, String tag){ // Ricerca per varie cose-> popolare argomenti
 		ArrayList<Pubblicazione> lista=null;
 		//Query fatta nella stored procedure. 
+		ArrayList<String> argum = new ArrayList<String>();
+		argum.add(0, titolo);
+		argum.add(1, ISBN);
+		argum.add(2, Autore);
+		argum.add(3, tag);
+		System.out.println("researchPub PUBBLICAZIONE DAO::: argum");
+		System.out.println(argum);
+		System.out.println(argum.get(0) + argum.get(1) + argum.get(2) + argum.get(3));
+		
+		try {
+			lista = new ArrayList<Pubblicazione>();
+			int check=0;
+			Database.connect();
+			ResultSet rs = Database.callProcedure("ricerca", argum);
+			while(rs.next()) {
+				System.out.println("-------------- comincia rs.next() di researchPub -----------------");
+				int id = rs.getInt("id");	
+				System.out.println( check + " ---- " + id);
+				if(check != id) {
+					System.out.println("check Diverso da id!");
+					check=id;
+					String ISBN_ = rs.getString("ISBN");
+					String titolo_ = rs.getString("titolo");
+					String autore_ = rs.getString("autore.nomeAutore");
+					String tag_ = rs.getString("tag.nome");
+					System.out.println(ISBN_ + " " + titolo_ + " " + autore_ + " " + tag_ );
+					Pubblicazione pub = new Pubblicazione(id,titolo_ , ISBN_);
+					pub.addAutore(autore_);
+					pub.addTag(tag_);
+					lista.add(pub);
+				}else { // check è == a id, stessi dati, devo prendere solo autore e tag SE sono diversi
+					System.out.println("check uguale a id!");
+					String autore_ = rs.getString("autore.nomeAutore");
+					String tag_ = rs.getString("tag.nome");
+					Pubblicazione pub = lista.get(lista.size()-1);
+					if(!pub.containsAutore(autore_)) pub.addAutore(autore_);
+					if(!pub.containsTag(tag_)) pub.addTag(tag_);
+					lista.add(pub);
+				}
+			}
+			Database.close();
+		}catch(NamingException e) {
+    		System.out.println("research pub pubblicazione DAO " +e);
+        }catch (SQLException e) {
+        	System.out.println("research pub pubblicazione DAO" +e);
+        }catch (Exception e) {
+        	System.out.println("research pub pubblicazione DAO" +e);    
+        	 e.printStackTrace(System.out);
+        }
+		
+		
+		
 		return lista;
 	}
 	public static List<Pubblicazione> showCatRist(){ //Mostra il catalogo ma con data ultima ristampa
