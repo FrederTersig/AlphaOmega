@@ -126,10 +126,10 @@ public class Pubblicazione{
 	public void setIdInseritore(int idInseritore) {
 		this.idInseritore=idInseritore;
 	}
-	public String getIdEditore() {
+	public String getEditore() {
 		return this.editore;
 	}
-	public void setIdEditore(String editore) {
+	public void setEditore(String editore) {
 		this.editore=editore;
 	}
 	public String getTitolo() {

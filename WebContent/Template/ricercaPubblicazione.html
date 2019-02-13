@@ -51,7 +51,10 @@
 					<#list listaPub as Pubblicazione>
 						<tbody>
 						    <tr>
-						    	 <td>??</td>
+						    	 <td><a href="dettagliPubblicazione?codice=${Pubblicazione.getId()}">${Pubblicazione.getTitolo()}</a></td>
+						    	 <td>${Pubblicazione.showAutori()}</td>
+						    	 <td>data ultima Ristampa </td>
+						    	 <td>nome della ristampa o numero</td>
 						    </tr>
 						</tbody>
 						
@@ -71,7 +74,10 @@
 					<#list listaPub as Pubblicazione>
 						<tbody>
 						    <tr>
-						    	 <td>???</td>
+						    	 <td><a href="dettagliPubblicazione?codice=${Pubblicazione.getId()}">${Pubblicazione.getTitolo()}</a></td>
+						    	 <td>${Pubblicazione.getCodiceISBN()}</td>
+						    	 <td>${Pubblicazione.showAutori()}</td>
+						    	 <td>${Pubblicazione.getDataInserimento()}</td>
 						    </tr>
 						</tbody>
 						
@@ -91,7 +97,10 @@
 					<#list listaPub as Pubblicazione>
 						<tbody>
 						    <tr>
-						    	 <td>???</td>
+						    	 <td><a href="dettagliPubblicazione?codice=${Pubblicazione.getId()}">${Pubblicazione.getTitolo()}</a></td>
+						    	 <td>${Pubblicazione.getCodiceISBN()}</td>
+						    	 <td>data ultima entry</td>
+						    	 <td>modifica fatta da</td>
 						    </tr>
 						</tbody>
 						
@@ -111,7 +120,10 @@
 					<#list listaPub as Pubblicazione>
 						<tbody>
 						    <tr>
-						    	 <td>???</td>
+						    	 <td><a href="dettagliPubblicazione?codice=${Pubblicazione.getId()}">${Pubblicazione.getTitolo()}</a></td>
+						    	 <td>${Pubblicazione.getCodiceISBN()}</td>
+						    	 <td>${Pubblicazione.getEditore()}</td>
+						    	 <td>Download SI o NO ?</td>
 						    </tr>
 						</tbody>
 						
@@ -131,7 +143,10 @@
 					<#list listaPub as Pubblicazione>
 						<tbody>
 						    <tr>
-						    	 <td>???</td>
+						    	 <td><a href="dettagliPubblicazione?codice=${Pubblicazione.getId()}">${Pubblicazione.getTitolo()}</a></td>
+						    	 <td>${Pubblicazione.getEditore()}</td>
+						    	 <td>${Pubblicazione.showAutori()}</td>
+						    	 <td>${Pubblicazione.getDataCreazione()}</td>
 						    </tr>
 						</tbody>
 						
