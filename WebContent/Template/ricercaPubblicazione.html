@@ -36,11 +36,11 @@
 					</#list>
 				</#if>
 				
-			<#elseif tipoRicerca ==1><!-- id - titolo - autore/i - ultima ristampa - nome ristampa  -->
+			<#elseif tipoRicerca ==1><!-- id - titolo - ISBN - ultima ristampa - nome ristampa    ULTIME RISTAMPE -->
 				<thead>
 			    	<tr>
 						<th>Titolo</th> 
-						<th>Autore/i</th>
+						<th>ISBN</th>
 						<th>Ultima Ristampa</th>
 						<th>Nome Ristampa</th>
 					
@@ -60,7 +60,7 @@
 						
 					</#list>
 				</#if>
-			<#elseif tipoRicerca ==2><!-- id - titolo - autore/i - isbn - data invio -->
+			<#elseif tipoRicerca ==2><!-- id - titolo - autore/i - isbn - data invio    ULTIME 10 PUBBLICAZIONI INSERITE-->
 				<thead>
 			    	<tr>
 						<th>Titolo</th> 
@@ -83,7 +83,7 @@
 						
 					</#list>
 				</#if>
-			<#elseif tipoRicerca ==3><!-- id - titolo - isbn - data dell'entry!! - nome inseritore -->
+			<#elseif tipoRicerca ==3><!-- id - titolo - isbn - data dell'entry!! - nome inseritore  PUBBLICAZIONI RECENTI-->
 				<thead>
 			    	<tr>
 						<th>Titolo</th> 
@@ -123,13 +123,12 @@
 						    	 <td><a href="dettagliPubblicazione?codice=${Pubblicazione.getId()}">${Pubblicazione.getTitolo()}</a></td>
 						    	 <td>${Pubblicazione.getCodiceISBN()}</td>
 						    	 <td>${Pubblicazione.getEditore()}</td>
-						    	 <td>Download SI o NO ?</td>
 						    </tr>
 						</tbody>
 						
 					</#list>
 				</#if>
-			<#else><!-- id - titolo - editore - autori - data di creazione -->
+			<#else><!-- id - titolo - editore - autori - data di creazione // TUTTO IL CATALOGO -->
 				<thead>
 			    	<tr>
 						<th>Titolo</th> 

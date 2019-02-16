@@ -2,42 +2,47 @@
 	<!--	dettagliPubblicazione.html == Avrà la lista di tutte le informazioni relative all'opera salvata in DB e si avrà la possibilità
 			di modificarle. Oltre ciò ci saranno dei bottoni di modifica per gli utenti attivi e l'admin -->
 	<body class="bg-primary">
-		<h1> ${Pubblicazione.getTitolo()} </h1>
+	
+	
+		
 
 		<div class="container">
-			<div class="columns col-gapless">
-				<div class="column col-4">
-					<div class="text-left">
-						<p><div class="text-bold">Data pubblicazione:</div>${Pubblicazione.getDataCreazione()]</p>
-						<p><div class="text-bold">Autore:</div>${Pubblicazione.showAutori()}</p>
-						<p><div class="text-bold">Editore:</div>${Pubblicazione.getEditore()}</p>
-						
-						
+			<#if Pubblicazione ??>
+				<h1> ${Pubblicazione.getTitolo()} </h1>
+				<div class="columns col-gapless">
+					<div class="column col-4">
+						<div class="text-left">
+							<p><div class="text-bold">Data pubblicazione:</div>${Pubblicazione.getDataCreazione()]</p>
+							<p><div class="text-bold">Autore:</div>${Pubblicazione.showAutori()}</p>
+							<p><div class="text-bold">Editore:</div>${Pubblicazione.getEditore()}</p>
+							
+							
+						</div>
+					</div>
+					<div class="column col-4">
+						<div class="text-left">					
+							<p><div class="text-bold">Lingua:</div>${Pubblicazione.getLingua()}</p>
+							<p><div class="text-bold">Codice ISBN:</div>${Pubblicazione.getCodiceISBN()}</p>
+							<p><div class="text-bold">Numero delle pagine:</div> ${Pubblicazione.getNumPagine()} </p>
+							
+						</div>
+					</div>	
+					<div class="column col-4">
+						<div class="text-left">					
+							<p><div class="text-bold">Tags:</div>${Pubblicazione.showTags()}</p>
+							<p><div class="text-bold">Data di inserimento:</div>${Pubblicazione.getDataInserimento()}</p>
+							<p><div class="text-bold">Inserito da:</div> Query per dettagli </p>
+						</div>
+					</div>	
+					
+				</div>
+				<div class="columns col-gapless">
+					<div class="col-12">
+						<p><div class="text-bold">Descrizione: </div> 
+						${Pubblicazione.getDescrizione()}</p>
 					</div>
 				</div>
-				<div class="column col-4">
-					<div class="text-left">					
-						<p><div class="text-bold">Lingua:</div>${Pubblicazione.getLingua()}</p>
-						<p><div class="text-bold">Codice ISBN:</div>${Pubblicazione.getCodiceISBN()}</p>
-						<p><div class="text-bold">Numero delle pagine:</div> ${Pubblicazione.getNumPagine()} </p>
-						
-					</div>
-				</div>	
-				<div class="column col-4">
-					<div class="text-left">					
-						<p><div class="text-bold">Tags:</div>${Pubblicazione.showTags()}</p>
-						<p><div class="text-bold">Data di inserimento:</div>${Pubblicazione.getDataInserimento()}</p>
-						<p><div class="text-bold">Inserito da:</div> Query per dettagli </p>
-					</div>
-				</div>	
-				
-			</div>
-			<div class="columns col-gapless">
-				<div class="col-12">
-					<p><div class="text-bold">Descrizione: </div> 
-					${Pubblicazione.getDescrizione()}</p>
-				</div>
-			</div>
+			</#if>
 			<br>
 			
 			<div class="columns col-gapless">

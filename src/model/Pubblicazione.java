@@ -28,6 +28,12 @@ public class Pubblicazione{
 		
 	}
 	
+	public Pubblicazione(int id, String titolo, String ISBN, String editore) {
+		this.id=id;
+		this.titolo=titolo;
+		this.codiceISBN=ISBN;
+		this.editore=editore;
+	}
 	public Pubblicazione(int id, String editore, String titolo, Date dataScrittura) {
 		this.id = id;
 		this.titolo = titolo;
