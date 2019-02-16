@@ -1,6 +1,7 @@
 package model.dao;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import javax.naming.NamingException;
 import model.Recensione;
 import util.Database;
 import java.sql.Date;
+import java.sql.ResultSet;
 
 public class RecensioneDAO implements RecensioneDAO_interface {
 	public static void insertRev(int idUtente, int idPubblicazione, Date data, String testo, int convalida) { //inserisce recensione ad una pubblicazione
@@ -52,11 +54,62 @@ public class RecensioneDAO implements RecensioneDAO_interface {
         	System.out.println(e);                           
         }
 	}
-	public static List<Recensione> approvedRev(){//recensioni approvate
-		return null;
+	public static List<Recensione> revList(int idPubblicazione){//recensioni approvate
+		ArrayList<Recensione> lista=null;
+		String condition ="recensione.idPubblicazione="+idPubblicazione+" AND recensione.convalida=1";
+		try {
+			lista = new ArrayList<Recensione>();
+			Database.connect();
+			ResultSet rs = Database.selectRecord("*", "recensione", condition, "recensione.data DESC");
+			//id, idUtente, idPubblicazione, data, testo, convalida
+			while(rs.next()) {
+				int id = rs.getInt("id");
+				int idUtente = rs.getInt("idUtente");
+				Date data = rs.getDate("data");
+				String testo = rs.getString("testo");
+				//int convalida = rs.getInt("convalida");
+				Recensione rec = new Recensione(id,idUtente,data,testo);
+				lista.add(rec);
+			}
+			Database.close();
+		}catch(NamingException e) {
+    		System.out.println(e);
+        }catch (SQLException e) {
+        	System.out.println(e);
+        }catch (Exception e) {
+        	System.out.println(e);                           
+        }
+		
+		return lista;
 	}
 	public static List<Recensione> waitingRev(){//recensioni in attesa di giudizio
-		return null;
+		ArrayList<Recensione> lista=null;
+		String condition ="recensione.convalida=0";
+		try {
+			lista = new ArrayList<Recensione>();
+			Database.connect();
+			ResultSet rs = Database.selectRecord("*", "recensione", condition, "recensione.data DESC");
+			//id, idUtente, idPubblicazione, data, testo, convalida
+			while(rs.next()) {
+				int id = rs.getInt("id");
+				int idUtente = rs.getInt("idUtente");
+				int idPubblicazione = rs.getInt("idPubblicazione");
+				Date data = rs.getDate("data");
+				String testo = rs.getString("testo");
+				int convalida = rs.getInt("convalida");
+				Recensione rec = new Recensione(id,idUtente,idPubblicazione,data,testo,convalida);
+				lista.add(rec);
+			}
+			Database.close();
+		}catch(NamingException e) {
+    		System.out.println(e);
+        }catch (SQLException e) {
+        	System.out.println(e);
+        }catch (Exception e) {
+        	System.out.println(e);                           
+        }
+		
+		return lista;
 	}
 	public static void deleteRev(int id) {//cancella recensione
 		try {

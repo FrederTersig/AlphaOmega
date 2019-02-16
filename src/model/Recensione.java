@@ -8,15 +8,21 @@ public class Recensione {
 	private int idPubblicazione;
 	private Date data;
 	private String testo;
-	private boolean convalida;
+	private int convalida;
 	
-	public Recensione(int id, int idUtente, int idPubblicazione, Date data, String testo, boolean convalida) {
+	public Recensione(int id, int idUtente, int idPubblicazione, Date data, String testo, int convalida) {
 		this.id=id;
 		this.idUtente=idUtente;
 		this.idPubblicazione=idPubblicazione;
 		this.data=data;
 		this.testo=testo;
 		this.convalida=convalida;
+	}
+	public Recensione(int id, int idUtente, Date data, String testo) {
+		this.id=id;
+		this.idUtente=idUtente;
+		this.data=data;
+		this.testo=testo;
 	}
 	
 	public int getId(){
@@ -49,10 +55,10 @@ public class Recensione {
 	public void setTesto(String testo) {
 		this.testo=testo;
 	}
-	public boolean getConvalida() {
+	public int getConvalida() {
 		return this.convalida;
 	}
-	public void setConvalida(boolean convalida) {
+	public void setConvalida(int convalida) {
 		this.convalida=convalida;
 	}
 	

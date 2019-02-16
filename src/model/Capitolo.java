@@ -16,6 +16,13 @@ public class Capitolo {
 		this.pagInizio=pagInizio;
 	}
 	
+	public Capitolo(int id, String titolo, int numero, int pagInizio) {
+		this.id=id;
+		this.titolo=titolo;
+		this.numero=numero;
+		this.pagInizio=pagInizio;
+	}
+	
 	public int getId(){
 		return this.id;
 	}

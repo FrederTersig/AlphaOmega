@@ -17,6 +17,13 @@ public class Sorgente {
 		this.formato=formato;
 		this.descrizione=descrizione;
 	}
+	public Sorgente(int id, String tipo, String uri, String formato, String descrizione) {
+		this.id=id;
+		this.tipo=tipo;
+		this.uri=uri;
+		this.formato=formato;
+		this.descrizione=descrizione;
+	}
 	public int getId(){
 		return this.id;
 	}

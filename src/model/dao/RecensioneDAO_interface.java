@@ -10,7 +10,7 @@ public interface RecensioneDAO_interface {
 	public static void updateRev(int id) {//modifica una recensione
 		
 	}
-	public static List<Recensione> approvedRev(){//recensioni approvate
+	public static List<Recensione> revList(){//recensioni approvate
 		return null;
 	}
 	public static List<Recensione> waitingRev(){//recensioni in attesa di giudizio

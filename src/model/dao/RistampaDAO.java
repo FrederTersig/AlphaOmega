@@ -23,9 +23,9 @@ public class RistampaDAO implements RistampaDAO_interface {
 			while(rs.next()) {
 				int id = rs.getInt("id");
 				int idPub = rs.getInt("idPubblicazione");
-				int numero = rs.getInt("numero");
+				String nome = rs.getString("nome");
 				Date data = rs.getDate("data");
-				Ristampa ris = new Ristampa(id,numero,idPub,data);
+				Ristampa ris = new Ristampa(id,nome,idPub,data);
 				lista.add(ris);
 			}
 			Database.close();

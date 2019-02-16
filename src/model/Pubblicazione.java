@@ -17,15 +17,42 @@ public class Pubblicazione{
 	private String lingua;
 	private Date dataCreazione; 
 	
+	private Date ultimaModifica;
+	private String modificataDa;
+	private int idModificatore;
+	
 	private ArrayList<String> listaAutori;
 	private ArrayList<String> listaTag;
 	
-	// lista o array per il numero di ristampe del libro, con tanto di data
-	private Map<String,Object> elencoRistampe;
+	private ArrayList<Capitolo> listaCapitoli;
+	private ArrayList<Sorgente> listaSorgente;
+	private ArrayList<Ristampa> listaRistampe;
+	
+	private Date dataUltimaRistampa;
+	private String nomeUltimaRistampa;
 	
 	
-	public Pubblicazione() {
-		
+	public Pubblicazione(int id, String titolo, String ISBN) {
+		this.id = id;
+		this.titolo = titolo;
+		this.codiceISBN = ISBN;
+	}
+	
+	public Pubblicazione(int id, String titolo, Date dataInvio, String ISBN) {
+		this.id = id;
+		this.titolo = titolo;
+		this.codiceISBN = ISBN;
+		this.dataInserimento = dataInvio;
+	}
+	
+	
+	public Pubblicazione(int id, int idModificatore, String titolo, String ISBN, String modificataDa, Date ultimaModifica ) {
+		this.id=id;
+		this.idModificatore=idModificatore;
+		this.titolo=titolo;
+		this.codiceISBN=ISBN;
+		this.modificataDa=modificataDa;
+		this.ultimaModifica=ultimaModifica;
 	}
 	
 	public Pubblicazione(int id, String titolo, String ISBN, String editore) {
@@ -39,6 +66,15 @@ public class Pubblicazione{
 		this.titolo = titolo;
 		this.dataCreazione = dataScrittura;
 		this.editore = editore;
+	}
+	
+	public Pubblicazione(int id, String titolo, String editore, String ISBN, Date dataInvio) {
+		this.id = id;
+		this.titolo = titolo;
+		this.dataInserimento = dataInvio;
+		this.editore = editore;
+		this.codiceISBN = ISBN;
+		
 	}
 	
 	public Pubblicazione(int id, int idInseritore, String editore, String titolo, String descrizione, Date dataInserimento, 
@@ -72,14 +108,24 @@ public class Pubblicazione{
 		this.dataCreazione = dataCreazione;
 	}
 
-	public Pubblicazione(int id, String titolo, String ISBN) {
-		
+	public Pubblicazione(int id, String titolo, String ISBN, Date dataUltimaRistampa, String nomeUltimaRistampa) {
 		this.id = id;
 		this.titolo = titolo;
 		this.codiceISBN = ISBN;
-		this.listaAutori = new ArrayList<String>();
-		this.listaTag = new ArrayList<String>();
+		this.dataUltimaRistampa = dataUltimaRistampa;
+		this.nomeUltimaRistampa = nomeUltimaRistampa;
 	}	
+	
+	
+	public void addRistampa(Ristampa ristampa){
+		this.listaRistampe.add(ristampa);
+	}
+	public void addSorgente(Sorgente sorgente){
+		this.listaSorgente.add(sorgente);
+	}
+	public void addCapitolo(Capitolo capitolo){
+		this.listaCapitoli.add(capitolo);
+	}
 	
 	public ArrayList<String> getListaAutori(){
 		return this.listaAutori;
@@ -181,10 +227,21 @@ public class Pubblicazione{
 	public void setDataCreazione(Date dataCreazione) {
 		this.dataCreazione = dataCreazione;
 	}
-	public Map<String,Object> getElencoRistampe(){
-		return this.elencoRistampe;
+
+	
+	public Date getUltimaMod() {
+		return this.ultimaModifica;
 	}
-	public void setElencoRistampe(Map<String,Object> elencoRistampe) {
-		this.elencoRistampe=elencoRistampe;
+	public void setUltimaMod(Date ultimaModifica) {
+		this.ultimaModifica = ultimaModifica;
 	}
+	
+	public String getModificataDa() {
+		return this.modificataDa;
+	}
+	public void setModificataDa(String modificataDa) {
+		this.modificataDa=modificataDa;
+	}
+	
+	
 }

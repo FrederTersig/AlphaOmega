@@ -5,14 +5,20 @@ import java.sql.Date;
 public class Ristampa {
 	
 	int id;
-	int numero;
+	String nome;
 	int idPubblicazione;
 	Date data; 
 	
-	public Ristampa(int id, int numero, int idPubblicazione, Date data) { 
+	public Ristampa(int id, String nome, int idPubblicazione, Date data) { 
 		this.id=id;
-		this.numero=numero;
+		this.nome=nome;
 		this.idPubblicazione=idPubblicazione;
+		this.data=data;
+	}
+	
+	public Ristampa(int id, String nome, Date data) { 
+		this.id=id;
+		this.nome=nome;
 		this.data=data;
 	}
 	
@@ -22,11 +28,11 @@ public class Ristampa {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getNumero(){
-		return this.numero;
+	public String getNome(){
+		return this.nome;
 	}
-	public void setNumero(int numero) {
-		this.numero = numero;
+	public void setNome(String nome) {
+		this.nome=nome;
 	}
 	public int getIdPubblicazione(){
 		return this.idPubblicazione;
