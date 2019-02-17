@@ -36,13 +36,19 @@ public class Pubblicazione{
 		this.id = id;
 		this.titolo = titolo;
 		this.codiceISBN = ISBN;
+		initList();
 	}
+	
+
+
+
 	
 	public Pubblicazione(int id, String titolo, Date dataInvio, String ISBN) {
 		this.id = id;
 		this.titolo = titolo;
 		this.codiceISBN = ISBN;
 		this.dataInserimento = dataInvio;
+		initList();
 	}
 	
 	
@@ -53,6 +59,7 @@ public class Pubblicazione{
 		this.codiceISBN=ISBN;
 		this.modificataDa=modificataDa;
 		this.ultimaModifica=ultimaModifica;
+		initList();
 	}
 	
 	public Pubblicazione(int id, String titolo, String ISBN, String editore) {
@@ -60,12 +67,14 @@ public class Pubblicazione{
 		this.titolo=titolo;
 		this.codiceISBN=ISBN;
 		this.editore=editore;
+		initList();
 	}
 	public Pubblicazione(int id, String editore, String titolo, Date dataScrittura) {
 		this.id = id;
 		this.titolo = titolo;
 		this.dataCreazione = dataScrittura;
 		this.editore = editore;
+		initList();
 	}
 	
 	public Pubblicazione(int id, String titolo, String editore, String ISBN, Date dataInvio) {
@@ -74,6 +83,7 @@ public class Pubblicazione{
 		this.dataInserimento = dataInvio;
 		this.editore = editore;
 		this.codiceISBN = ISBN;
+		initList();
 		
 	}
 	
@@ -91,6 +101,7 @@ public class Pubblicazione{
 		this.numPagine = numPagine;
 		this.lingua = lingua;
 		this.dataCreazione = dataCreazione;
+		initList();
 	}
 	public Pubblicazione(int idInseritore, String editore, String titolo, String descrizione, Date dataInserimento, 
 			String ISBN, int numPagine, String lingua, Date dataCreazione) {
@@ -106,6 +117,7 @@ public class Pubblicazione{
 		this.numPagine = numPagine;
 		this.lingua = lingua;
 		this.dataCreazione = dataCreazione;
+		initList();
 	}
 
 	public Pubblicazione(int id, String titolo, String ISBN, Date dataUltimaRistampa, String nomeUltimaRistampa) {
@@ -114,9 +126,34 @@ public class Pubblicazione{
 		this.codiceISBN = ISBN;
 		this.dataUltimaRistampa = dataUltimaRistampa;
 		this.nomeUltimaRistampa = nomeUltimaRistampa;
+		initList();
 	}	
 	
+	private void initList() {
+		listaAutori = new ArrayList<String>();
+		listaTag= new ArrayList<String>();
+		
+		listaCapitoli = new ArrayList<Capitolo>();
+		listaSorgente = new ArrayList<Sorgente>();
+		listaRistampe = new ArrayList<Ristampa>();
+	}
 	
+	public ArrayList<Capitolo> getCapitoli(){
+		return this.listaCapitoli;
+	}
+	public ArrayList<Sorgente> getSorgenti(){
+		return this.listaSorgente;
+	}
+	public ArrayList<Ristampa> getRistampe(){
+		return this.listaRistampe;
+	}
+	
+	public Date getDataUltimaRistampa() {
+		return this.dataUltimaRistampa;
+	}
+	public String getNomeUltimaRistampa() {
+		return this.nomeUltimaRistampa;
+	}
 	public void addRistampa(Ristampa ristampa){
 		this.listaRistampe.add(ristampa);
 	}

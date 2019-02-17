@@ -12,7 +12,7 @@
 				<div class="columns col-gapless">
 					<div class="column col-4">
 						<div class="text-left">
-							<p><div class="text-bold">Data pubblicazione:</div>${Pubblicazione.getDataCreazione()]</p>
+							<p><div class="text-bold">Data pubblicazione:</div>${Pubblicazione.getDataCreazione()}</p>
 							<p><div class="text-bold">Autore:</div>${Pubblicazione.showAutori()}</p>
 							<p><div class="text-bold">Editore:</div>${Pubblicazione.getEditore()}</p>
 							
@@ -48,7 +48,7 @@
 			<div class="columns col-gapless">
 				
 					<#if utente??>
-						<#if ruolo == 0>
+						<#if utente.getRuolo() == 0>
 							<div class="col-4">
 								<a class="btn show-modal col-mx-auto" href="#listaCapitoli"><b>Lista Capitoli</b></a>
 							</div>
@@ -69,14 +69,242 @@
 								<a class="btn show-modal col-mx-auto" href="#inviaSorgenti"><b>Gestisci Sorgenti</b></a>
 							</div>
 						</#if>
+					<#else>
+							<div class="col-4">
+								<a class="btn show-modal col-mx-auto" href="#listaCapitoli"><b>Lista Capitoli</b></a>
+							</div>
+							<div class="col-4">
+								<a class="btn show-modal col-mx-auto" href="#listaRistampe"><b>Lista Ristampe</b></a>
+							</div>
+							<div class="col-4">
+								<a class="btn show-modal col-mx-auto" href="#listaSorgenti"><b>Lista Sorgenti</b></a>
+							</div>
 					</#if>
 			</div>
 			
+			
+			
+			
 			<!--  SE è un utente normale visualizza questi modal -->
 				<!--  PARTE DEL CAPITOLO -->
-			<#if utente??>
-				<#if ruolo == 0>
-				
+			
+				<#if utente?? >
+					<#if utente.getRuolo() != 0>
+						<!-- Se è un utente ATTIVO/ADMIN/MOD visualizza questi modal -->
+						<div id="inviaCapitoli" class="modal modal-lg">
+							<div class="modal-overlay"></div>
+							<div class="modal-container">
+								<div class="modal-header">
+									<a href="#close" class="btn btn-clear float-right close-modal"></a>
+									<div class="modal-title"><b>Gestisci capitoli</b></div>
+								</div>
+								<div class="modal-body">
+									<div class="content">
+										<form class="form-horizontal" method="post" role="form">
+											<div class="form-group">
+												<div class="columns col-gapless">
+													<div class="col-4">
+														<input class="form-input" type="text" name="titolo" placeholder="titolo" required>
+													</div>
+													<div class="col-4">
+														<input class="form-input" type="text" name="numero" placeholder="numero" required>
+													</div>
+													<div class="col-4">
+														<input class="form-input" type="number" name="pagInizio" placeholder="Pagina Inizio" required>
+													</div>
+													
+												</div>
+											</div>
+											<button type="submit" class="btn p-centered text-bold" id="invioCapitolo" name="value" value="invioCapitolo" required>Crea Capitolo</button>
+										</form>
+										<!-- Visualizza la lista dei capitoli -->
+										<br>
+										<#if listaCapitoli ??>
+											<#list listaCapitoli as Capitolo>
+												<div class="text-dark">
+													<b>${Capitolo.getNumero()}</b> - ${Capitolo.getTitolo()} - Inizio a pagina ${Capitolo.getPagInizio()} 
+												</div>
+												<br>
+											</#list>
+										</#if>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<a href="#close" class="btn btn-primary close-modal">Close</a>
+								</div>
+							</div>
+						</div>
+							
+						<div id="inviaRistampe" class="modal modal-lg">
+								<div class="modal-overlay"></div>
+								<div class="modal-container">
+									<div class="modal-header">
+										<a href="#close" class="btn btn-clear float-right close-modal"></a>
+										<div class="modal-title"><b>Gestisci ristampe</b></div>
+									</div>
+									<div class="modal-body">
+										<div class="content">
+											<form class="form-horizontal" method="post" role="form">
+												<div class="form-group">
+													<div class="columns col-gapless">
+														<div class="col-6">
+															<input class="form-input" type="text" name="nomeR" placeholder="nomeR" required>
+														</div>
+														<div class="col-6">
+															<input class="form-input" type="date" name="dataR" placeholder="dataR" required>
+														</div>
+														
+													</div>
+												</div>
+												<button type="submit" class="btn p-centered text-bold" id="invioCapitolo" name="value" value="invioCapitolo" required>Crea Ristampa</button>
+											</form>
+											<!-- Visualizza la lista dei capitoli -->
+											<br>
+											<#if listaRistampe ??>
+												<#list listaRistampe as Ristampa>
+													<div class="text-dark">
+														<b>${Ristampa.getNome()}</b> - ${Ristampa.getData()}
+													</div>
+													<br>
+												</#list>
+											</#if>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<a href="#close" class="btn btn-primary close-modal">Close</a>
+									</div>
+								</div>
+						</div>
+						
+						<div id="inviaSorgenti" class="modal modal-lg">
+								<div class="modal-overlay"></div>
+								<div class="modal-container">
+									<div class="modal-header">
+										<a href="#close" class="btn btn-clear float-right close-modal"></a>
+										<div class="modal-title"><b>Gestisci sorgenti</b></div>
+									</div>
+									<div class="modal-body">
+										<div class="content">
+											<form class="form-horizontal" method="post" role="form">
+												<div class="form-group">
+													<div class="columns col-gapless">
+														<div class="col-3">
+															<input class="form-input" type="text" name="tipoS" placeholder="tipoS" required>
+														</div>
+														<div class="col-3">
+															<input class="form-input" type="text" name="formatoS" placeholder="formatoS" required>
+														</div>
+														<div class="col-3">
+															<input class="form-input" type="text" name="descrizioneS" placeholder="descrizioneS" required>
+														</div>
+														<div class="col-3">
+															<input class="form-input" type="text" name="uriS" placeholder="uriS" required>
+														</div>
+													</div>
+												</div>
+												<button type="submit" class="btn p-centered text-bold" id="invioCapitolo" name="value" value="invioCapitolo" required>Crea Sorgenti</button>
+											</form>
+											<!-- Visualizza la lista dei capitoli -->
+											<br>
+											<#if listaSorgenti ??>
+												<#list listaSorgenti as Sorgente>
+													<div class="text-dark">
+														<b>${Sorgente.getTipo()}</b> - ${Sorgente.getFormato()} - ${Sorgente.getDescrizione()} - ${Sorgente.getUri()} 
+													</div>
+													<br>
+												</#list>
+											</#if>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<a href="#close" class="btn btn-primary close-modal">Close</a>
+									</div>
+								</div>
+						</div>
+						<!--  FINE MODAL -->
+					<#else>
+						<div id="listaCapitoli" class="modal modal-lg">
+							<div class="modal-overlay"></div>
+							<div class="modal-container">
+								<div class="modal-header">
+									<a href="#close" class="btn btn-clear float-right close-modal"></a>
+									<div class="modal-title">Lista dei capitoli</div>
+								</div>
+								<div class="modal-body">
+									<div class="content">
+										<div class="form-group">
+											<#if listaCapitoli ??>
+												<#list listaCapitoli as Capitolo>
+													<div class="text-dark">
+														<b>${Capitolo.getNumero()}</b> - ${Capitolo.getTitolo()} - Inizio a pagina ${Capitolo.getPagInizio()} 
+													</div>
+													<br>
+												</#list>
+										</#if>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<a href="#close" class="btn btn-primary close-modal">Close</a>
+								</div>
+							</div>
+						</div>
+						
+						<div id="listaRistampe" class="modal modal-lg">
+							<div class="modal-overlay"></div>
+							<div class="modal-container">
+								<div class="modal-header">
+									<a href="#close" class="btn btn-clear float-right close-modal"></a>
+									<div class="modal-title">Lista delle Ristampe</div>
+								</div>
+								<div class="modal-body">
+									<div class="content">
+										<div class="form-group">
+											<#if listaRistampe ??>
+												<#list listaRistampe as Ristampa>
+													<div class="text-dark">
+														<b>${Ristampa.getNome()}</b> - ${Ristampa.getData()}
+													</div>
+													<br>
+												</#list>
+										</#if>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<a href="#close" class="btn btn-primary close-modal">Close</a>
+								</div>
+							</div>
+						</div>
+						
+						<div id="listaSorgenti" class="modal modal-lg">
+							<div class="modal-overlay"></div>
+							<div class="modal-container">
+								<div class="modal-header">
+									<a href="#close" class="btn btn-clear float-right close-modal"></a>
+									<div class="modal-title">Lista delle sorgenti</div>
+								</div>
+								<div class="modal-body">
+									<div class="content">
+										<div class="form-group">
+											<#if listaSorgenti ??>
+												<#list listaSorgenti as Sorgente>
+													<div class="text-dark">
+														<b>${Sorgente.getTipo()}</b> - ${Sorgente.getFormato()} - ${Sorgente.getDescrizione()} - ${Sorgente.getUri()} 
+													</div>
+													<br>
+												</#list>
+										</#if>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<a href="#close" class="btn btn-primary close-modal">Close</a>
+								</div>
+							</div>
+						</div>
+					</#if>
+				<#else>
 					<div id="listaCapitoli" class="modal modal-lg">
 						<div class="modal-overlay"></div>
 						<div class="modal-container">
@@ -117,7 +345,7 @@
 										<#if listaRistampe ??>
 											<#list listaRistampe as Ristampa>
 												<div class="text-dark">
-													<b>${Capitolo.getNumero()}</b> - ${Capitolo.getTitolo()} - Inizio a pagina ${Capitolo.getPagInizio()} 
+													<b>${Ristampa.getNome()}</b> - ${Ristampa.getData()}
 												</div>
 												<br>
 											</#list>
@@ -131,7 +359,7 @@
 						</div>
 					</div>
 					
-					<div id="listaCSorgenti" class="modal modal-lg">
+					<div id="listaSorgenti" class="modal modal-lg">
 						<div class="modal-overlay"></div>
 						<div class="modal-container">
 							<div class="modal-header">
@@ -144,156 +372,24 @@
 										<#if listaSorgenti ??>
 											<#list listaSorgenti as Sorgente>
 												<div class="text-dark">
-													<b>${Capitolo.getNumero()}</b> - ${Capitolo.getTitolo()} - Inizio a pagina ${Capitolo.getPagInizio()} 
-												</div>
-												<br>
-											</#list>
-									</#if>
-									</div>
-								</div>
-							</div>
-							<div class="modal-footer">
-								<a href="#close" class="btn btn-primary close-modal">Close</a>
-							</div>
-						</div>
-					</div>
-				<#else>
-					<!-- Se è un utente ATTIVO/ADMIN/MOD visualizza questi modal -->
-					<div id="inviaCapitoli" class="modal modal-lg">
-						<div class="modal-overlay"></div>
-						<div class="modal-container">
-							<div class="modal-header">
-								<a href="#close" class="btn btn-clear float-right close-modal"></a>
-								<div class="modal-title"><b>Gestisci capitoli</b></div>
-							</div>
-							<div class="modal-body">
-								<div class="content">
-									<form class="form-horizontal" method="post" role="form">
-										<div class="form-group">
-											<div class="columns col-gapless">
-												<div class="col-4">
-													<input class="form-input" type="text" name="titolo" placeholder="titolo" required>
-												</div>
-												<div class="col-4">
-													<input class="form-input" type="text" name="numero" placeholder="numero" required>
-												</div>
-												<div class="col-4">
-													<input class="form-input" type="number" name="pagInizio" placeholder="Pagina Inizio" required>
-												</div>
-												
-											</div>
-										</div>
-										<button type="submit" class="btn p-centered text-bold" id="invioCapitolo" name="value" value="invioCapitolo" required>Crea Capitolo</button>
-									</form>
-									<!-- Visualizza la lista dei capitoli -->
-									<br>
-									<#if listaCapitoli ??>
-										<#list listaCapitoli as Capitolo>
-											<div class="text-dark">
-												<b>${Capitolo.getNumero()}</b> - ${Capitolo.getTitolo()} - Inizio a pagina ${Capitolo.getPagInizio()} 
-											</div>
-											<br>
-										</#list>
-									</#if>
-								</div>
-							</div>
-							<div class="modal-footer">
-								<a href="#close" class="btn btn-primary close-modal">Close</a>
-							</div>
-						</div>
-					</div>
-						
-					<div id="inviaRistampe" class="modal modal-lg">
-							<div class="modal-overlay"></div>
-							<div class="modal-container">
-								<div class="modal-header">
-									<a href="#close" class="btn btn-clear float-right close-modal"></a>
-									<div class="modal-title"><b>Gestisci ristampe</b></div>
-								</div>
-								<div class="modal-body">
-									<div class="content">
-										<form class="form-horizontal" method="post" role="form">
-											<div class="form-group">
-												<div class="columns col-gapless">
-													<div class="col-4">
-														<input class="form-input" type="text" name="titolo" placeholder="titolo" required>
-													</div>
-													<div class="col-4">
-														<input class="form-input" type="text" name="numero" placeholder="numero" required>
-													</div>
-													<div class="col-4">
-														<input class="form-input" type="number" name="pagInizio" placeholder="Pagina Inizio" required>
-													</div>
-													
-												</div>
-											</div>
-											<button type="submit" class="btn p-centered text-bold" id="invioCapitolo" name="value" value="invioCapitolo" required>Crea Ristampa</button>
-										</form>
-										<!-- Visualizza la lista dei capitoli -->
-										<br>
-										<#if listaRistampe ??>
-											<#list listaRistampe as Ristampa>
-												<div class="text-dark">
-													<b>${Capitolo.getNumero()}</b> - ${Capitolo.getTitolo()} - Inizio a pagina ${Capitolo.getPagInizio()} 
+													<b>${Sorgente.getTipo()}</b> - ${Sorgente.getFormato()} - ${Sorgente.getDescrizione()} - ${Sorgente.getUri()} 
 												</div>
 												<br>
 											</#list>
 										</#if>
 									</div>
 								</div>
-								<div class="modal-footer">
-									<a href="#close" class="btn btn-primary close-modal">Close</a>
-								</div>
+								
+								
 							</div>
-					</div>
-					
-					<div id="inviaSorgenti" class="modal modal-lg">
-							<div class="modal-overlay"></div>
-							<div class="modal-container">
-								<div class="modal-header">
-									<a href="#close" class="btn btn-clear float-right close-modal"></a>
-									<div class="modal-title"><b>Gestisci sorgenti</b></div>
-								</div>
-								<div class="modal-body">
-									<div class="content">
-										<form class="form-horizontal" method="post" role="form">
-											<div class="form-group">
-												<div class="columns col-gapless">
-													<div class="col-4">
-														<input class="form-input" type="text" name="titolo" placeholder="titolo" required>
-													</div>
-													<div class="col-4">
-														<input class="form-input" type="text" name="numero" placeholder="numero" required>
-													</div>
-													<div class="col-4">
-														<input class="form-input" type="number" name="pagInizio" placeholder="Pagina Inizio" required>
-													</div>
-													
-												</div>
-											</div>
-											<button type="submit" class="btn p-centered text-bold" id="invioCapitolo" name="value" value="invioCapitolo" required>Crea Sorgenti</button>
-										</form>
-										<!-- Visualizza la lista dei capitoli -->
-										<br>
-										<#if listaSorgenti ??>
-											<#list listaSorgenti as Sorgente>
-												<div class="text-dark">
-													<b>${Capitolo.getNumero()}</b> - ${Capitolo.getTitolo()} - Inizio a pagina ${Capitolo.getPagInizio()} 
-												</div>
-												<br>
-											</#list>
-										</#if>
-									</div>
-								</div>
-								<div class="modal-footer">
-									<a href="#close" class="btn btn-primary close-modal">Close</a>
-								</div>
+							<div class="modal-footer">
+								<a href="#close" class="btn btn-primary close-modal">Close</a>
 							</div>
+						</div>
 					</div>
-					<!--  FINE MODAL -->
 					
 				</#if>
-			</#if>
+			
 			
 			
 		

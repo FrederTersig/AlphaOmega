@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,8 +23,8 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 	public static List<Pubblicazione> lastTenPub(){ //Ultimi 10 giorni
 		ArrayList<Pubblicazione> lista=null;
 		String column = "pubblicazione.id, pubblicazione.dataInvio, pubblicazione.titolo, pubblicazione.ISBN, autore.nomeAutore";
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("listaautore", "listaautori.idPubblicazione = Pubblicazione.id");
+		Map<String, Object> map = new LinkedHashMap<String, Object>();
+		map.put("listaautori", "listaautori.idPubblicazione = Pubblicazione.id");
 		map.put("autore", "listaautori.idAutore = autore.id");
 		int check=0;
 		try {
@@ -126,8 +127,8 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 	// fatta
 	public static List<Pubblicazione> userPub(int idUtente){//pubblicazioni di un utente
 		ArrayList<Pubblicazione> lista=null;
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("listaautore", "listaautori.idPubblicazione = pubblicazione.id");
+		Map<String, Object> map = new LinkedHashMap<String, Object>();
+		map.put("listaautori", "listaautori.idPubblicazione = pubblicazione.id");
 		map.put("autore", "listaautori.idAutore = autore.id");
 		String column="pubblicazione.id, pubblicazione.editore, pubblicazione.dataInvio, pubblicazione.titolo" + 
 		", autore.nomeAutore";
@@ -179,28 +180,32 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 		Sorgente sor = null;
 		Capitolo cap = null;
 		Ristampa ris = null;
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("listaautore", "listaautori.idPubblicazione = pubblicazione.id");
-		map.put("autore", "listaautori.idAutore = autore.id");
+		/*
+		Map<String, Object> map = new LinkedHashMap<String, Object>();
+	
 		map.put("listatag", "listatag.idPubblicazione = pubblicazione.id");
-		map.put("tag", "listatag.idTag = tag.id");
+		map.put("listaautori", "listaautori.idPubblicazione = pubblicazione.id");
 		map.put("ristampa", "ristampa.idPubblicazione = pubblicazione.id");
 		map.put("sorgente", "sorgente.idPubblicazione = pubblicazione.id");
 		map.put("capitolo", "capitolo.idPubblicazione = pubblicazione.id");
+		map.put("autore", "listaautori.idAutore = autore.id");
+		map.put("tag", "listatag.idTag = tag.id");
 		
 		String column="*";		
 		String condition="pubblicazione.id="+ idPubblicazione;
-		
+		*/
 		try {
 			Database.connect();
-			ResultSet rs = Database.selectRecord(column, "pubblicazione", condition, "");
-
+			//ResultSet rs = Database.join(column, "pubblicazione", map, condition, "");
+			ResultSet rs = Database.callProcedure("dettagliPubblicazione", null, idPubblicazione);
+			//viene fatta la query
 			while(rs.next()) { // ciclo pesante -> da testare
+				//succede qualcosa di strano qui dentro
 				
+				System.out.println("DENTRO RS.NEXT - INIZIO ITERAZIONE");
 				if(!check) {
 					check=true;
-					System.out.println("check Diverso da id!");
+					System.out.println("DENTRO IL PRIMO CHECK!");
 					int idInseritore = rs.getInt("pubblicazione.idUtente");
 					Date dataInvio = rs.getDate("pubblicazione.dataInvio");
 					String titolo = rs.getString("pubblicazione.titolo");
@@ -212,48 +217,62 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 					Date dataScrittura = rs.getDate("pubblicazione.dataScrittura");
 					pub = new Pubblicazione(idPubblicazione, idInseritore, editore, titolo, descrizione, dataInvio, ISBN, 
 							numPagine, lingua, dataScrittura);
+				}
+				System.out.println("PRIMA DI AUTORE");
+				if(rs.getObject(1)!= null) {
 					String autore_ = rs.getString("autore.nomeAutore");
+					if(!pub.containsAutore(autore_))  pub.addAutore(autore_);
+					System.out.println(autore_ + " <--- AUTORE");
+					
+				}
+				System.out.println("PRIMA DI TAG");
+				if(rs.getObject(2)!= null) {
 					String tag_ = rs.getString("tag.nome");
-					pub.addAutore(autore_);
-					pub.addTag(tag_);
-				}else {
-					System.out.println("check uguale a id!");
-					String autore_ = rs.getString("autore.nomeAutore");
-					String tag_ = rs.getString("tag.nome");
-					//avrò solo una pubblicazione come risultato.
-					if(pub.containsAutore(autore_)) pub.addAutore(autore_);
-					if(pub.containsTag(tag_)) pub.addTag(tag_);
+					if(!pub.containsTag(tag_)) pub.addTag(tag_);
+					System.out.println(tag_ + " <--- TAG");
+				}
+				// 1a= Autore, 2b= tag, 3c = sorgente, 4d= ristampa, 5e=capitolo
+				System.out.println("PRIMA DI SORGENTE");
+
+				if(rs.getObject(3) != null) {
+					int idSorgente = rs.getInt("sorgente.id");
+					if(checkSorgente != idSorgente) {
+						System.out.println("checkSorgente diverso da idSor");
+						checkSorgente = idSorgente;
+						String tipo = rs.getString("sorgente.tipo");
+						String URI = rs.getString("sorgente.URI");
+						String formato = rs.getString("sorgente.formato");
+						String descrizione = rs.getString("sorgente.descrizione");
+						sor = new Sorgente(idSorgente, tipo, URI, formato, descrizione);
+						pub.addSorgente(sor);
+					}
 				}
 				
-				int idRistampa = rs.getInt("ristampa.id");
-				if(checkRistampa != idRistampa) {
-					System.out.println("checkRistampa diverso da idRis");
-					checkRistampa = idRistampa;
-					String nome = rs.getString("ristampa.nome");
-					Date data = rs.getDate("ristampa.data");
-					ris = new Ristampa(idRistampa, nome, data);
-					pub.addRistampa(ris);
+				System.out.println("PRIMA DI ristampa");
+				if(rs.getObject(4) != null) {
+					int idRistampa = rs.getInt("ristampa.id");
+					if(checkRistampa != idRistampa) {
+						System.out.println("checkRistampa diverso da idRis");
+						checkRistampa = idRistampa;
+						String nome = rs.getString("ristampa.nome");
+						Date data = rs.getDate("ristampa.data");
+						ris = new Ristampa(idRistampa, nome, data);
+						pub.addRistampa(ris);
+					}
 				}
-				int idSorgente = rs.getInt("sorgente.id");
-				if(checkSorgente != idSorgente) {
-					System.out.println("checkSorgente diverso da idSor");
-					checkSorgente = idSorgente;
-					String tipo = rs.getString("sorgente.tipo");
-					String URI = rs.getString("sorgente.URI");
-					String formato = rs.getString("sorgente.formato");
-					String descrizione = rs.getString("sorgente.descrizione");
-					sor = new Sorgente(idSorgente, tipo, URI, formato, descrizione);
-					pub.addSorgente(sor);
-				}
-				int idCapitolo = rs.getInt("capitolo.id");
-				if(checkCap != idCapitolo) {
-					System.out.println("checkCap diverso da idCap");
-					checkCap = idCapitolo;
-					String titolo = rs.getString("capitolo.titolo");
-					int numero = rs.getInt("capitolo.numero");
-					int pagInizio = rs.getInt("capitolo.pagInizio");
-					cap = new Capitolo(idCapitolo, titolo, numero, pagInizio);
-					pub.addCapitolo(cap);
+				
+				System.out.println("PRIMA DI CAPITOLO");
+				if(rs.getObject(5) != null) {
+					int idCapitolo = rs.getInt("capitolo.id");
+					if(checkCap != idCapitolo) {
+						System.out.println("checkCap diverso da idCap");
+						checkCap = idCapitolo;
+						String titolo = rs.getString("capitolo.titolo");
+						int numero = rs.getInt("capitolo.numero");
+						int pagInizio = rs.getInt("capitolo.pagInizio");
+						cap = new Capitolo(idCapitolo, titolo, numero, pagInizio);
+						pub.addCapitolo(cap);
+					}
 				}
 				
 			}
@@ -262,25 +281,27 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 		}catch(NamingException e) {
 			System.out.println("NamingException"+e);
 	    }catch (SQLException e) {
-	    	System.out.println("SQLException"+e);
+	    	System.out.println("SQLException");
+	    	e.printStackTrace(System.out);
 	    }catch (Exception e) {
 	    	System.out.println("Exception"+e);    
 	    }
-	
+		System.out.println("PUBBLICAZIONE POPOLATA?" + pub + " ||||| " + pub.showAutori());
 		return pub;
 	}
 	//fatta
 	public static List<Pubblicazione> showCat(){//Mostra l'intero catalogo
 		ArrayList<Pubblicazione> lista=null;
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("listaautore", "listaautori.idPubblicazione = pubblicazione.id");
+		map.put("listaautori", "listaautori.idPubblicazione = pubblicazione.id");
 		map.put("autore", "listaautori.idAutore = autore.id");
 
 		try {
 			lista = new ArrayList<Pubblicazione>();
 			int check=0;
 			Database.connect();
-			ResultSet rs = Database.selectRecord("*", "pubblicazione", "", "pubblicazione.titolo");
+			ResultSet rs = Database.join("*", "pubblicazione", map, "", "pubblicazione.titolo");
+
 			System.out.println("dopo rs");
 			while(rs.next()) {
 				System.out.println("inizio rs.next showCat()");
@@ -333,7 +354,7 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 			lista = new ArrayList<Pubblicazione>();
 			int check=0;
 			Database.connect();
-			ResultSet rs = Database.callProcedure("ricerca", argum);
+			ResultSet rs = Database.callProcedure("ricerca", argum, 0);
 			while(rs.next()) {
 				System.out.println("-------------- comincia rs.next() di researchPub -----------------");
 				int id = rs.getInt("id");	

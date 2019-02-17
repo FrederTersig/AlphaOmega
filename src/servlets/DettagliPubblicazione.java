@@ -16,9 +16,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.Pubblicazione;
+import model.Ristampa;
+import model.Sorgente;
 import model.Capitolo;
 import model.Utente;
 import model.dao.CapitoloDAO;
+import model.dao.PubblicazioneDAO;
 import model.dao.RistampaDAO;
 import model.dao.SorgenteDAO;
 import util.FreeMarker;
@@ -31,6 +34,7 @@ import util.SecurityLayer;
 public class DettagliPubblicazione extends HttpServlet {
 	Map<String, Object> data = new HashMap<String,Object>();
 	public int id=0; //id dell'utente -> default
+	public int idPubblicazione=0;
     public int ruolo=0; //ruolo dell'utente {1=normale,2=moderatore,3=admin} -> di default
     public Utente utente; //dati dell'utente -> servono quando è connesso
     public Pubblicazione pubblicazione;
@@ -40,17 +44,14 @@ public class DettagliPubblicazione extends HttpServlet {
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		System.out.print("process request di DettagliPubblicazione");
 		
-		data.put("id", id);    
-    	data.put("utente", utente);
+		
 		// -> Dettagli della pubblicazione visualizzata
 		// -> Dettagli del tag
 		// -> Dettagli dell'autore
 		// -> Dettagli dell'editore
 		// -> Dettagli del sorgente
 		// -> Dettagli delle modifiche ---- SOLO PER UTENTI CON POTERI
-    	ArrayList<Capitolo> mostraCapitoli = (ArrayList<Capitolo>) CapitoloDAO.listCapPub(1);
-    	System.out.println(mostraCapitoli.size() + " SIZE DI MOSTRACAPITOLI");
-    	data.put("listaCapitoli", mostraCapitoli);
+    	
     	
 		FreeMarker.process("dettagliPubblicazione.html", data, response, getServletContext()); // data ??
 	}
@@ -60,6 +61,7 @@ public class DettagliPubblicazione extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("DettagliPubblicazione DOGET");
+		
 		HttpSession s = SecurityLayer.checkSession(request);
 		if(s != null){//condizione per vedere se la sessione esiste.   		
             if(s.getAttribute("id") != null && s.getAttribute("utente") != null){// Esistono id e utente nella sessione
@@ -77,7 +79,27 @@ public class DettagliPubblicazione extends HttpServlet {
             utente = null;
             //utente non c'è quindi non mostri niente?
         }  	
+		data.put("id", id);    
+    	data.put("utente", utente);
+		idPubblicazione = Integer.parseInt(request.getParameter("codice"));
 		
+		pubblicazione = (Pubblicazione) PubblicazioneDAO.detailPub(idPubblicazione);
+		data.put("Pubblicazione", pubblicazione);
+		System.out.println("Ho finito la query del dettaglio, procedo avanti > " + pubblicazione);
+		ArrayList<Capitolo> mostraCapitoli = new ArrayList<Capitolo>();
+		ArrayList<Sorgente> mostraSorgenti = new ArrayList<Sorgente>();
+		ArrayList<Ristampa> mostraRistampe = new ArrayList<Ristampa>();
+		
+		if(pubblicazione.getCapitoli() != null) mostraCapitoli = pubblicazione.getCapitoli();
+		if(pubblicazione.getSorgenti() != null) mostraSorgenti = pubblicazione.getSorgenti();
+		if(pubblicazione.getRistampe() != null) mostraRistampe = pubblicazione.getRistampe();
+    	System.out.println("Dopo tutta la roba dei get MOSTRO ARRAY");
+    	System.out.println(mostraCapitoli + " " + mostraSorgenti + " " + mostraRistampe);
+    	
+    	data.put("listaCapitoli", mostraCapitoli);
+    	data.put("listaSorgenti", mostraSorgenti);
+    	data.put("listaRistampe", mostraRistampe);
+    	
 		try {        	
             processRequest(request, response);
         } catch (Exception e) {

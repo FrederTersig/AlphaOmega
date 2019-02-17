@@ -1,11 +1,13 @@
 package util;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Map;
 /**
  * 
@@ -98,7 +100,7 @@ public class Database {
    
     
     //Query join che si applica ad un qualsiasi numero di attributi sul JOIN
-    public static ResultSet join(String column, String table,Map<String,Object> data,String condition, String order)throws SQLException{
+    public static ResultSet join(String column, String table, Map<String, Object> data,String condition, String order)throws SQLException{
     	String query = "SELECT "+ column +" FROM "+ table;
     	Object value;
     	String attr;
@@ -109,22 +111,29 @@ public class Database {
     	}
     	if(condition != null && !condition.trim().isEmpty()) query += " WHERE " + condition;
         if(order != null && !order.trim().isEmpty()) query += " ORDER BY " + order;
+        System.out.println("QUERY EFFETTUATA:");
+        System.out.println(query);
     	return Database.executeQuery(query);
     }
     
-    public static ResultSet callProcedure(String proc, ArrayList<String> data)throws SQLException{
-    	System.out.println("COMINCIO CALL PROCEDURE --- ERRORE QUI!!");
-    	String query = "CALL "+ proc +"(";
-    	String arg = "";
-    	int len = data.size();
-    	for(int i=0; i<len; i++) {
-    		System.out.println(data.get(i));
-    		arg = arg + "'" + data.get(i) + "'" + ",";
-    		System.out.println(arg);
-    	}
-    	arg = arg.substring(0, arg.length() - 1);
-    	query = query + arg +");";
+
+    public static ResultSet callProcedure(String proc, ArrayList<String> data, int num)throws SQLException{
+    	System.out.println("COMINCIO CALL PROCEDURE");
     	
+    	String query = "CALL "+ proc +"(";
+    	if(num==0) {
+	    	String arg = "";
+	    	int len = data.size();
+	    	for(int i=0; i<len; i++) {
+	    		System.out.println(data.get(i));
+	    		arg = arg + "'" + data.get(i) + "'" + ",";
+	    		System.out.println(arg);
+	    	}
+	    	arg = arg.substring(0, arg.length() - 1);
+	    	query = query + arg +");";
+    	}else {
+    		query = query + num + ");";
+    	}
     	System.out.println("CALL PROCEDURE!! ECCO LA QUERY CHE MOSTRA ::");
     	System.out.println(query);
     	return Database.executeQuery(query);

@@ -76,6 +76,7 @@ public class UtenteDAO implements UtenteDAO_interface {
         	System.out.println(e);                           
         }
 	}
+	//query difficile, critica. bisogna trovare il modo di farla!!!! subito!!!! non ho TEMPO per pensare!!! 
 	public static List<Utente> mostActiveUsers(){ //che hanno inserito più pubblicazioni
 		return null;
 	}

@@ -37,15 +37,11 @@ public class RicercaPubblicazione extends HttpServlet {
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		System.out.println("process request della RicercaPubblicazione");
 		
-		
-		
-		
+	
 		FreeMarker.process("ricercaPubblicazione.html", data, response, getServletContext()); // data ??
 	}
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println(" **Get di Ricerca Pubblicazione! **");
 		int tipoRicerca;
@@ -82,10 +78,11 @@ public class RicercaPubblicazione extends HttpServlet {
     			// Mostra catalogo con le ultime ristampe
     			System.out.println("tipoRicerca==1 --> mostra catalogo con le ultime ristampe");
     			//ArrayList<Pubblicazione> lista = (ArrayList<Pubblicazione>) PubblicazioneDAO.showCatRist();
-    			//int totElementi = lista.size();
     			
-    			//data.put("pubblicazioni", lista);
-    			//data.put("totElementi", totElementi);
+    			ArrayList<Pubblicazione> lista = (ArrayList<Pubblicazione>) PubblicazioneDAO.showCatRist();
+    			int totElementi = lista.size();
+    			data.put("pubblicazioni", lista);
+    			data.put("totElementi", totElementi);
     			
     		}else if(tipoRicerca==2) {
     			// Mostra ultime 10 pubblicazioni inserite
@@ -112,9 +109,9 @@ public class RicercaPubblicazione extends HttpServlet {
     			data.put("totElementi", totElementi);
     		}else { // tutto il catalogo
     			System.out.println("tipoRicerca==5 --> tutto il catalogo");
-    			int totElementi = -1;
-    			ArrayList<Pubblicazione> lista = (ArrayList<Pubblicazione>) PubblicazioneDAO.showCat();
     			
+    			ArrayList<Pubblicazione> lista = (ArrayList<Pubblicazione>) PubblicazioneDAO.showCat();
+    			int totElementi = lista.size();
     			data.put("pubblicazioni", lista);
     			data.put("totElementi", totElementi);
     		}
@@ -190,9 +187,9 @@ public class RicercaPubblicazione extends HttpServlet {
     			
     		}else{ // SE tutte le form sono vuote, allora mi mostri il catalogo completo
     			System.out.println("NESSUNA cosa scritta nel form : mostro tutto");
-    			int totElementi = -1;
-    			ArrayList<Pubblicazione> lista = (ArrayList<Pubblicazione>) PubblicazioneDAO.showCat();
     			
+    			ArrayList<Pubblicazione> lista = (ArrayList<Pubblicazione>) PubblicazioneDAO.showCat();
+    			int totElementi = lista.size();
     			data.put("pubblicazioni", lista);
     			data.put("totElementi", totElementi);
     			
@@ -213,7 +210,7 @@ public class RicercaPubblicazione extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		// logout, login, dettagliPubblicazione, dettagliProfilo(proprio)
 	}
 
 }
