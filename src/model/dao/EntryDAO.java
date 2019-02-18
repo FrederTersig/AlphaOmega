@@ -42,10 +42,9 @@ public class EntryDAO implements EntryDAO_interface {
 		
 		return lista;
 	}
-	public static void insertEntry(Date data, String descrizione, int idPubblicazione, int idUtente) { //Inserisce una modifica ad una pubblicazione -> argomenti da popolare
+	public static void insertEntry(String descrizione, int idPubblicazione, int idUtente) { //Inserisce una modifica ad una pubblicazione -> argomenti da popolare
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		map.put("data", data);
 		map.put("descrizione", descrizione);
 		map.put("idPubblicazione", idPubblicazione);
 		map.put("idUtente", idUtente);

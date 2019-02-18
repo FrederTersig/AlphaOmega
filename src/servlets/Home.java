@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Utente;
+import model.dao.UtenteDAO;
 
 /**
  * @author Federico Tersigni
@@ -94,6 +95,8 @@ public class Home extends HttpServlet {
             utente=null;
         } 
         
+    	ArrayList<Utente> listaUt = (ArrayList<Utente>) UtenteDAO.mostActiveUsers();
+    	data.put("listaUtenti", listaUt);
 		
 		
         try {        	

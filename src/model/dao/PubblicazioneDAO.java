@@ -173,27 +173,10 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 		Pubblicazione pub = null;
 		
 		Boolean check=false; // deve essere eseguito solo una volta
-		int checkRistampa=0;
-		int checkSorgente=0;
-		int checkCap=0;
-		
 		Sorgente sor = null;
 		Capitolo cap = null;
 		Ristampa ris = null;
-		/*
-		Map<String, Object> map = new LinkedHashMap<String, Object>();
-	
-		map.put("listatag", "listatag.idPubblicazione = pubblicazione.id");
-		map.put("listaautori", "listaautori.idPubblicazione = pubblicazione.id");
-		map.put("ristampa", "ristampa.idPubblicazione = pubblicazione.id");
-		map.put("sorgente", "sorgente.idPubblicazione = pubblicazione.id");
-		map.put("capitolo", "capitolo.idPubblicazione = pubblicazione.id");
-		map.put("autore", "listaautori.idAutore = autore.id");
-		map.put("tag", "listatag.idTag = tag.id");
-		
-		String column="*";		
-		String condition="pubblicazione.id="+ idPubblicazione;
-		*/
+
 		try {
 			Database.connect();
 			//ResultSet rs = Database.join(column, "pubblicazione", map, condition, "");
@@ -234,45 +217,35 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 				// 1a= Autore, 2b= tag, 3c = sorgente, 4d= ristampa, 5e=capitolo
 				System.out.println("PRIMA DI SORGENTE");
 
-				if(rs.getObject(3) != null) {
+				if(rs.getObject(3) != null) {					
 					int idSorgente = rs.getInt("sorgente.id");
-					if(checkSorgente != idSorgente) {
-						System.out.println("checkSorgente diverso da idSor");
-						checkSorgente = idSorgente;
-						String tipo = rs.getString("sorgente.tipo");
-						String URI = rs.getString("sorgente.URI");
-						String formato = rs.getString("sorgente.formato");
-						String descrizione = rs.getString("sorgente.descrizione");
-						sor = new Sorgente(idSorgente, tipo, URI, formato, descrizione);
-						pub.addSorgente(sor);
-					}
+					String tipo = rs.getString("sorgente.tipo");
+					String URI = rs.getString("sorgente.URI");
+					String formato = rs.getString("sorgente.formato");
+					String descrizione = rs.getString("sorgente.descrizione");
+					sor = new Sorgente(idSorgente, tipo, URI, formato, descrizione);
+					if(!pub.equalSor(idSorgente)) pub.addSorgente(sor);
 				}
 				
 				System.out.println("PRIMA DI ristampa");
 				if(rs.getObject(4) != null) {
 					int idRistampa = rs.getInt("ristampa.id");
-					if(checkRistampa != idRistampa) {
-						System.out.println("checkRistampa diverso da idRis");
-						checkRistampa = idRistampa;
-						String nome = rs.getString("ristampa.nome");
-						Date data = rs.getDate("ristampa.data");
-						ris = new Ristampa(idRistampa, nome, data);
-						pub.addRistampa(ris);
-					}
+					String nome = rs.getString("ristampa.nome");
+					Date data = rs.getDate("ristampa.data");
+					ris = new Ristampa(idRistampa, nome, data);
+					if(!pub.equalRis(idRistampa)) pub.addRistampa(ris);
+				
 				}
 				
 				System.out.println("PRIMA DI CAPITOLO");
 				if(rs.getObject(5) != null) {
 					int idCapitolo = rs.getInt("capitolo.id");
-					if(checkCap != idCapitolo) {
-						System.out.println("checkCap diverso da idCap");
-						checkCap = idCapitolo;
-						String titolo = rs.getString("capitolo.titolo");
-						int numero = rs.getInt("capitolo.numero");
-						int pagInizio = rs.getInt("capitolo.pagInizio");
-						cap = new Capitolo(idCapitolo, titolo, numero, pagInizio);
-						pub.addCapitolo(cap);
-					}
+					String titolo = rs.getString("capitolo.titolo");
+					int numero = rs.getInt("capitolo.numero");
+					int pagInizio = rs.getInt("capitolo.pagInizio");
+					cap = new Capitolo(idCapitolo, titolo, numero, pagInizio);
+					if(!pub.equalCap(idCapitolo)) pub.addCapitolo(cap);
+
 				}
 				
 			}

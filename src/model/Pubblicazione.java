@@ -164,6 +164,29 @@ public class Pubblicazione{
 		this.listaCapitoli.add(capitolo);
 	}
 	
+	public Boolean equalCap(int idProva) {
+		Boolean prova=false;
+		for(int i=0; i<this.listaCapitoli.size(); i++) {
+			if(listaCapitoli.get(i).id == idProva) prova=true;
+		}
+		return prova;
+	}
+	public Boolean equalRis(int idProva) {
+		Boolean prova=false;
+		for(int i=0; i<this.listaRistampe.size(); i++) {
+			if(listaRistampe.get(i).id == idProva) prova=true;
+		}
+		return prova;
+	}
+	public Boolean equalSor(int idProva) {
+		Boolean prova=false;
+		for(int i=0; i<this.listaSorgente.size(); i++) {
+			if(listaSorgente.get(i).id == idProva) prova=true;
+		}
+		return prova;
+	}
+	
+	
 	public ArrayList<String> getListaAutori(){
 		return this.listaAutori;
 	}

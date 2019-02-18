@@ -19,7 +19,7 @@ public class RistampaDAO implements RistampaDAO_interface {
 		try {
 			lista = new ArrayList<Ristampa>();
 			Database.connect();
-			ResultSet rs =Database.selectRecord("*", "ristampa","ristampa.idPubblicazione=" + idPubblicazione ,"ristampa.numero");
+			ResultSet rs =Database.selectRecord("*", "ristampa","ristampa.idPubblicazione=" + idPubblicazione ,"ristampa.data DESC");
 			while(rs.next()) {
 				int id = rs.getInt("id");
 				int idPub = rs.getInt("idPubblicazione");
@@ -40,11 +40,11 @@ public class RistampaDAO implements RistampaDAO_interface {
 		
 		return lista;
 	}
-	public static void insertRistampa(int numero, int idPub, Date dataRistampa) {
+	public static void insertRistampa(String nome, int idPub, Date dataRistampa) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		map.put("idPubblicazione", idPub);
-		map.put("numero", numero);
+		map.put("nome", nome);
 		map.put("data", dataRistampa);
 		
 		try {
@@ -60,11 +60,11 @@ public class RistampaDAO implements RistampaDAO_interface {
         }
 		
 	}
-	public static void updateRistampa(int id, int numero, int idPub, Date data) {
+	public static void updateRistampa(int id, String nome, int idPub, Date data) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		map.put("idPubblicazione", idPub);
-		map.put("numero", numero);
+		map.put("nome", nome);
 		map.put("data", data);
 		
 		try {

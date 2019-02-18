@@ -21,6 +21,7 @@ import model.Autore;
 import model.dao.PubblicazioneDAO;
 import model.dao.TagDAO;
 import model.dao.AutoreDAO;
+import model.dao.EntryDAO;
 import model.dao.UtenteDAO;
 import util.FreeMarker;
 import util.SecurityLayer;
@@ -114,7 +115,9 @@ public class InserimentoPubblicazione extends HttpServlet {
             		java.sql.Date d_creazione = new java.sql.Date(dateb.getTime());
             		//Insert della pubblicazione
             		PubblicazioneDAO.insertPub(descrizione, titolo, editore, idUtente, ISBN, numPagine, lingua, d_creazione);
-            	
+            		
+            		int idPubblicazione = Utile.existPub(ISBN, idUtente);
+            		EntryDAO.insertEntry("ha inserito la pubblicazione", idPubblicazione, idUtente);
             	}else{ // La pubblicazione esiste!!
             		System.out.println("Esiste già questa pubblicazione nel DB");
             		//Resetta e ritorna in inserimento Pubblicazione
@@ -126,6 +129,9 @@ public class InserimentoPubblicazione extends HttpServlet {
             	if(tagIdSelezionati.length != 0) TagDAO.insertPubTag(idNuovaPub, tagIdSelezionati);
             	if(autIdSelezionati.length != 0) AutoreDAO.insertPubAuth(idNuovaPub, autIdSelezionati);
             	//finisco
+            	
+            	
+            	
             	response.sendRedirect("pannelloGestione");
             } catch (Exception e) {
             	System.out.println("Eccezione invio pubblicazione nuova" + e);

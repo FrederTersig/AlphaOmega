@@ -4,38 +4,41 @@
 	<body>
 
 		<div class="container">
-			<div class="columns col-gapless">
-				<div class="column col-12">
-					<div class="text-bold"><p><h2> Profilo Utente</h2></p></div>
-				</div>
-			</div>
-			<div class="columns col-gapless">
-				<div class="column col-6">
-					<div class="text-left">
-						<p><div class="text-bold">Nome  </div>Nome utente</p>
-						<p><div class="text-bold">Cognome </div>Cognome utente</p>
-						<p><div class="text-bold">Data di Nascita </div> 10/08/2009</p>
+			<#if utenteVisitato??>
+				<div class="columns col-gapless">
+					<div class="column col-12">
+						<div class="text-bold"><p><h2> Profilo Utente</h2></p></div>
 					</div>
 				</div>
-				<div class="column col-6">
-					<div class="text-left">
-						<p><div class="text-bold">Email  </div>email utente</p>		
-						<p><div class="text-bold">Data iscrizione </div> 10/08/2009</p>
-						<p><div class="text-bold">Ruolo </div>Attivo/Passivo</p>
+				<div class="columns col-gapless">
+					<div class="column col-6">
+						<div class="text-left">
+							<p><div class="text-bold">Nome: </div>${utenteVisitato.getNome()}</p>
+							<p><div class="text-bold">Cognome: </div>${utenteVisitato.getCognome()}</p>
+							<p><div class="text-bold">Citta: </div>${utenteVisitato.getCitta()}</p>
+							<p><div class="text-bold">Data di Nascita: </div>${utenteVisitato.getDataNascita()}</p>
+						</div>
+					</div>
+					<div class="column col-6">
+						<div class="text-left">
+							<p><div class="text-bold">Email: </div>${utenteVisitato.getEmail()}</p>		
+							<p><div class="text-bold">Data iscrizione: </div>${utenteVisitato.getData()}</p>
+							<p><div class="text-bold">Ruolo: </div><#if utenteVisitato.getRuolo() == 0>Passivo<#elseif utenteVisitato.getRuolo()==1>Attivo<#elseif utenteVisitato.getRuolo()==2>Moderatore<#else>Admin</#if></p>
+						</div>
 					</div>
 				</div>
-			</div>
-			<br>
-			<div class="columns col-gapless">
-				<div class="column col-12">
-					<p><div class="text-bold text-left">Numero di recensioni inserite -> <u>10</u></div></p>
-					<p><div class="text-bold text-left">Numero di 'Mi Piace' inseriti -> <u>20</u></div></p>
-					<!-- Parte utente attivo 
-					<p><div class="text-bold text-left">Pubblicazioni inserite nel sistema -> </div></p>
-					<p><div class="text-bold text-left">Lista delle azioni compiute nel sistema -> </div></p>		
-					-->		
+				<br>
+				<div class="columns col-gapless">
+					<div class="column col-12">
+						<p><div class="text-bold text-left">Numero di recensioni inserite -> <u>10</u></div></p>
+						<p><div class="text-bold text-left">Numero di 'Mi Piace' inseriti -> <u>20</u></div></p>
+						<!-- Parte utente attivo 
+						<p><div class="text-bold text-left">Pubblicazioni inserite nel sistema -> </div></p>
+						<p><div class="text-bold text-left">Lista delle azioni compiute nel sistema -> </div></p>		
+						-->		
+					</div>
 				</div>
-			</div>
+			</#if>
 		</div>
 
 

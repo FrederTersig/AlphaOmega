@@ -21,6 +21,7 @@ import model.Sorgente;
 import model.Capitolo;
 import model.Utente;
 import model.dao.CapitoloDAO;
+import model.dao.EntryDAO;
 import model.dao.PubblicazioneDAO;
 import model.dao.RistampaDAO;
 import model.dao.SorgenteDAO;
@@ -61,7 +62,6 @@ public class DettagliPubblicazione extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("DettagliPubblicazione DOGET");
-		
 		HttpSession s = SecurityLayer.checkSession(request);
 		if(s != null){//condizione per vedere se la sessione esiste.   		
             if(s.getAttribute("id") != null && s.getAttribute("utente") != null){// Esistono id e utente nella sessione
@@ -121,27 +121,33 @@ public class DettagliPubblicazione extends HttpServlet {
         	int pagInizio = Integer.parseInt(request.getParameter("pagInizio"));
         	// --> BISOGNA AGGIUNGERE L'AZIONE NELLA ENTRY!!
         	System.out.println(titolo + " " + numero + " " + pagInizio);
-        	CapitoloDAO.insertCapitolo(1, numero, pagInizio, titolo);
-        	response.sendRedirect("dettagliPubblicazione");
+        	if(idPubblicazione==0)idPubblicazione = Integer.parseInt(request.getParameter("codice"));
+        	CapitoloDAO.insertCapitolo(idPubblicazione, numero, pagInizio, titolo);
+        	
+        	EntryDAO.insertEntry("ha inserito un nuovo capitolo nella pubblicazione", idPubblicazione, id);
+        	response.sendRedirect("dettagliPubblicazione?codice="+idPubblicazione);
         }else if("invioSorgenti".equals(action)) {
         	String descrizione = request.getParameter("descrizione");
         	String formato =request.getParameter("formato");
         	String tipo =request.getParameter("tipo");
         	String URI = request.getParameter("URI");
         	// --> BISOGNA AGGIUNGERE L'AZIONE NELLA ENTRY!!
+        	if(idPubblicazione==0)idPubblicazione = Integer.parseInt(request.getParameter("codice"));
+        	SorgenteDAO.insertSorgente(descrizione, formato, idPubblicazione, tipo, URI);
         	
-        	SorgenteDAO.insertSorgente(descrizione, formato, 1, tipo, URI);
+        	EntryDAO.insertEntry("ha inserito una nuova sorgente nella pubblicazione", idPubblicazione, id);
         	response.sendRedirect("dettagliPubblicazione");
         }else if("invioRistampe".equals(action)) {
-        	int numero = Integer.parseInt(request.getParameter("numero"));
-        	int idPubblicazione = Integer.parseInt(request.getParameter("idPubblicazione"));   	
+        	String nome = request.getParameter("nome");
+        	if(idPubblicazione==0)idPubblicazione = Integer.parseInt(request.getParameter("codice"));
         	String dataR = request.getParameter("dataRistampa");
         	try {
         		//conversione data da String a Date
             	SimpleDateFormat data_a = new SimpleDateFormat("yyyy-MM-dd");
         		java.util.Date data_b = data_a.parse(dataR);
         		java.sql.Date dataRistampa = new java.sql.Date(data_b.getTime());        	
-            	RistampaDAO.insertRistampa(numero, idPubblicazione, dataRistampa);
+            	RistampaDAO.insertRistampa(nome, idPubblicazione, dataRistampa);
+            	EntryDAO.insertEntry("ha inserito una nuova ristampa nella pubblicazione", idPubblicazione, id);
         	
             } catch (Exception e) {
             	System.out.println(e);

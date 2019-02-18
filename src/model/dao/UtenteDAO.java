@@ -1,13 +1,19 @@
 package model.dao;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.sql.Date;
+import java.sql.ResultSet;
+
 import javax.naming.NamingException;
 
 import static util.Utile.crypt;
+import static util.Utile.decrypt;
+
+import model.Pubblicazione;
 import model.Utente;
 import util.Database;
 
@@ -78,14 +84,94 @@ public class UtenteDAO implements UtenteDAO_interface {
 	}
 	//query difficile, critica. bisogna trovare il modo di farla!!!! subito!!!! non ho TEMPO per pensare!!! 
 	public static List<Utente> mostActiveUsers(){ //che hanno inserito più pubblicazioni
-		return null;
+		/*	SELECT entry.idUtente, count(*) AS conto , utente.email
+			FROM entry, utente
+			WHERE entry.idUtente = utente.id
+			GROUP BY entry.idUtente
+			ORDER BY conto DESC
+
+		 * 
+		 * 
+		 * */
+		ArrayList<Utente> lista=null;
+		String condition="entry.idUtente=utente.id GROUP BY entry.idUtente";
+		
+		try {
+			lista = new ArrayList<Utente>();
+			Database.connect();
+			ResultSet rs =Database.selectRecord("entry.idUtente, count(*) AS conto, utente.email, utente.ruolo, utente.id", "entry, utente", condition, "conto DESC");
+			while(rs.next()) {
+				int id = rs.getInt("id");
+				int ruolo = rs.getInt("ruolo");
+				String email = rs.getString("email");
+				int conteggio = rs.getInt("conto");
+				Utente ut = new Utente(id, email, ruolo, conteggio);
+				lista.add(ut);
+			}
+			Database.close();
+		}catch(NamingException e) {
+    		System.out.println(e);
+        }catch (SQLException e) {
+        	System.out.println("SQL exception nel DAO -> " + e);
+        }catch (Exception e) {
+        	System.out.println(e);                           
+        }
+		return lista;
+	
 	}
 	public static List<Utente> showAllUser(){
-		return null;
+		ArrayList<Utente> lista=null;
+		try {
+			lista = new ArrayList<Utente>();
+			Database.connect();
+			ResultSet rs =Database.selectRecord("*", "utente", "", "utente.nome DESC");
+			while(rs.next()) {
+				int id = rs.getInt("id");
+				int ruolo = rs.getInt("ruolo");
+				Date dataIscr = rs.getDate("dataIscr");
+				Date dataNascita = rs.getDate("dataNascita");
+				String email = rs.getString("email");
+				String nome = rs.getString("nome");
+				String cognome = rs.getString("cognome");
+				String citta = rs.getString("citta");
+				Utente ut = new Utente(id, ruolo, dataIscr, nome, cognome, email, citta, dataNascita);
+				lista.add(ut);
+			}
+			Database.close();
+		}catch(NamingException e) {
+    		System.out.println(e);
+        }catch (SQLException e) {
+        	System.out.println("SQL exception nel DAO -> " + e);
+        }catch (Exception e) {
+        	System.out.println(e);                           
+        }
+		return lista;
 	}
 	public static Utente showDetailUser(int id) { //mostra dettagli dell'utente
-		return null;
+		Utente ut=null;
+		try {
+			Database.connect();
+			ResultSet rs =Database.selectRecord("*", "utente", "utente.id="+id, "");
+			while(rs.next()) {
+				int ruolo = rs.getInt("ruolo");
+				Date dataIscr = rs.getDate("dataIscr");
+				Date dataNascita = rs.getDate("dataNascita");
+				String email = rs.getString("email");
+				String nome = rs.getString("nome");
+				String cognome = rs.getString("cognome");
+				String citta = rs.getString("citta");
+				ut = new Utente(id, ruolo, dataIscr, nome, cognome, email, citta, dataNascita);
+			}
+			Database.close();
+		}catch(NamingException e) {
+    		System.out.println(e);
+        }catch (SQLException e) {
+        	System.out.println("SQL exception nel DAO -> " + e);
+        }catch (Exception e) {
+        	System.out.println(e);                           
+        }
+		
+		return ut;
 	}
 	
-	// conteggio like? conteggio recensioni?
 }

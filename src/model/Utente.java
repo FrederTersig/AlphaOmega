@@ -12,7 +12,7 @@ public class Utente {
 	String email;
 	String citta;
 	Date dataNascita;
-	
+	int attCont;
 	public Utente(int id, int ruolo, Date data, String nome, String cognome, String email, String citta, 
 			Date dataNascita) {
 		this.id = id;
@@ -25,6 +25,19 @@ public class Utente {
 		this.dataNascita = dataNascita;
 	}
 	
+	
+	public Utente(int id, String email, int ruolo, int attCont) {
+		this.id=id;
+		this.ruolo=ruolo;
+		this.email=email;
+		this.attCont=attCont;
+	}
+	public int getAttCont(){
+		return this.attCont;
+	}
+	public void setAttCont(int attCont) {
+		this.attCont = attCont;
+	}
 	public int getId(){
 		return this.id;
 	}
