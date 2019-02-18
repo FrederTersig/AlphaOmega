@@ -13,58 +13,24 @@
 					<div class="text-center"><p><h3>Lista dei Tag presenti nel sistema:</h3></p></div>
 				</div>
 				<br>
-				<div class="column col-6">
-					<div class="columns">
-						<div class="column col-7">
-							<p class="text-center">Drammatico</p>
+				<#if listaTag ??>
+					<#list listaTag as Tag>
+						<div class="column col-6">
+							<div class="columns">
+								<div class="column col-7">
+									<p class="text-center">${Tag.getNome()}</p>
+								</div>
+								<div class="column col-2">
+									<a class="btn btn-primary">Modifica</a>
+								</div>
+								<div class="column col-2">
+									<a class="btn btn-primary">Elimina</a>
+								</div>
+							</div>
 						</div>
-						<div class="column col-2">
-							<a class="btn btn-primary">Modifica</a>
-						</div>
-						<div class="column col-2">
-							<a class="btn btn-primary">Elimina</a>
-						</div>
-					</div>
-				</div>
-				<div class="column col-6">
-					<div class="columns">
-						<div class="column col-7">
-							<p class="text-center">Drammatico</p>
-						</div>
-						<div class="column col-2">
-							<a class="btn btn-primary">Modifica</a>
-						</div>
-						<div class="column col-2">
-							<a class="btn btn-primary">Elimina</a>
-						</div>
-					</div>
-				</div>
-				<div class="column col-6">
-					<div class="columns">
-						<div class="column col-7">
-							<p class="text-center">Drammatico</p>
-						</div>
-						<div class="column col-2">
-							<a class="btn btn-primary">Modifica</a>
-						</div>
-						<div class="column col-2">
-							<a class="btn btn-primary">Elimina</a>
-						</div>
-					</div>
-				</div>
-				<div class="column col-6">
-					<div class="columns">
-						<div class="column col-7">
-							<p class="text-center">Drammatico</p>
-						</div>
-						<div class="column col-2">
-							<a class="btn btn-primary">Modifica</a>
-						</div>
-						<div class="column col-2">
-							<a class="btn btn-primary">Elimina</a>
-						</div>
-					</div>
-				</div>
+					</#list>
+				</#if>
+				
 			</div>
 			<br>
 			<br>
@@ -72,7 +38,7 @@
 				<div class="text-center text-bold"><p><h3>Inserimento nuovo tag</h3></p></div>
 			</div>
 			<div class="column col-5 col-mx-auto">
-				<form>
+				<form method="post" role="form">
 					<div class="form-group">
 					 	<label class="form-label" for="inputTag">Nome del nuovo Tag da inserire</label>
 					  	<input class="form-input" type="text" id="inputTag" placeholder="Name" required>

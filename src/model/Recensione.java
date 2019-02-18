@@ -5,6 +5,7 @@ import java.sql.Date;
 public class Recensione {
 	private int id;
 	private int idUtente;
+	private String nomeUtente;
 	private int idPubblicazione;
 	private Date data;
 	private String testo;
@@ -54,6 +55,12 @@ public class Recensione {
 	}
 	public void setTesto(String testo) {
 		this.testo=testo;
+	}
+	public String getNomeUtente() {
+		return this.nomeUtente;
+	}
+	public void setNomeUtente(String nome) {
+		this.nomeUtente=nome;
 	}
 	public int getConvalida() {
 		return this.convalida;

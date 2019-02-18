@@ -21,7 +21,6 @@
 			      <th>Nome</th>
 			      <th>Cognome</th>
 			      <th>Email</th>  
-			      <th>Password</th>
 			      <th>Iscrizione</th>
 			      <th>Tipo</th>
 			      <th></th>
@@ -29,44 +28,23 @@
 		    	</tr>
 			</thead>
 			<!-- tbody è l'attributo da moltiplicare in base al risultato delle query -->
+			<#if listUtente??>
+				<#list listUtente as Utente>
+					
 			<tbody>
 			    <tr>
-			    	<td>Marco</td>
-			    	<td>Mennionini</td>			    	
-			    	<td>Marco@email.it</td>
-			    	<td>peppino1234</td>
-			    	<td>13/10/2018</td>
-			    	<td>Attivo</td>
+			    	<td>${Utente.getNome()}</td>
+			    	<td>${Utente.getCognome()}</td>			    	
+			    	<td>${Utente.getEmail()}</td>
+			    	<td>${Utente.getData()}</td>
+			    	<td><#if utenteVisitato.getRuolo() == 0>Passivo<#elseif utenteVisitato.getRuolo()==1>Attivo<#elseif utenteVisitato.getRuolo()==2>Moderatore<#else>Admin</#if></td>
 			    	<td><button class="btn btn-primary">Modifica</button></td>
 			    	<td><button class="btn btn-primary">Rimuovi</button></td>
 			    </tr>
 			</tbody>
-			<tbody>
-			    <tr>
-			    	<td>Gianni</td>
-			    	<td>Altennino</td>			    	
-			    	<td>Gianni@email.it</td>
-			    	<td>ululiulula123</td>
-			    	<td>13/10/2018</td>
-			    	<td>Passivo</td>
-			    	<td><button class="btn btn-primary">Modifica</button></td>
-			    	<td><button class="btn btn-primary">Rimuovi</button></td>
-			    </tr>
-			</tbody>
-			<!--
-			<tbody>
-			    <tr>
-			    	<td>Nome dell'utente</td>
-			    	<td>Cognome dell'utente</td>			    	
-			    	<td>Email dell'utente</td>
-			    	<td>Password dell'utente</td>
-			    	<td>Iscrizione dell'utente</td>
-			    	<td>Tipo dell'utente</td>
-			    	// form???
-			    	<td><button class="btn btn-primary">modifica relativo all'utente</button></td>
-			    	<td><button class="btn btn-primary">Rimuovi relativo all'utente</button></td>
-			    </tr>
-			</tbody>
+				</#list>
+			</#if>
+			
 			-->
 		</table>
 	</body>

@@ -3,6 +3,7 @@ package servlets;
 import static util.Utile.checkRuolo;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import model.Tag;
 import model.Utente;
+import model.dao.TagDAO;
 import util.FreeMarker;
 import util.SecurityLayer;
 
@@ -70,7 +73,8 @@ public class BackendTag extends HttpServlet {
             utente=null;
         } 
         
-		
+    	ArrayList<Tag> listaTag = (ArrayList<Tag>) TagDAO.showAllTags();
+    	data.put("listaTag", listaTag);		
 		
         try {        	
             processRequest(request, response);

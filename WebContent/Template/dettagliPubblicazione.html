@@ -8,9 +8,20 @@
 
 		<div class="container">
 			<#if Pubblicazione ??>
-				<h1> ${Pubblicazione.getTitolo()} </h1>
+			<div class="columns col-gapless">	
+				<div class="column col-8">
+					<h1> ${Pubblicazione.getTitolo()} </h1> 
+				</div>
+				<div class="column col-4">
+					<form method="post" role="form">
+							<button type="submit" class="btn text-left text-bold" id="inviaLike" name="value" value="inviaLike" required>Like!</button>
+					</form>
+					<b>Numero Like: conteggio</b>
+				</div>
+			</div>
+				
 				<div class="columns col-gapless">
-					<div class="column col-4">
+					<div class="column col-3">
 						<div class="text-left">
 							<p><div class="text-bold">Data pubblicazione:</div>${Pubblicazione.getDataCreazione()}</p>
 							<p><div class="text-bold">Autore:</div>${Pubblicazione.showAutori()}</p>
@@ -19,7 +30,7 @@
 							
 						</div>
 					</div>
-					<div class="column col-4">
+					<div class="column col-3">
 						<div class="text-left">					
 							<p><div class="text-bold">Lingua:</div>${Pubblicazione.getLingua()}</p>
 							<p><div class="text-bold">Codice ISBN:</div>${Pubblicazione.getCodiceISBN()}</p>
@@ -27,14 +38,20 @@
 							
 						</div>
 					</div>	
-					<div class="column col-4">
+					<div class="column col-3">
 						<div class="text-left">					
 							<p><div class="text-bold">Tags:</div>${Pubblicazione.showTags()}</p>
 							<p><div class="text-bold">Data di inserimento:</div>${Pubblicazione.getDataInserimento()}</p>
 							<p><div class="text-bold">Inserito da:</div> Query per dettagli </p>
 						</div>
 					</div>	
-					
+					<div class="column col-3">
+						<div class="text-left">					
+							<a class="btn show-modal" href="#guardaRecensioni"><b>Lista Recensioni</b></a>
+							<a class="btn show-modal" href="#guardaModifiche"><b>Lista Modifiche</b></a>
+							
+						</div>
+					</div>	
 				</div>
 				<div class="columns col-gapless">
 					<div class="col-12">
@@ -80,10 +97,8 @@
 								<a class="btn show-modal col-mx-auto" href="#listaSorgenti"><b>Lista Sorgenti</b></a>
 							</div>
 					</#if>
+					
 			</div>
-			
-			
-			
 			
 			<!--  SE è un utente normale visualizza questi modal -->
 				<!--  PARTE DEL CAPITOLO -->
@@ -391,39 +406,94 @@
 				</#if>
 			
 			
+						<!-- RECENSIONI -->
+						<div id="guardaRecensioni" class="modal modal-lg">
+							<div class="modal-overlay"></div>
+							<div class="modal-container">
+								<div class="modal-header">
+									<a href="#close" class="btn btn-clear float-right close-modal"></a>
+									<div class="modal-title"><b>Invia Recensione</b></div>
+								</div>
+								<div class="modal-body">
+									<div class="content">
+										<form class="form-horizontal" method="post" role="form">
+											<div class="form-group">
+												<div class="columns col-gapless">
+													<div class="col-12">
+														<input class="form-input" type="text" name="testo" placeholder="testo" required>
+													</div>
+												</div>
+											</div>
+											<button type="submit" class="btn p-centered text-bold" id="inviaRecensione" name="value" value="inviaRecensione" required>Invia Recensione</button>
+										</form>
+										<!-- Visualizza la lista dei capitoli -->
+										<br>
+										<#if listaRecensioni ??>
+											<#list listaRecensioni as Recensione>
+												<div class="text-dark">
+													<b>${Recensione.getNomeUtente()} - ${Recensione.getData()}</b><br>
+													${Recensione.getTesto()} 
+												</div>
+												<br>
+											</#list>
+										</#if>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<a href="#close" class="btn btn-primary close-modal">Close</a>
+								</div>
+							</div>
+						</div>
+						
+						<!-- ENTRy -->
+						<div id="guardaModifiche" class="modal modal-lg">
+							<div class="modal-overlay"></div>
+							<div class="modal-container">
+								<div class="modal-header">
+									<a href="#close" class="btn btn-clear float-right close-modal"></a>
+									<div class="modal-title"><b>Lista Modifiche</b></div>
+								</div>
+								<div class="modal-body">
+									<div class="content">
+										<!-- Visualizza la lista dei capitoli -->
+										<br>
+										<#if listaEntry ??>
+											<#list listaEntry as Entry>
+												<div class="text-dark">
+													<b>${Entry.getData()} - ${Entry.getNome()}</b> <br> 
+													${Entry.getDescrizione()}
+													<br>
+												</div>
+												<br>
+											</#list>
+										</#if>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<a href="#close" class="btn btn-primary close-modal">Close</a>
+								</div>
+							</div>
+						</div>
+						
+
+						
+			
+			
 			
 		
 			
-			<!-- Lista delle pubblicazioni degli stessi autori!! -->
-			<br>
+			<!-- BOTTONE CHE RIMANDA ALLA RICERCA!!! -->
 			<br>
 			<div class="columns col-gapless">
 				<div class="col-12 text-bold">
-					<p>Lista delle pubblicazioni che hanno gli stessi autori:</p>
+					<a class="btn btn-primary my-1" href="ricercaPubblicazione?tipoRicerca=6">Pubblicazione che hanno gli stessi autori</a>
 				</div>
 			</div>
 			<br>
 			
 			
-			<!--  Lista Pubblicazioni Simili  -->
-			<div class="columns col-gapless text-center">
-				<div class="col-3">
-					<p>Pubblicazione 1</p>
-					<button class="btn">default button</button>
-				</div>
-				<div class="col-3">
-					<p>Pubblicazione 2</p>
-					<button class="btn">default button</button>
-				</div>
-				<div class="col-3">
-					<p>Pubblicazione 3</p>
-					<button class="btn">default button</button>
-				</div>
-				<div class="col-3">
-					<p>Pubblicazione 4</p>
-					<button class="btn">default button</button>
-				</div>
-			</div>
+			
+			
 		</div>
 	</body>
 <#include "footer.html">

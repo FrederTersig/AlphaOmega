@@ -20,37 +20,20 @@
 		    	</tr>
 			</thead>
 			<!-- tbody è l'attributo da moltiplicare in base al risultato delle query -->
-			<tbody>
-			    <tr>
-			    	<td>mario@gmail.it</td>
-			    	<td>Per un pugno di dollaroni</td>			    	
-			    	<td>Questa è una recensione per dire che questo libro mi fa diventare dislessico anjsdjiasd kasdmasok dasdo aksdkasdko asdmaoksd asd ajsdnaisdk nasdklp asdk amsdo asd askdoingoi dmsd kkm wemfi omwe wemoiemw oinwe mpwerl sdlldk vmls dòdfpewimewk f,esòmddòdsmlsdk jipewm kwelò seòlsdf, òlsd òlewpok wpel,lsdfòl ,sdpokf we,òlòwe, òlew,lò,fdsà sd.</td>
-			    	<td>10/20/1000</td>
-			    	<td><button class="btn btn-primary">Accetta</button></td>
-			    	<td><button class="btn btn-primary">Rifiuta</button></td>
-			    </tr>
-			</tbody>
-			<tbody>
-			    <tr>
-			    	<td>mario@gmail.it</td>
-			    	<td>Per un pugno di dollaroni</td>			    	
-			    	<td>ASKDMJAS kaskd poasdlpmksaof fpokadsmasiojpao kmkdosnais asd huasdasdnjasdnsad ajndaso wqiqi o ovov, mfldpd md klmd kd mlkmdlkmd òldpk dopkwq iou812y3e90e1 9ew wkwqm213mepot3po2mem mklkm mk òsl ekf i3rwmo ewflmsdf ompwr3.</td>
-			    	<td>10/20/1000</td>
-			    	<td><button class="btn btn-primary">Accetta</button></td>
-			    	<td><button class="btn btn-primary">Rifiuta</button></td>
-			    </tr>
-			</tbody>
-			<!-- Elemento che va a cambiare tutto
-			<tbody>
-			    <tr>
-			    	<td>mario@gmail.it</td>
-			    	<td><a class="btn btn-link">per un pugno di Libri</a></td>			    	
-			    	<td>Questo romanzo racconta la storia di una bibliotecaria che, invidiosa della collezione di libri di un altra biblioteca... </td>
-			    	<td>10/20/1000</td>
-			    	<td><button class="btn btn-primary">Rimuovi</button></td>
-			    </tr>
-			</tbody>
-			-->
+			<#if listaRecensioni ??>
+				<#list listaRecensioni as Recensione>
+					<tbody>
+					    <tr>
+					    	<td>${Recensione.getNomeUtente()}</td>			    	
+					    	<td>${Recensione.getTesto()}</td>
+					    	<td>${Recensione.getData()}</td>
+					    	<td><button class="btn btn-primary">Accetta</button></td>
+					    	<td><button class="btn btn-primary">Rifiuta</button></td>
+					    </tr>
+					</tbody>
+				</#list>
+			</#if>
+			
 		</table>
 	</body>
 <#include "footer.html">

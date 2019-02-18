@@ -13,58 +13,24 @@
 					<div class="text-center"><p><h3>Lista degli Autori presenti nel sistema:</h3></p></div>
 				</div>
 				<br>
-				<div class="column col-6">
-					<div class="columns">
-						<div class="column col-7">
-							<p class="text-center">Nome autore 1</p>
+				<#if listaAutori ??>
+					<#list listaAutori as Autore>
+						<div class="column col-6">
+							<div class="columns">
+								<div class="column col-7">
+									<p class="text-center">${Autore.getNome()}</p>
+								</div>
+								<div class="column col-2">
+									<a class="btn btn-primary">Modifica</a>
+								</div>
+								<div class="column col-2">
+									<a class="btn btn-primary">Elimina</a>
+								</div>
+							</div>
 						</div>
-						<div class="column col-2">
-							<a class="btn btn-primary">Modifica</a>
-						</div>
-						<div class="column col-2">
-							<a class="btn btn-primary">Elimina</a>
-						</div>
-					</div>
-				</div>
-				<div class="column col-6">
-					<div class="columns">
-						<div class="column col-7">
-							<p class="text-center">Nome autore 2</p>
-						</div>
-						<div class="column col-2">
-							<a class="btn btn-primary">Modifica</a>
-						</div>
-						<div class="column col-2">
-							<a class="btn btn-primary">Elimina</a>
-						</div>
-					</div>
-				</div>
-				<div class="column col-6">
-					<div class="columns">
-						<div class="column col-7">
-							<p class="text-center">Nome autore 3</p>
-						</div>
-						<div class="column col-2">
-							<a class="btn btn-primary">Modifica</a>
-						</div>
-						<div class="column col-2">
-							<a class="btn btn-primary">Elimina</a>
-						</div>
-					</div>
-				</div>
-				<div class="column col-6">
-					<div class="columns">
-						<div class="column col-7">
-							<p class="text-center">Nome autore 4</p>
-						</div>
-						<div class="column col-2">
-							<a class="btn btn-primary">Modifica</a>
-						</div>
-						<div class="column col-2">
-							<a class="btn btn-primary">Elimina</a>
-						</div>
-					</div>
-				</div>
+					</#list>
+				</#if>
+				
 			</div>
 			<br>
 			<br>
@@ -72,7 +38,7 @@
 				<div class="text-center text-bold"><p><h3>Inserimento nuovo Autore</h3></p></div>
 			</div>
 			<div class="column col-5 col-mx-auto">
-				<form>
+				<form method="post" role="form">
 					<div class="form-group">
 					 	<label class="form-label" for="inputAutore">Nome del nuovo autore da inserire</label>
 					  	<input class="form-input" type="text" id="inputAutore" placeholder="Name" required>
