@@ -370,7 +370,7 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 		try {
 			lista = new ArrayList<Pubblicazione>();
 			Database.connect();
-			ResultSet rs = Database.join("pubblicazione.id, pubblicazione.titolo,pubblicazione.ISBN, ristampa.data, ristampa.nome", "pubblicazione", map, "", "ristampa.data DESC LIMIT 1");
+			ResultSet rs = Database.join("pubblicazione.id, pubblicazione.titolo,pubblicazione.ISBN, ristampa.data, ristampa.nome", "pubblicazione", map, "", "ristampa.data DESC");
 			while(rs.next()) {
 				int id = rs.getInt("id");
 				String titolo = rs.getString("titolo");
