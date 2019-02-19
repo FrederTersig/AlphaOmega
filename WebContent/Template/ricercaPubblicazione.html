@@ -22,8 +22,10 @@
 							<h1 class>-> ${totElementi} pubblicazioni aggiornate di recente (ultimi 30 gg).</h1>
 						<#elseif tipoRicerca ==4>
 							<h1 class>-> ${totElementi} pubblicazioni che hanno un download.</h1>
+						<#elseif tipoRicerca ==5>
+							<h1 class>-> Intero catalogo del sito (${totElementi} pubblicazioni presenti).</h1>			
 						<#else>
-							<h1 class>-> Intero catalogo del sito (${totElementi} pubblicazioni presenti).</h1>					
+							<h1 class>-> Pubblicazioni con gli stessi autori</h1>			
 						</#if>
 					</div>
 				</div>
@@ -71,7 +73,7 @@
 						<tbody>
 						    <tr>
 						    	 <td><a href="dettagliPubblicazione?codice=${Pubblicazione.getId()}">${Pubblicazione.getTitolo()}</a></td>
-						    	 <td>${Pubblicazione.showAutori()}</td>
+						    	 <td>${Pubblicazione.getCodiceISBN()}</td>
 						    	 <td>${Pubblicazione.getDataUltimaRistampa()}</td>
 						    	 <td>${Pubblicazione.getNomeUltimaRistampa()}</td>
 						    </tr>
@@ -147,7 +149,7 @@
 						
 					</#list>
 				</#if>
-			<#else><!-- id - titolo - editore - autori - data di creazione // TUTTO IL CATALOGO -->
+			<#elseif tipoRicerca ==5><!-- id - titolo - editore - autori - data di creazione // TUTTO IL CATALOGO -->
 				<thead>
 			    	<tr>
 						<th>Titolo</th> 
@@ -165,6 +167,27 @@
 						    	 <td>${Pubblicazione.getEditore()}</td>
 						    	 <td>${Pubblicazione.showAutori()}</td>
 						    	 <td>${Pubblicazione.getDataCreazione()}</td>
+						    </tr>
+						</tbody>
+						
+					</#list>
+				</#if>
+			<#else> <!-- ELENCO STESSI AUTORI  -->
+				<thead>
+			    	<tr>
+						<th>Titolo</th> 
+						<th>ISBN</th>
+						<th>Autore/i</th>
+					
+			    	</tr>
+				</thead>
+				<#if pubblicazioni ??>
+					<#list pubblicazioni as Pubblicazione>
+						<tbody>
+						    <tr>
+						    	 <td><a href="dettagliPubblicazione?codice=${Pubblicazione.getId()}">${Pubblicazione.getTitolo()}</a></td>
+						    	 <td>${Pubblicazione.getCodiceISBN()}</td>
+						    	 <td>${Pubblicazione.showAutori()}</td>
 						    </tr>
 						</tbody>
 						

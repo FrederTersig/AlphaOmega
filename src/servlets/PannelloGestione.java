@@ -39,7 +39,7 @@ public class PannelloGestione extends HttpServlet {
     	ruolo = checkRuolo(id);
     	data.put("ruolo", ruolo);
     	if(ruolo == 0) { // NON HA I PERMESSI PER TROVARSI IN QUESTA PAGINA
-    		FreeMarker.process("home.html", data, response, getServletContext());   
+    		response.sendRedirect("home");  
     	}else {
     		FreeMarker.process("pannelloGestione.html", data, response, getServletContext());   
     	}
@@ -60,12 +60,14 @@ public class PannelloGestione extends HttpServlet {
                 id=0;
                 //utente non c'è.
                 utente=null;
+                response.sendRedirect("home");
             }
             System.out.println("Process Request Home ->  ID =" + id );           
         }else{//Non esiste per niente la sessione, l'utente non è connesso
             id = 0;
             //utente non c'è quindi non mostri niente?
             utente=null;
+            response.sendRedirect("home");
         } 
         
 		
@@ -102,6 +104,7 @@ public class PannelloGestione extends HttpServlet {
         	System.out.println("Sto cercando di entrare nel mio profilo");
         	//Mi devo ricavare il mio ID
         	//Devo andare nella pagina "dettagliProfilo" utilizzando il mio ID come "destinazione"
+        	response.sendRedirect("dettagliProfilo?codice=" + id);
         }
 	}
 

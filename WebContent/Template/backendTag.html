@@ -9,22 +9,22 @@
 			</div>
 			<br>
 			<div class="columns col-gapless">
-				<div class="column col-12">
+				<div class="column col-12 col-mx-auto">
 					<div class="text-center"><p><h3>Lista dei Tag presenti nel sistema:</h3></p></div>
 				</div>
 				<br>
 				<#if listaTag ??>
 					<#list listaTag as Tag>
-						<div class="column col-6">
+						<div class="column col-3">
 							<div class="columns">
 								<div class="column col-7">
 									<p class="text-center">${Tag.getNome()}</p>
 								</div>
-								<div class="column col-2">
-									<a class="btn btn-primary">Modifica</a>
-								</div>
-								<div class="column col-2">
-									<a class="btn btn-primary">Elimina</a>
+								<div class="columns col-5">
+									<form method="post" role="form">
+										<button type="submit" class="btn btn-primary" id="eliminaTag" name="value" value="eliminaTag">Elimina</button>
+										<input type="hidden" name="idTagSel" value="${Tag.getId()}"/>
+									</form>
 								</div>
 							</div>
 						</div>
@@ -32,21 +32,43 @@
 				</#if>
 				
 			</div>
-			<br>
-			<br>
-			<div class="column col-12">
-				<div class="text-center text-bold"><p><h3>Inserimento nuovo tag</h3></p></div>
+			<div class="columns col-gapless">
+				<div class="column col-12">
+					<a class="btn show-modal" href="#inserisciTag"><b>Inserisci Tag</b></a>
+				</div>
 			</div>
-			<div class="column col-5 col-mx-auto">
-				<form method="post" role="form">
-					<div class="form-group">
-					 	<label class="form-label" for="inputTag">Nome del nuovo Tag da inserire</label>
-					  	<input class="form-input" type="text" id="inputTag" placeholder="Name" required>
-					  	<br>
-					  	<button class="p-centered text-bold btn" type="submit" id="invioTag" name="value" value="invioTag" required> Crea Nuovo Tag </button> 
+			
+					<div id="inserisciTag" class="modal modal-lg">
+						<div class="modal-overlay"></div>
+						<div class="modal-container">
+							<div class="modal-header">
+								<a href="#close" class="btn btn-clear float-right close-modal"></a>
+								<div class="modal-title">Inserimento Tag</div>
+							</div>
+							<div class="modal-body">
+								<div class="content">
+									<div class="form-group">
+										<div class="column col-8 col-mx-auto">
+											<form method="post" role="form">
+												<div class="form-group">
+												 	<label class="form-label" for="inputTag">Nome del nuovo Tag da inserire</label>
+												  	<input class="form-input" type="text" id="inputTag" name="inputTag" placeholder="Name" required>
+												  	<br>
+												  	<button class="p-centered text-bold btn" type="submit" id="invioTag" name="value" value="invioTag" required> Crea Nuovo Tag </button> 
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+								
+								
+							</div>
+							<div class="modal-footer">
+								<a href="#close" class="btn btn-primary close-modal">Close</a>
+							</div>
+						</div>
 					</div>
-				</form>
-			</div>
+
 		</div>
 		
 	</body>

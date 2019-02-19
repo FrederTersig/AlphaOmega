@@ -42,9 +42,9 @@ public class BackendTag extends HttpServlet {
     	ruolo = checkRuolo(id);
     	data.put("ruolo", ruolo);
     	if(ruolo == 0) { // NON HA I PERMESSI PER TROVARSI IN QUESTA PAGINA
-    		FreeMarker.process("home.html", data, response, getServletContext());   
+    		response.sendRedirect("home");
     	}else {
-    		FreeMarker.process("pannelloGestione.html", data, response, getServletContext());   
+    		FreeMarker.process("backendTag.html", data, response, getServletContext());   
     	}
            
     }
@@ -65,12 +65,14 @@ public class BackendTag extends HttpServlet {
                 id=0;
                 //utente non c'è.
                 utente=null;
+                response.sendRedirect("home");
             }
             System.out.println("Process Request Home ->  ID =" + id );           
         }else{//Non esiste per niente la sessione, l'utente non è connesso
             id = 0;
             //utente non c'è quindi non mostri niente?
             utente=null;
+            response.sendRedirect("home");
         } 
         
     	ArrayList<Tag> listaTag = (ArrayList<Tag>) TagDAO.showAllTags();
@@ -91,8 +93,19 @@ public class BackendTag extends HttpServlet {
 		System.out.println("POST backendTag! Di seguito id --> " +id );
         String action = request.getParameter("value");
         System.out.println(" >> " +action+ " << ");
-        
-		if("logout".equals(action)){
+		if("invioTag".equals(action)) {
+			System.out.println("invioTag ---->");
+			String inputTag = request.getParameter("inputTag");
+			TagDAO.insertTag(inputTag);
+			System.out.println("Inviato nuovo tag!!");
+			response.sendRedirect("backendTag");
+        }else if("eliminaTag".equals(action)) {
+        	System.out.println("eliminaTag --->>");
+        	String idTagSel = request.getParameter("idTagSel");
+        	Integer idTagSele = Integer.valueOf(idTagSel);
+        	TagDAO.deleteTag(idTagSele);
+        	response.sendRedirect("backendTag");
+        }else if("logout".equals(action)){
             System.out.println("** CLICCATO LOGOUT POSIZIONATO in BackendTag **");
             try{
                 SecurityLayer.disposeSession(request); 
@@ -108,6 +121,7 @@ public class BackendTag extends HttpServlet {
         	System.out.println("Sto cercando di entrare nel mio profilo");
         	//Mi devo ricavare il mio ID
         	//Devo andare nella pagina "dettagliProfilo" utilizzando il mio ID come "destinazione"
+        	response.sendRedirect("dettagliProfilo?codice=" + id);
         }
 	}
 

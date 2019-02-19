@@ -19,7 +19,13 @@ public interface UtenteDAO_interface {
 	public static List<Utente> showAllUser(){
 		return null;
 	}
-	public static Utente showDetailUser(int id) { //mostra dettagli dell'utente
+	public static void updateRichiesta() {
+		
+	}
+	public static List<Utente> showRichiestaUt(){
+		return null;
+	}
+	public static Utente showDetailUser() { //mostra dettagli dell'utente
 		return null;
 	}
 	

@@ -33,7 +33,7 @@ import model.dao.UtenteDAO;
  */
 
 public class Registrazione extends HttpServlet {
-	Map<String, Object> map = new HashMap<String,Object>(); // la tree map è da togliere
+	Map<String, Object> data = new HashMap<String,Object>(); // la tree map è da togliere
 	public int id=0; //id dell'utente -> default
 	public Utente utente;
     
@@ -42,9 +42,9 @@ public class Registrazione extends HttpServlet {
 		//Non c'è motivo per avere una sessione in questa pagina.
 		//CANCELLO la sessione entrando in questa pagina
 		//ricordando che il bottone per questa pagina appare SOLO se si è GUEST.
-		map.put("id", id);    
-    	map.put("utente", utente);
-		FreeMarker.process("registrazione.html", map, response, getServletContext()); // data ??
+		data.put("id", id);    
+    	data.put("utente", utente);
+		FreeMarker.process("registrazione.html", data, response, getServletContext()); // data ??
 	}
     
 	/**
@@ -115,7 +115,63 @@ public class Registrazione extends HttpServlet {
             	System.out.println(e);
             }
             
-		}
+		}else if("login".equals(action)){ // SE il metodo post è il login....
+            System.out.println("Verso il login ");
+            String email = request.getParameter("email");
+            String password = request.getParameter("password");    
+            //Check su email && password per vedere se l'utente esiste nel DB (1 sì,0 no)
+            System.out.println("email :: " + email + " || "+ "password " + password); 
+            if(!(null == email) && !(null == password)) {
+            	try {
+            		id=Utile.checkUser(email, password); // prendo l'id dell'utente
+            	}catch(Exception e) {
+            		e.printStackTrace();
+            	}
+            }
+            System.out.println("Ecco l'id!" + id);
+            if(id==0) { //Non esiste l'utente nel db
+            	System.out.println("Utente non presente nel DB!");
+            	data.put("id", 0);
+            	utente=null;
+            	data.put("utente", utente);
+            	response.sendRedirect("home");
+            }else { //Esiste l'utente nel db
+            	System.out.println("Utente presente nel DB!  > procedo!!");
+            	try{ 
+                    HttpSession s = SecurityLayer.createSession(request, email, id);
+                    System.out.println("Sessione Creata, Connesso!");
+                    data.put("id",id);
+                    s.setAttribute("id", id);
+                    Utente profilo=null;
+                    try {
+                    	Database.connect();
+                        id = (int) s.getAttribute("id");
+                        ResultSet pr=Database.selectRecord("*", "utente", "utente.id="+id, "");
+                    	while(pr.next()) {
+                    		int ruolo = pr.getInt("ruolo");
+                			Date dataNascita = pr.getDate("dataNascita");
+                			Date dataIscr = pr.getDate("dataIscr");
+                			String nome = pr.getString("nome");
+                			String cognome = pr.getString("cognome");
+                			String emailX = pr.getString("email");
+                			String citta = pr.getString("citta");
+                    		profilo = new Utente(id,ruolo,dataIscr,nome,cognome,emailX,citta,dataNascita);
+                    	}
+                    	Database.close();
+                    }catch (SQLException e) {
+                    	System.out.println(e);
+                    }catch (Exception e) {
+                    	System.out.println(e);
+                    }
+                    
+                    data.put("utente", profilo);
+                    s.setAttribute("utente", profilo);
+                    response.sendRedirect("home");
+                }catch(Exception e){
+                    System.out.println("Errore creazione sessione HOME " + e);
+                }
+            }
+        }
 		
 	}
 

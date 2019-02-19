@@ -166,8 +166,10 @@ public class Database {
         }
         //query = query.substring(0, query.length()-2) + " WHERE " + condition;
         query = query.substring(0, query.length()-2); //toglie lo la virgola e lo spazio finale aggiunto prima
-        if(condition != null && condition.trim().isEmpty()) query += " WHERE " + condition;
+        if(condition != null && !condition.trim().isEmpty()) query += " WHERE " + condition;
         //IF nuovo, da testare
+        System.out.println("QUERY UPDATE!!!!!! -----------------------------------------------------------------------------------------------------------------------");
+        System.out.println(query);
         return Database.updateQuery(query);
     }
    

@@ -30,16 +30,80 @@
 				<br>
 				<div class="columns col-gapless">
 					<div class="column col-12">
-						
-						<!-- Parte utente attivo 
-						<p><div class="text-bold text-left">Pubblicazioni inserite nel sistema -> </div></p>
-						<p><div class="text-bold text-left">Lista delle azioni compiute nel sistema -> </div></p>		
-						-->		
+						<#if canReq ??>
+							<form method="post" role="form">
+								<button type="submit" class="btn btn-primary" id="reqAtt" name="value" value="reqAtt">Richiedi passaggio ad utente attivo</button>
+								<input type="hidden" name="idReq" value=""/>
+							</form>
+						</#if>
+						<#if utente??>
+							<#if utente.getRuolo() != 0 && utenteVisitato.getRuolo() != 0>
+								<a class="btn show-modal" href="#profPubblicazioni"><b>Lista Pubblicazioni inserite dall'utente</b></a>
+								<a class="btn show-modal" href="#profEntry"><b>Lista Entry dell'utente</b></a>
+							</#if>
+						</#if>
 					</div>
 				</div>
 			</#if>
 		</div>
-
+						<div id="profEntry" class="modal modal-lg">
+							<div class="modal-overlay"></div>
+							<div class="modal-container">
+								<div class="modal-header">
+									<a href="#close" class="btn btn-clear float-right close-modal"></a>
+									<div class="modal-title"><b>Lista Modifiche fatte dall'utente</b></div>
+								</div>
+								<div class="modal-body">
+									<div class="content">
+										<!-- Visualizza la lista dei capitoli -->
+										<br>
+										<#if listaEntry ??>
+											<#list listaEntry as Entry>
+												<div class="text-dark">
+													<b>${Entry.getData()} - ${Entry.getTitolo()}</b> <br> 
+													${Entry.getDescrizione()}
+													<br>
+												</div>
+												<br>
+											</#list>
+										</#if>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<a href="#close" class="btn btn-primary close-modal">Close</a>
+								</div>
+							</div>
+						</div>
+						
+						
+						<div id="profPubblicazioni" class="modal modal-lg">
+							<div class="modal-overlay"></div>
+							<div class="modal-container">
+								<div class="modal-header">
+									<a href="#close" class="btn btn-clear float-right close-modal"></a>
+									<div class="modal-title">Lista delle pubblicazioni inserite dall'utente</div>
+								</div>
+								<div class="modal-body">
+									<div class="content">
+										<div class="form-group">
+											<#if listaPubblicazioni ??>
+												<#list listaPubblicazioni as Pubblicazione>
+													<div class="text-dark">
+														<b>${Pubblicazione.getTitolo()}</b> - ${Pubblicazione.getCodiceISBN()} - ${Pubblicazione.getDataInserimento()}
+													</div>
+													<br>
+												</#list>
+										</#if>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<a href="#close" class="btn btn-primary close-modal">Close</a>
+								</div>
+							</div>
+						</div>
+		
+		
 
 	</body>
 <#include "footer.html">

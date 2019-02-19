@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.naming.NamingException;
 
 import model.Capitolo;
+import model.Entry;
 import model.Pubblicazione;
 import model.Ristampa;
 import model.Sorgente;
@@ -19,6 +20,8 @@ import model.Utente;
 import util.Database;
 
 public class PubblicazioneDAO implements PubblicazioneDAO_interface{
+	
+	
 	// QUERY FATTA
 	public static List<Pubblicazione> lastTenPub(){ //Ultimi 10 giorni
 		ArrayList<Pubblicazione> lista=null;
@@ -64,26 +67,31 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 	// finita
 	public static List<Pubblicazione> recentUpdated(){//Ultimi 30 giorni --> Meglio la Procedura??
 		ArrayList<Pubblicazione> lista=null;
-		Map<String, Object> map = new HashMap<String, Object>();
+		ArrayList<Integer> checkList = null;
+		Map<String, Object> map = new LinkedHashMap<String, Object>();
 		map.put("entry", "pubblicazione.id = entry.idPubblicazione");
 		map.put("utente", "utente.id = entry.idUtente");
 		try {
 			lista = new ArrayList<Pubblicazione>();
+			checkList = new ArrayList<Integer>();
 			Database.connect();
 			// **** DA CONTROLLARE IL RISULTATO -> al posto di * mettere "entry.data, pubblicazione.titolo ecc"
-			ResultSet rs = Database.join("*", "pubblicazione", map, "", "entry.data BETWEEN NOW() - INTERVAL 30 DAY AND NOW");
+			ResultSet rs = Database.join("*", "pubblicazione", map, "", "entry.data BETWEEN NOW() - INTERVAL 30 DAY AND NOW(), entry.data DESC");
 			//ResultSet rs = Database.selectJoin("*", "pubblicazione", "entry", "pubblicazione.id = entry.idPubblicazione", 
 			//		"entry.data BETWEEN NOW() - INTERVAL 30 DAY AND NOW");
 			
 			while(rs.next()) {
 				int id = rs.getInt("id");
-				String ISBN = rs.getString("ISBN");
-				String titolo = rs.getString("titolo");
-				Date ultimaModifica = rs.getDate("entry.data");
-				String modificataDa = rs.getString("utente.email");
-				int utenteId = rs.getInt("utente.id");
-				Pubblicazione pub = new Pubblicazione(id, utenteId, titolo, ISBN, modificataDa, ultimaModifica);
-				lista.add(pub);
+				if(!checkList.contains(id)) {
+					checkList.add(id);
+					String ISBN = rs.getString("ISBN");
+					String titolo = rs.getString("titolo");
+					Date ultimaModifica = rs.getDate("entry.data");
+					String modificataDa = rs.getString("utente.email");
+					int utenteId = rs.getInt("utente.id");
+					Pubblicazione pub = new Pubblicazione(id, utenteId, titolo, ISBN, modificataDa, ultimaModifica);
+					lista.add(pub);
+				}
 			}
 			Database.close();
 		}catch(NamingException e) {
@@ -127,16 +135,13 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 	// fatta
 	public static List<Pubblicazione> userPub(int idUtente){//pubblicazioni di un utente
 		ArrayList<Pubblicazione> lista=null;
-		Map<String, Object> map = new LinkedHashMap<String, Object>();
-		map.put("listaautori", "listaautori.idPubblicazione = pubblicazione.id");
-		map.put("autore", "listaautori.idAutore = autore.id");
 		String column="pubblicazione.id, pubblicazione.editore, pubblicazione.dataInvio, pubblicazione.titolo" + 
-		", autore.nomeAutore";
+		", pubblicazione.ISBN";
 		int check=0;
 		try {
 			lista = new ArrayList<Pubblicazione>();
 			Database.connect();
-			ResultSet rs = Database.join(column, "pubblicazione", map, "pubblicazione.idUtente="+idUtente, "pubblicazione.titolo");
+			ResultSet rs = Database.selectRecord(column, "pubblicazione",  "pubblicazione.idUtente="+idUtente, "pubblicazione.dataInvio DESC");
 			while(rs.next()) {
 				int id = rs.getInt("id");
 				if(check != id) {
@@ -146,15 +151,8 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 					Date dataInvio = rs.getDate("dataInvio");
 					String titolo = rs.getString("titolo");
 					String ISBN = rs.getString("ISBN");
-					String autore_ = rs.getString("autore.nomeAutore");
 					Pubblicazione pub = new Pubblicazione(id,titolo,editore,ISBN,dataInvio);
-					pub.addAutore(autore_);
 					lista.add(pub);
-				}else { // check è == a id, stessi dati, devo aggiornare pubblicazione precedente
-					System.out.println("check uguale a id!");
-					String autore_ = rs.getString("autore.nomeAutore");
-					//lista.get(lista.size()-1)  --> Non è altro che l'ultima pubblicazione inserita nella lista.
-					if(!lista.get(lista.size()-1).containsAutore(autore_)) lista.get(lista.size()-1).addAutore(autore_);
 				}
 			}		
 			Database.close();
@@ -395,17 +393,16 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 	}
 	
 	
-	public static List<Pubblicazione> authOtherPub(Map<String, Object> map){//tramite autori pubblicazione mostra altre pubblicazioni degli autori
+	public static List<Pubblicazione> authOtherPub(ArrayList<String> elenco){//tramite autori pubblicazione mostra altre pubblicazioni degli autori
 		String condition = "listaautori.idPubblicazione=pubblicazione.id AND (";
-		Object value;
-		String attr;
+
 		int check=0;
-		for(Map.Entry<String, Object> e:map.entrySet()) {
-			attr = e.getKey();
-			value = e.getValue();
-			condition = condition + attr + " = " + value + " AND ";
+		
+		for(int i=0; i<elenco.size(); i++) {
+			condition = condition + elenco.get(i) + " OR ";
 		}
-		condition = condition.substring(0, condition.length()-5) + ")"; //toglie l'AND finale e chiude la parentesi tonda
+
+		condition = condition.substring(0, condition.length()-4) + ")"; //toglie l'AND finale e chiude la parentesi tonda
 		
 		Map<String, Object> data = new HashMap<String,Object>();
 		data.put("listaautori", "listaautori.idPubblicazione = pubblicazione.id");
@@ -414,7 +411,7 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 		try {
 			lista = new ArrayList<Pubblicazione>();
 			Database.connect();
-			ResultSet rs = Database.join("pubblicazione.id,pubblicazione.titolo, pubblicazione.ISBN ,autore.nomeAutore", "pubblicazione", map, condition, "pubblicazione.titolo");
+			ResultSet rs = Database.join("pubblicazione.id,pubblicazione.titolo, pubblicazione.ISBN ,autore.nomeAutore", "pubblicazione", data, condition, "pubblicazione.titolo");
 			while(rs.next()) {
 				int id = rs.getInt("id");
 				if(check != id) {
@@ -498,6 +495,8 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
         }
 	}
 	public static void deletePub(int id) {//Si cancellano pure le modifiche di una pubblicazione?
+		deleteListAut(id);
+		deleteListTag(id);
 		try {
 			Database.connect();
 			Database.deleteRecord("pubblicazione", "pubblicazione.id="+id);
@@ -509,5 +508,33 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
         }catch (Exception e) {
         	System.out.println("Exception " + e);
         }
+	}
+	private static void deleteListAut(int id) {
+		try {
+			Database.connect();
+			Database.deleteRecord("listaautori", "listaautori.idPubblicazione="+id);
+			Database.close();
+		}catch(NamingException e) {
+    		System.out.println("namingException " +e);
+        }catch (SQLException e) {
+        	System.out.println("sqlException " +e);
+        }catch (Exception e) {
+        	System.out.println("Exception " + e);
+        }
+		
+	}
+	private static void deleteListTag(int id) {
+		try {
+			Database.connect();
+			Database.deleteRecord("listatag", "listatag.idPubblicazione="+id);
+			Database.close();
+		}catch(NamingException e) {
+    		System.out.println("namingException " +e);
+        }catch (SQLException e) {
+        	System.out.println("sqlException " +e);
+        }catch (Exception e) {
+        	System.out.println("Exception " + e);
+        }
+		
 	}
 }

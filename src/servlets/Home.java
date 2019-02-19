@@ -147,7 +147,7 @@ public class Home extends HttpServlet {
 	            	data.put("id", 0);
 	            	utente=null;
 	            	data.put("utente", utente);
-	            	FreeMarker.process("home.html", data, response, getServletContext());
+	            	response.sendRedirect("home");
 	            }else { //Esiste l'utente nel db
 	            	System.out.println("Utente presente nel DB!  > procedo!!");
 	            	try{ 
@@ -179,7 +179,7 @@ public class Home extends HttpServlet {
 	                    
 	                    data.put("utente", profilo);
 	                    s.setAttribute("utente", profilo);
-	                    FreeMarker.process("home.html", data, response, getServletContext());
+	                    response.sendRedirect("home");
 	                }catch(Exception e){
 	                    System.out.println("Errore creazione sessione HOME " + e);
 	                }
@@ -202,6 +202,7 @@ public class Home extends HttpServlet {
 	        	System.out.println("Sto cercando di entrare nel mio profilo");
 	        	//Mi devo ricavare il mio ID
 	        	//Devo andare nella pagina "dettagliProfilo" utilizzando il mio ID come "destinazione"
+	        	response.sendRedirect("dettagliProfilo?codice=" + id);
 	        }
         }
         
@@ -214,16 +215,8 @@ public class Home extends HttpServlet {
         		String cercaAutore = request.getParameter("autore");
         		String cercaTag = request.getParameter("tag");
         		
-        		System.out.println(cercaTitolo + " " + cercaISBN + " " + cercaAutore + " " + cercaTag);
-        		
-        		//HttpSession s = SecurityLayer.checkSession(request);
-        		//Purtroppo SE l'utente non è connesso devo creare una sessione con cui poter mandare i dati! 
-        		/*
-        		 * HttpSession s = request.getSession(true);
-        		 * s.setAttribute("titolo", cercaTitolo); ecc ecc.. come sotto in pratica
-        		 * 
-        		 * 
-        		 * */
+        		System.out.println(cercaTitolo + " " + cercaISBN + " " + cercaAutore + " " + cercaTag);	
+
         		HttpSession s= request.getSession(true);
         		s.setAttribute("tipoRicerca", 0); // Il tipo della ricerca è settato a 0, significa che proviene dall'engine della home
         		s.setAttribute("titolo", cercaTitolo);

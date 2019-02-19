@@ -51,6 +51,10 @@ public class RicercaPubblicazione extends HttpServlet {
 			HttpSession t= request.getSession(true);
 			tipoRicerca = (int) t.getAttribute("tipoRicerca");
 		}
+		
+		
+
+		
 		data.put("tipoRicerca", tipoRicerca);
     	if(tipoRicerca != 0) {
     		System.out.println("tipo ricerca diverso da 0");
@@ -107,13 +111,30 @@ public class RicercaPubblicazione extends HttpServlet {
     			
     			data.put("pubblicazioni", lista);
     			data.put("totElementi", totElementi);
-    		}else { // tutto il catalogo
+    		}else if(tipoRicerca==5){//catalogo
     			System.out.println("tipoRicerca==5 --> tutto il catalogo");
     			
     			ArrayList<Pubblicazione> lista = (ArrayList<Pubblicazione>) PubblicazioneDAO.showCat();
     			int totElementi = lista.size();
     			data.put("pubblicazioni", lista);
     			data.put("totElementi", totElementi);
+    			
+    		}else {//mostra pubblicazioni con gli STESSI autori.
+    			System.out.println("tipoRicerca==6 --> stessi autori!!");
+    			ArrayList<String> elenco = new ArrayList<String>();
+    			int numAut = Integer.parseInt(request.getParameter("totAutori"));
+    			System.out.println("NUMERO DEGLI AUTORI::" + numAut);
+    			for(int i=0; i<numAut; i++) {
+    				String x = request.getParameter("nome"+i);
+    				System.out.println(x + " ----- ");
+    				elenco.add("autore.nomeAutore='"+x+"'");
+    			}
+    			ArrayList<Pubblicazione> lista = (ArrayList<Pubblicazione>) PubblicazioneDAO.authOtherPub(elenco);
+    			int totElementi = lista.size();
+    			data.put("pubblicazioni", lista);
+    			data.put("totElementi", totElementi);
+    			
+    			
     		}
     	}else{ // tipoRicerca == 0 -> Viene dalla ricerca manuale
     		
@@ -210,7 +231,93 @@ public class RicercaPubblicazione extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// logout, login, dettagliPubblicazione, dettagliProfilo(proprio)
+		System.out.println("POST di Home! Di seguito id --> " +id );
+        String action = request.getParameter("value");
+        System.out.println(" >> " +action+ " << ");
+        /*AZIONI:
+         * LOGIN, LOGOUT // basta
+         * */
+        if(id==0) {//Se non si ha un id, quindi se non si è connessi
+        	//System.out.println("id=0 -> provo doPost");
+        	//System.out.println("Valore di action -->" + action);
+	        
+	        if("login".equals(action)){ // SE il metodo post è il login....
+	            System.out.println("Verso il login ");
+	            String email = request.getParameter("email");
+	            String password = request.getParameter("password");    
+	            //Check su email && password per vedere se l'utente esiste nel DB (1 sì,0 no)
+	            System.out.println("email :: " + email + " || "+ "password " + password); 
+	            if(!(null == email) && !(null == password)) {
+	            	try {
+	            		id=Utile.checkUser(email, password); // prendo l'id dell'utente
+	            	}catch(Exception e) {
+	            		e.printStackTrace();
+	            	}
+	            }
+	            System.out.println("Ecco l'id!" + id);
+	            if(id==0) { //Non esiste l'utente nel db
+	            	System.out.println("Utente non presente nel DB!");
+	            	data.put("id", 0);
+	            	utente=null;
+	            	data.put("utente", utente);
+	            	response.sendRedirect("home");
+	            }else { //Esiste l'utente nel db
+	            	System.out.println("Utente presente nel DB!  > procedo!!");
+	            	try{ 
+	                    HttpSession s = SecurityLayer.createSession(request, email, id);
+	                    System.out.println("Sessione Creata, Connesso!");
+	                    data.put("id",id);
+	                    s.setAttribute("id", id);
+	                    Utente profilo=null;
+	                    try {
+	                    	Database.connect();
+	                        id = (int) s.getAttribute("id");
+	                        ResultSet pr=Database.selectRecord("*", "utente", "utente.id="+id, "");
+	                    	while(pr.next()) {
+	                    		int ruolo = pr.getInt("ruolo");
+	                			Date dataNascita = pr.getDate("dataNascita");
+	                			Date dataIscr = pr.getDate("dataIscr");
+	                			String nome = pr.getString("nome");
+	                			String cognome = pr.getString("cognome");
+	                			String emailX = pr.getString("email");
+	                			String citta = pr.getString("citta");
+	                    		profilo = new Utente(id,ruolo,dataIscr,nome,cognome,emailX,citta,dataNascita);
+	                    	}
+	                    	Database.close();
+	                    }catch (SQLException e) {
+	                    	System.out.println(e);
+	                    }catch (Exception e) {
+	                    	System.out.println(e);
+	                    }
+	                    
+	                    data.put("utente", profilo);
+	                    s.setAttribute("utente", profilo);
+	                    response.sendRedirect("home");
+	                }catch(Exception e){
+	                    System.out.println("Errore creazione sessione HOME " + e);
+	                }
+	            }
+	        }
+        }else {//Se si è connessi
+	        if("logout".equals(action)){
+	            System.out.println("** CLICCATO LOGOUT POSIZIONATO IN HOME **");
+	            try{
+	                SecurityLayer.disposeSession(request); 
+	                id=0; 
+	                data.put("id",id);
+	                utente = null;
+	                data.put("utente", utente);
+	                response.sendRedirect("home");
+	            }catch(Exception e3){
+	                e3.printStackTrace();
+	            }
+	        }else if("profilo".equals(action)) {
+	        	System.out.println("Sto cercando di entrare nel mio profilo");
+	        	//Mi devo ricavare il mio ID
+	        	//Devo andare nella pagina "dettagliProfilo" utilizzando il mio ID come "destinazione"
+	        	response.sendRedirect("dettagliProfilo?codice=" + id);
+	        }
+        }
 	}
 
 }

@@ -9,13 +9,37 @@ public class Entry {
 	int idPubblicazione;
 	Date data;
 	String descrizione;
+	String email;
+	String titolo;
 	
-	public Entry(int id, int idUtente, int idPubblicazione, Date data, String descrizione) {
+	public Entry(int id, int idUtente, int idPubblicazione, Date data, String descrizione, String email) {
 		this.id=id;
 		this.idUtente=idUtente;
 		this.idPubblicazione=idPubblicazione;
 		this.data=data;
 		this.descrizione=descrizione;
+		this.email=email;
+	}
+	
+	public Entry(int id, int idPubblicazione, Date data, String descrizione, String titolo) {
+		this.id=id;
+		this.idPubblicazione=idPubblicazione;
+		this.data=data;
+		this.descrizione=descrizione;
+		this.titolo=titolo;
+	}
+	public String getEmail() {
+		return this.email;
+	}
+	public void setEmail(String nome) {
+		this.email=nome;
+	}
+	
+	public String getTitolo() {
+		return this.titolo;
+	}
+	public void setTitolo(String titolo) {
+		this.titolo = titolo;
 	}
 	
 	public int getId(){
@@ -48,10 +72,5 @@ public class Entry {
 	public void setDescrizione(String descrizione) {
 		this.descrizione=descrizione;
 	}
-	public String getNome() {
-		return this.nomeUtente;
-	}
-	public void setNome(String nome) {
-		this.nomeUtente=nome;
-	}
+
 }

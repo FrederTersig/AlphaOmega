@@ -1,5 +1,5 @@
 <#include "header.html">
-	<body>
+<body>
 		<br>
 		<div class="container">
 			<div class="columns col-gapless">
@@ -9,22 +9,22 @@
 			</div>
 			<br>
 			<div class="columns col-gapless">
-				<div class="column col-12">
-					<div class="text-center"><p><h3>Lista degli Autori presenti nel sistema:</h3></p></div>
+				<div class="column col-12 col-mx-auto">
+					<div class="text-center"><p><h3>Lista degli autori del sistema:</h3></p></div>
 				</div>
 				<br>
 				<#if listaAutori ??>
 					<#list listaAutori as Autore>
-						<div class="column col-6">
+						<div class="column col-3">
 							<div class="columns">
 								<div class="column col-7">
 									<p class="text-center">${Autore.getNome()}</p>
 								</div>
-								<div class="column col-2">
-									<a class="btn btn-primary">Modifica</a>
-								</div>
-								<div class="column col-2">
-									<a class="btn btn-primary">Elimina</a>
+								<div class="columns col-5">
+									<form method="post" role="form">
+										<button type="submit" class="btn btn-primary" id="rimuoviAutore" name="value" value="rimuoviAutore">Elimina</button>
+										<input type="hidden" name="idAutDel" value="${Autore.getId()}"/>
+									</form>
 								</div>
 							</div>
 						</div>
@@ -32,21 +32,44 @@
 				</#if>
 				
 			</div>
-			<br>
-			<br>
-			<div class="column col-12">
-				<div class="text-center text-bold"><p><h3>Inserimento nuovo Autore</h3></p></div>
+			<div class="columns col-gapless">
+				<div class="column col-12">
+					<a class="btn show-modal" href="#inserisciAut"><b>Inserisci Autore</b></a>
+				</div>
 			</div>
-			<div class="column col-5 col-mx-auto">
-				<form method="post" role="form">
-					<div class="form-group">
-					 	<label class="form-label" for="inputAutore">Nome del nuovo autore da inserire</label>
-					  	<input class="form-input" type="text" id="inputAutore" placeholder="Name" required>
-					  	<br>
-					  	<button class="p-centered text-bold btn" type="submit" id="invioAutore" name="value" value="invioAutore" required> Crea Nuovo Autore </button> 
+			
+					<div id="inserisciAut" class="modal modal-lg">
+						<div class="modal-overlay"></div>
+						<div class="modal-container">
+							<div class="modal-header">
+								<a href="#close" class="btn btn-clear float-right close-modal"></a>
+								<div class="modal-title">Inserimento Autore</div>
+							</div>
+							<div class="modal-body">
+								<div class="content">
+									<div class="form-group">
+										<div class="column col-8 col-mx-auto">
+											<form method="post" role="form">
+												<div class="form-group">
+												 	<label class="form-label" for="inputAutore">Nome del nuovo Autore da inserire</label>
+												  	<input class="form-input" type="text" id="inputAutore" name="inputAutore" placeholder="Name" required>
+												  	<br>
+												  	<button class="p-centered text-bold btn" type="submit" id="invioAutore" name="value" value="invioAutore" required> Crea Nuovo Autore </button> 
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+								
+								
+							</div>
+							<div class="modal-footer">
+								<a href="#close" class="btn btn-primary close-modal">Close</a>
+							</div>
+						</div>
 					</div>
-				</form>
-			</div>
+
 		</div>
 		
+	</body>
 <#include "footer.html">

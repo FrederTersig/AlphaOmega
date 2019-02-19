@@ -7,6 +7,9 @@ public interface RecensioneDAO_interface {
 	public static void insertRev(int idPubblicazione) { //inserisce recensione ad una pubblicazione
 		
 	}
+	public static void judgeRev(int id, int convalida) {//modifica una recensione
+		
+	}
 	public static void updateRev(int id) {//modifica una recensione
 		
 	}

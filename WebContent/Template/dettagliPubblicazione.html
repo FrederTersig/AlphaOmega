@@ -13,10 +13,15 @@
 					<h1> ${Pubblicazione.getTitolo()} </h1> 
 				</div>
 				<div class="column col-4">
+					<#if utente??>
+						<#if utente.getRuolo() != 0>
 					<form method="post" role="form">
 							<button type="submit" class="btn text-left text-bold" id="inviaLike" name="value" value="inviaLike" required>Like!</button>
 					</form>
-					<b>Numero Like: conteggio</b>
+						</#if>
+					</#if>
+					
+					<b>Numero Like:${cont} </b>
 				</div>
 			</div>
 				
@@ -46,8 +51,12 @@
 						</div>
 					</div>	
 					<div class="column col-3">
-						<div class="text-left">					
+						<div class="text-left">		
+					<#if utente??>
+						<#if utente.getRuolo() != 0>			
 							<a class="btn show-modal" href="#guardaRecensioni"><b>Lista Recensioni</b></a>
+						</#if>
+					</#if>
 							<a class="btn show-modal" href="#guardaModifiche"><b>Lista Modifiche</b></a>
 							
 						</div>
@@ -171,7 +180,7 @@
 														
 													</div>
 												</div>
-												<button type="submit" class="btn p-centered text-bold" id="invioCapitolo" name="value" value="invioCapitolo" required>Crea Ristampa</button>
+												<button type="submit" class="btn p-centered text-bold" id="invioRistampe" name="value" value="invioRistampe" required>Crea Ristampa</button>
 											</form>
 											<!-- Visualizza la lista dei capitoli -->
 											<br>
@@ -217,7 +226,7 @@
 														</div>
 													</div>
 												</div>
-												<button type="submit" class="btn p-centered text-bold" id="invioCapitolo" name="value" value="invioCapitolo" required>Crea Sorgenti</button>
+												<button type="submit" class="btn p-centered text-bold" id="invioSorgenti" name="value" value="invioSorgenti" required>Crea Sorgenti</button>
 											</form>
 											<!-- Visualizza la lista dei capitoli -->
 											<br>
@@ -420,7 +429,7 @@
 											<div class="form-group">
 												<div class="columns col-gapless">
 													<div class="col-12">
-														<input class="form-input" type="text" name="testo" placeholder="testo" required>
+														<textarea class="form-input" type="text" name="testoRec" placeholder="testo" required>scrivi qui</textarea>
 													</div>
 												</div>
 											</div>
@@ -460,7 +469,7 @@
 										<#if listaEntry ??>
 											<#list listaEntry as Entry>
 												<div class="text-dark">
-													<b>${Entry.getData()} - ${Entry.getNome()}</b> <br> 
+													<b>${Entry.getData()} - ${Entry.getEmail()}</b> <br> 
 													${Entry.getDescrizione()}
 													<br>
 												</div>
@@ -476,24 +485,17 @@
 						</div>
 						
 
-						
-			
-			
-			
-		
-			
 			<!-- BOTTONE CHE RIMANDA ALLA RICERCA!!! -->
 			<br>
 			<div class="columns col-gapless">
 				<div class="col-12 text-bold">
-					<a class="btn btn-primary my-1" href="ricercaPubblicazione?tipoRicerca=6">Pubblicazione che hanno gli stessi autori</a>
+				<#if Pubblicazione??>
+					<a class="btn btn-primary my-1" href="ricercaPubblicazione?tipoRicerca=6${Pubblicazione.getUrlAutore()}">Pubblicazione che hanno gli stessi autori</a>
+				</#if>
 				</div>
 			</div>
 			<br>
-			
-			
-			
-			
+
 		</div>
 	</body>
 <#include "footer.html">

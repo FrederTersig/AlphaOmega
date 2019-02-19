@@ -1,5 +1,7 @@
 package servlets;
 
+import static util.Utile.checkRuolo;
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -35,14 +37,20 @@ public class InserimentoPubblicazione extends HttpServlet {
 	Map<String, Object> data = new HashMap<String,Object>(); // la tree map è da togliere
     int id=0;
     Utente utente;
-    
+    int ruolo=0;
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		System.out.println("process request di InserimentoPubblicazione");
 		data.put("id", id);    
-    	data.put("utente", utente);
-		
-		
-		FreeMarker.process("inserimentoPubblicazione.html", data, response, getServletContext()); // data ??
+    	data.put("utente", utente); // Potrebbe essere NULL se non è presente, creare oggetto vuoto?
+    	//Funzione da fare in Utile -> Check RUolo
+    	
+    	ruolo = checkRuolo(id);
+    	data.put("ruolo", ruolo);
+    	if(ruolo == 0) { // NON HA I PERMESSI PER TROVARSI IN QUESTA PAGINA
+    		response.sendRedirect("home"); 
+    	}else {
+    		FreeMarker.process("inserimentoPubblicazione.html", data, response, getServletContext()); // data ??
+    	}
 	}
 
 	/**
@@ -62,12 +70,13 @@ public class InserimentoPubblicazione extends HttpServlet {
                 id=0;
                 //utente non c'è.
                 utente=null;
-            }
-            System.out.println("Process Request Home ->  ID =" + id );           
+                response.sendRedirect("home");
+            }    
         }else{//Non esiste per niente la sessione, l'utente non è connesso
             id = 0;
             //utente non c'è quindi non mostri niente?
             utente=null;
+            response.sendRedirect("home");
         } 
         
     	// Prendo la lista dei tag presente nel sistema.
@@ -152,6 +161,7 @@ public class InserimentoPubblicazione extends HttpServlet {
         	System.out.println("Sto cercando di entrare nel mio profilo");
         	//Mi devo ricavare il mio ID
         	//Devo andare nella pagina "dettagliProfilo" utilizzando il mio ID come "destinazione"
+        	response.sendRedirect("dettagliProfilo?codice=" + id);
         }
 		
 	}

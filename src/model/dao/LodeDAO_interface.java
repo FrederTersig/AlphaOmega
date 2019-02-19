@@ -16,4 +16,7 @@ public interface LodeDAO_interface {
 	public static int countLike(int idPubblicazione) {//conta il totale dei like dati ad una pubblicazione
 		return 0;
 	}
+	public static List<Integer> listaIdLike(int idPubblicazione){
+		return null;
+	}
 }

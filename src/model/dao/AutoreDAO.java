@@ -90,9 +90,10 @@ public class AutoreDAO implements AutoreDAO_interface  {
 		
 	}
 	
-	public static void insertAutore() { //Mancano gli attributi per la insert
+	public static void insertAutore(String nomeAutore) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
+		map.put("nomeAutore", nomeAutore);
 		try {
 			Database.connect();
 			Database.insertRecord("autore", map);

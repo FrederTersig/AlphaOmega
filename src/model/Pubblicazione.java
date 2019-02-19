@@ -206,6 +206,14 @@ public class Pubblicazione{
 		elenco = elenco.substring(0, elenco.length() -2);
 		return elenco;
 	}
+	public String getUrlAutore() {
+		int length = this.listaAutori.size();
+		String x="&totAutori="+length+"&";
+		for(int i=0; i<length; i++) x += "nome"+i+"="+ this.listaAutori.get(i) +"&";
+		x = x.substring(0, x.length() -1); 
+		
+		return x;
+	}
 	public ArrayList<String> getListaTag(){
 		return this.listaTag;
 	}

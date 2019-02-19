@@ -6,24 +6,28 @@ public class Recensione {
 	private int id;
 	private int idUtente;
 	private String nomeUtente;
+	private String titolo;
 	private int idPubblicazione;
 	private Date data;
 	private String testo;
 	private int convalida;
 	
-	public Recensione(int id, int idUtente, int idPubblicazione, Date data, String testo, int convalida) {
+	public Recensione(int id, int idUtente, int idPubblicazione, Date data, String testo, int convalida, String email, String titolo) {
 		this.id=id;
 		this.idUtente=idUtente;
 		this.idPubblicazione=idPubblicazione;
 		this.data=data;
 		this.testo=testo;
 		this.convalida=convalida;
+		this.nomeUtente=email;
+		this.titolo=titolo;
 	}
-	public Recensione(int id, int idUtente, Date data, String testo) {
+	public Recensione(int id, int idUtente, Date data, String testo, String email) {
 		this.id=id;
 		this.idUtente=idUtente;
 		this.data=data;
 		this.testo=testo;
+		this.nomeUtente=email;
 	}
 	
 	public int getId(){
@@ -62,6 +66,13 @@ public class Recensione {
 	public void setNomeUtente(String nome) {
 		this.nomeUtente=nome;
 	}
+	public String getTitolo() {
+		return this.titolo;
+	}
+	public void setTitolo(String titolo) {
+		this.titolo=titolo;
+	}
+	
 	public int getConvalida() {
 		return this.convalida;
 	}

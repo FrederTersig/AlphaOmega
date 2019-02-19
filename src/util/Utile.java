@@ -46,6 +46,37 @@ public class Utile {
 	}
 	
 	
+	public static boolean checkLike(int idUtente, int idPubblicazione) throws Exception{
+		boolean x = false;
+		try {
+			Database.connect();
+			ResultSet rs = Database.selectRecord("*", "lode", "lode.idUtente="+idUtente+" AND lode.idPubblicazione="+idPubblicazione, "");
+			while(rs.next()) x=true;
+			Database.close();
+		}catch(NamingException e) {
+			System.out.println("CheckRuolo NamingException: " + e.getMessage());
+	    }catch(SQLException e) {
+	    	System.out.println("CheckRuolo SQLException: " + e.getMessage());
+	    }
+		return x;
+	}
+	
+	public static boolean checkRecensione(int idUtente, int idPubblicazione) throws Exception{
+		boolean x = false;
+		try {
+			Database.connect();
+			ResultSet rs = Database.selectRecord("*", "recensione", "recensione.idUtente="+idUtente+" AND recensione.idPubblicazione="+idPubblicazione, "");
+			while(rs.next()) x=true;
+			Database.close();
+		}catch(NamingException e) {
+			System.out.println("CheckRuolo NamingException: " + e.getMessage());
+	    }catch(SQLException e) {
+	    	System.out.println("CheckRuolo SQLException: " + e.getMessage());
+	    }
+		return x;
+	}
+
+	
 	/**
      * Restituisce l'id dell'utente che possiede l'email e la password passati per argomenti
      * @param String				email dell'utente

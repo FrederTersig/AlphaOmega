@@ -13,6 +13,23 @@ public class Utente {
 	String citta;
 	Date dataNascita;
 	int attCont;
+	int richiesta;
+	
+	public Utente(int id, int ruolo, Date data, String nome, String cognome, String email, String citta, 
+			Date dataNascita,int richiesta) {
+		this.id = id;
+		this.ruolo = ruolo;
+		this.data = data;
+		this.nome = nome;
+		this.cognome = cognome;
+		this.email = email;
+		this.citta = citta;
+		this.dataNascita = dataNascita;
+		this.richiesta=richiesta;
+	}
+	
+	
+	
 	public Utente(int id, int ruolo, Date data, String nome, String cognome, String email, String citta, 
 			Date dataNascita) {
 		this.id = id;
@@ -32,6 +49,15 @@ public class Utente {
 		this.email=email;
 		this.attCont=attCont;
 	}
+	
+	public int getRichiesta() {
+		return this.richiesta=richiesta;
+	}
+	
+	public void setRichiesta(int n) {
+		this.richiesta=n;
+	}
+	
 	public int getAttCont(){
 		return this.attCont;
 	}

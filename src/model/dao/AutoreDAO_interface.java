@@ -14,7 +14,7 @@ public interface AutoreDAO_interface {
 	public static void insertPubAuth(int idPubblicazione, String[] listaIdAutore) {
 		
 	}
-	public static void insertAutore() {
+	public static void insertAutore(String nomeAutore) {
 		
 	}
 	public static void updateAutore(int id) {
