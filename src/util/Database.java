@@ -54,22 +54,9 @@ public class Database {
         String query = "SELECT "+ column +" FROM " + table;
         if(condition != null && !condition.trim().isEmpty()) query += " WHERE " + condition;
         if(order != null && !order.trim().isEmpty()) query += " ORDER BY " + order;
-        System.out.println(query);
         return Database.executeQuery(query);   
     }
-    /**
-     * Metodo per fare una select immettendo tabella e condizione E ricevendo l'elemento massimo
-     * @param columnMaxMin      colonna da cui selezionare il massimo
-     * @param table         	tabella da cui si richiamano i dati
-     * @param condition     	condizione per filtrare i dati
-     * @return              	restituisce il ResultSet con i dati
-     * @throws java.sql.SQLException
-     */
-    public static ResultSet selectMax(String columnMaxMin, String table, String condition) throws SQLException{
-    	String query="SELECT MAX("+ columnMaxMin +") AS attr FROM "+ table +" WHERE " + condition;
-    	return Database.executeQuery(query);
-    }
- 
+
 
     /**
      * Metodo per inserire il record nel DB
@@ -93,7 +80,6 @@ public class Database {
             }
         }
         query = query.substring(0, query.length() - 2); // Serve per togliere la virgola
-        System.out.println("Query della insert-> " + query);
         return Database.updateQuery(query);
     }
     
@@ -111,14 +97,11 @@ public class Database {
     	}
     	if(condition != null && !condition.trim().isEmpty()) query += " WHERE " + condition;
         if(order != null && !order.trim().isEmpty()) query += " ORDER BY " + order;
-        System.out.println("QUERY EFFETTUATA:");
-        System.out.println(query);
     	return Database.executeQuery(query);
     }
     
 
     public static ResultSet callProcedure(String proc, ArrayList<String> data, int num)throws SQLException{
-    	System.out.println("COMINCIO CALL PROCEDURE");
     	
     	String query = "CALL "+ proc +"(";
     	if(num==0) {
@@ -134,8 +117,7 @@ public class Database {
     	}else {
     		query = query + num + ");";
     	}
-    	System.out.println("CALL PROCEDURE!! ECCO LA QUERY CHE MOSTRA ::");
-    	System.out.println(query);
+
     	return Database.executeQuery(query);
     }
     	
@@ -168,26 +150,10 @@ public class Database {
         query = query.substring(0, query.length()-2); //toglie lo la virgola e lo spazio finale aggiunto prima
         if(condition != null && !condition.trim().isEmpty()) query += " WHERE " + condition;
         //IF nuovo, da testare
-        System.out.println("QUERY UPDATE!!!!!! -----------------------------------------------------------------------------------------------------------------------");
-        System.out.println(query);
+
         return Database.updateQuery(query);
     }
    
-    
-    /**
-     * Metodo per fare l'update di un record senza l'uso della Map
-     * @param table         tabella dove andiamo ad aggiornare i dati
-     * @param data          stringa che avrà i dati da inserire
-     * @param condition     condizione per filtrare i dati
-     * @return              restituisce boolean per comunicare la riuscita della insert : True se riesce, False altrimenti
-     * @throws java.sql.SQLException
-     */
-    //da rimuovere  se quella di sopra va bene
-    public static boolean updateRecord(String table, String change, String condition) throws SQLException{
-    	String query = "UPDATE " + table + " SET " + change + " WHERE " + condition;
-    	return Database.updateQuery(query);   	
-    }
-    
     /**
      * Metodo per fare la delete di un record
      * @param table         tabella in cui eliminare i dati

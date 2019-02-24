@@ -63,7 +63,6 @@ public class UtenteDAO implements UtenteDAO_interface {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		map.put("email", email);
-		//map.put("dataIscr", dataAttuale);
 		map.put("nome", nome);
 		map.put("cognome", cognome);
 		map.put("password", crypt(password));

@@ -8,7 +8,7 @@ public interface PubblicazioneDAO_interface {
 	public static List<Pubblicazione> lastTenPub(){ //Ultimi 10 giorni
 		return null;
 	}
-	public static List<Pubblicazione> recentUpdates(){//Ultimi 30 giorni
+	public static List<Pubblicazione> recentUpdated(){//Ultimi 30 giorni
 		return null;
 	}
 	public static List<Pubblicazione> downloadPub(){

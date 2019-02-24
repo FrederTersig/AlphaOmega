@@ -39,7 +39,6 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 			while(rs.next()) {
 				int id = rs.getInt("id");
 				if(check != id) {
-					System.out.println("check Diverso da id!");
 					check=id;
 					Date dataInvio = rs.getDate("dataInvio");
 					String titolo = rs.getString("titolo");
@@ -49,7 +48,6 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 					pub.addAutore(autore_);
 					lista.add(pub);
 				}else {
-					System.out.println("check uguale a id!");
 					String autore_ = rs.getString("autore.nomeAutore");
 					if(!lista.get(lista.size()-1).containsAutore(autore_)) lista.get(lista.size()-1).addAutore(autore_);
 				}
@@ -145,7 +143,6 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 			while(rs.next()) {
 				int id = rs.getInt("id");
 				if(check != id) {
-					System.out.println("check Diverso da id!");
 					check=id;
 					String editore = rs.getString("editore");
 					Date dataInvio = rs.getDate("dataInvio");
@@ -183,10 +180,8 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 			while(rs.next()) { // ciclo pesante -> da testare
 				//succede qualcosa di strano qui dentro
 				
-				System.out.println("DENTRO RS.NEXT - INIZIO ITERAZIONE");
 				if(!check) {
 					check=true;
-					System.out.println("DENTRO IL PRIMO CHECK!");
 					int idInseritore = rs.getInt("pubblicazione.idUtente");
 					Date dataInvio = rs.getDate("pubblicazione.dataInvio");
 					String titolo = rs.getString("pubblicazione.titolo");
@@ -199,21 +194,17 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 					pub = new Pubblicazione(idPubblicazione, idInseritore, editore, titolo, descrizione, dataInvio, ISBN, 
 							numPagine, lingua, dataScrittura);
 				}
-				System.out.println("PRIMA DI AUTORE");
 				if(rs.getObject(1)!= null) {
 					String autore_ = rs.getString("autore.nomeAutore");
 					if(!pub.containsAutore(autore_))  pub.addAutore(autore_);
-					System.out.println(autore_ + " <--- AUTORE");
+
 					
 				}
-				System.out.println("PRIMA DI TAG");
 				if(rs.getObject(2)!= null) {
 					String tag_ = rs.getString("tag.nome");
 					if(!pub.containsTag(tag_)) pub.addTag(tag_);
-					System.out.println(tag_ + " <--- TAG");
 				}
 				// 1a= Autore, 2b= tag, 3c = sorgente, 4d= ristampa, 5e=capitolo
-				System.out.println("PRIMA DI SORGENTE");
 
 				if(rs.getObject(3) != null) {					
 					int idSorgente = rs.getInt("sorgente.id");
@@ -257,7 +248,6 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 	    }catch (Exception e) {
 	    	System.out.println("Exception"+e);    
 	    }
-		System.out.println("PUBBLICAZIONE POPOLATA?" + pub + " ||||| " + pub.showAutori());
 		return pub;
 	}
 	//fatta
@@ -275,10 +265,8 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 
 			System.out.println("dopo rs");
 			while(rs.next()) {
-				System.out.println("inizio rs.next showCat()");
 				int id = rs.getInt("id");
 				if(check != id) {
-					System.out.println("check Diverso da id!");
 					check=id;
 					Date dataScrittura = rs.getDate("dataScrittura");
 					String titolo = rs.getString("titolo");
@@ -288,7 +276,6 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 					String autore_ = rs.getString("autore.nomeAutore");
 					pub.addAutore(autore_);
 				}else {
-					System.out.println("check uguale a id!");
 					String autore_ = rs.getString("autore.nomeAutore");
 					//lista.get(lista.size()-1)  --> Non è altro che l'ultima pubblicazione inserita nella lista.
 					if(!lista.get(lista.size()-1).containsAutore(autore_)) lista.get(lista.size()-1).addAutore(autore_);
@@ -317,9 +304,6 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 		argum.add(1, ISBN);
 		argum.add(2, Autore);
 		argum.add(3, tag);
-		System.out.println("researchPub PUBBLICAZIONE DAO::: argum");
-		System.out.println(argum);
-		System.out.println(argum.get(0) + argum.get(1) + argum.get(2) + argum.get(3));
 		
 		try {
 			lista = new ArrayList<Pubblicazione>();
@@ -327,23 +311,19 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 			Database.connect();
 			ResultSet rs = Database.callProcedure("ricerca", argum, 0);
 			while(rs.next()) {
-				System.out.println("-------------- comincia rs.next() di researchPub -----------------");
 				int id = rs.getInt("id");	
 				System.out.println( check + " ---- " + id);
 				if(check != id) {
-					System.out.println("check Diverso da id!");
 					check=id;
 					String ISBN_ = rs.getString("ISBN");
 					String titolo_ = rs.getString("titolo");
 					String autore_ = rs.getString("autore.nomeAutore");
-					String tag_ = rs.getString("tag.nome");
-					System.out.println(ISBN_ + " " + titolo_ + " " + autore_ + " " + tag_ );
+					String tag_ = rs.getString("tag.nome");;
 					Pubblicazione pub = new Pubblicazione(id,titolo_ , ISBN_);
 					pub.addAutore(autore_);
 					pub.addTag(tag_);
 					lista.add(pub);
 				}else { // check è == a id, stessi dati, devo aggiornare pubblicazione precedente
-					System.out.println("check uguale a id!");
 					String autore_ = rs.getString("autore.nomeAutore");
 					String tag_ = rs.getString("tag.nome");
 					//lista.get(lista.size()-1)  --> Non è altro che l'ultima pubblicazione inserita nella lista.
@@ -367,19 +347,25 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("ristampa", "ristampa.idPubblicazione = pubblicazione.id");
 		ArrayList<Pubblicazione> lista=null;
+		ArrayList<Integer> check = null;
 		try {
 			lista = new ArrayList<Pubblicazione>();
+			check = new ArrayList<Integer>();
 			Database.connect();
 			ResultSet rs = Database.join("pubblicazione.id, pubblicazione.titolo,pubblicazione.ISBN, ristampa.data, ristampa.nome", "pubblicazione", map, "", "ristampa.data DESC");
 			while(rs.next()) {
 				int id = rs.getInt("id");
-				String titolo = rs.getString("titolo");
-				String ISBN = rs.getString("ISBN");
-				Date dataRis = rs.getDate("ristampa.data");
-				String nomeRis = rs.getString("ristampa.nome");
-				// da completare
-				Pubblicazione pub = new Pubblicazione(id,titolo,ISBN,dataRis,nomeRis);
-				lista.add(pub);
+				if(!check.contains(id)) {
+					check.add(id);
+					String titolo = rs.getString("titolo");
+					String ISBN = rs.getString("ISBN");
+					Date dataRis = rs.getDate("ristampa.data");
+					String nomeRis = rs.getString("ristampa.nome");
+					// da completare
+					Pubblicazione pub = new Pubblicazione(id,titolo,ISBN,dataRis,nomeRis);
+					lista.add(pub);
+				}
+				
 			}
 			Database.close();
 		}catch(NamingException e) {
@@ -415,7 +401,6 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 			while(rs.next()) {
 				int id = rs.getInt("id");
 				if(check != id) {
-					System.out.println("check Diverso da id!");
 					check=id;
 					String titolo = rs.getString("titolo");
 					String ISBN = rs.getString("ISBN");
@@ -426,7 +411,6 @@ public class PubblicazioneDAO implements PubblicazioneDAO_interface{
 					String autore_ = rs.getString("autore.nomeAutore");
 					pub.addAutore(autore_);
 				}else {
-					System.out.println("check uguale a id!");
 					String autore_ = rs.getString("autore.nomeAutore");
 					//lista.get(lista.size()-1)  --> Non è altro che l'ultima pubblicazione inserita nella lista.
 					if(!lista.get(lista.size()-1).containsAutore(autore_)) lista.get(lista.size()-1).addAutore(autore_);

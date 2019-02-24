@@ -4,6 +4,11 @@ import java.util.List;
 import model.Entry;
 
 public interface EntryDAO_interface {
+	
+	public static List<Entry> showUtEntries(int idUt){
+		return null;
+	}
+	
 	public static List<Entry> showPubEntries(int idPubblicazione){ //Data pubblicazione, mostra tutte le modifiche
 		return null;
 	}
